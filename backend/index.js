@@ -41,3 +41,5 @@ app.get('/protected', verifyToken, (req, res) => {
 app.listen(port, () => {
     console.log(`Backend server is running on port ${port}`);
 });
+
+module.exports = app;
