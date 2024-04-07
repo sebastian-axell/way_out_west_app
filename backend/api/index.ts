@@ -1,10 +1,10 @@
 let express = require('express');
 let crypto = require('crypto');
 let app = express();
-let port = 4040 //process.env.PORT || 3000;
+let port = 4040;
 
-let secretKey="3"
-let apiKey = "test"
+let secretKey="m5yVsB3OH6SuUR5OrTFCMQK8sbzsRUbrzaQueYcr9oc="
+let apiKey = "E78j6jYcHFMz6miZXvmdoVdbW5ywhB9JunEfD980pK0="
 const access_key = process.env.SECRET_KEY;
 
 // Middleware to verify JWT tokens
@@ -20,9 +20,6 @@ function verifyToken(req, res, next) {
                                     .digest('hex');
         if (calculatedHash === encryptedAPIKey) {
             console.log('Message integrity verified. Sender is trusted.');
-            console.log("test");
-            
-            console.log(access_key);
             next();
         } else {
             console.log('Message integrity could not be verified. Potential tampering.');
