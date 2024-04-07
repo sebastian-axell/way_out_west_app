@@ -20,8 +20,9 @@ function verifyToken(req, res, next) {
                                     .digest('hex');
         if (calculatedHash === encryptedAPIKey) {
             console.log('Message integrity verified. Sender is trusted.');
-            console.log(access_key);
+            console.log("test");
             
+            console.log(access_key);
             next();
         } else {
             console.log('Message integrity could not be verified. Potential tampering.');
