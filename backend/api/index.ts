@@ -20,6 +20,8 @@ function verifyToken(req, res, next) {
                                     .digest('hex');
         if (calculatedHash === encryptedAPIKey) {
             console.log('Message integrity verified. Sender is trusted.');
+            console.log(access_key);
+            
             next();
         } else {
             console.log('Message integrity could not be verified. Potential tampering.');
@@ -34,7 +36,7 @@ function verifyToken(req, res, next) {
 // Protected route
 app.get('/protected', verifyToken, (req, res) => {
     // Access user info from decoded token
-    res.json({ message: `Hello! You have access to this protected resource.` , key: access_key});
+    res.json({ message: `Hello! You have access to this protected resource.`, key: access_key});
 });
 
 app.listen(port, () => {
@@ -42,3 +44,6 @@ app.listen(port, () => {
 });
 
 module.exports = app;
+
+
+//npm install express axios crypto
