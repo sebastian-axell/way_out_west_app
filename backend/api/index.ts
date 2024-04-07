@@ -5,6 +5,7 @@ let port = 4040 //process.env.PORT || 3000;
 
 let secretKey="3"
 let apiKey = "test"
+const access_key = process.env.SECRET_KEY;
 
 // Middleware to verify JWT tokens
 function verifyToken(req, res, next) {
@@ -33,7 +34,7 @@ function verifyToken(req, res, next) {
 // Protected route
 app.get('/protected', verifyToken, (req, res) => {
     // Access user info from decoded token
-    res.json({ message: `Hello! You have access to this protected resource.` });
+    res.json({ message: `Hello! You have access to this protected resource.` , key: access_key});
 });
 
 app.listen(port, () => {
