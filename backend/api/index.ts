@@ -1,10 +1,10 @@
-const express = require('express');
-const crypto = require('crypto');
-const app = express();
-const port = process.env.PORT || 3000;
+let express = require('express');
+let crypto = require('crypto');
+let app = express();
+let port = 4040 //process.env.PORT || 3000;
 
-const secretKey="3"
-const apiKey = "test"
+let secretKey="3"
+let apiKey = "test"
 
 // Middleware to verify JWT tokens
 function verifyToken(req, res, next) {
@@ -13,8 +13,8 @@ function verifyToken(req, res, next) {
     }
 
     try {
-        const encryptedAPIKey = req.headers['api-hash'];
-        const calculatedHash = crypto.createHmac('sha256', secretKey)
+        let encryptedAPIKey = req.headers['api-hash'];
+        let calculatedHash = crypto.createHmac('sha256', secretKey)
                                     .update(apiKey)
                                     .digest('hex');
         if (calculatedHash === encryptedAPIKey) {
@@ -36,7 +36,7 @@ app.get('/protected', verifyToken, (req, res) => {
     res.json({ message: `Hello! You have access to this protected resource.` });
 });
 
-app.listen(4040, () => {
+app.listen(port, () => {
     console.log(`Backend server is running on port ${port}`);
 });
 
