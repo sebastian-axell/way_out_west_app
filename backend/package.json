@@ -1,20 +1,7 @@
 {
-  "name": "my-app",
+  "name": "way-out-way-backend",
   "version": "1.2.0",
   "description": "A basic starter for an express.js API",
-  "main": "index.js",
-  "scripts": {
-    "start": "node src/index.js",
-    "dev": "nodemon src/index.js",
-    "lint": "eslint --fix src",
-    "test": "jest"
-  },
-  "keywords": [],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/sebastian-axell/way_out_west_app/tree/main/backend.git"
-  },
-  "license": "MIT",
   "dependencies": {
     "axios": "^1.6.8",
     "cors": "^2.8.5",
