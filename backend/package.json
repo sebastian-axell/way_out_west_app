@@ -2,6 +2,5 @@
   "dependencies": {
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
-    "vercel": "^33.7.0"
   }
 }
