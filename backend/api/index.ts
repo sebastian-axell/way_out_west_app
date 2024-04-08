@@ -21,7 +21,7 @@ function encrypt(text, keyHex, ivHex) {
     let cipher = crypto.createCipheriv('aes-256-cbc', key, iv);
     let encrypted = cipher.update(text);
     encrypted = Buffer.concat([encrypted, cipher.final()]);
-    return encrypted.toString('utf-8');
+    return encrypted.toString('hex');
 }
 
 // Decrypt function using AES
