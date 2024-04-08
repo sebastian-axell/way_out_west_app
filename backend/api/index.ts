@@ -1,7 +1,11 @@
 let express = require('express');
 let crypto = require('crypto');
+const cors = require('cors'); // Import the cors packag
 let app = express();
 let port = 4040;
+
+app.use(cors());
+
 
 // let secretKey="m5yVsB3OH6SuUR5OrTFCMQK8sbzsRUbrzaQueYcr9oc="
 
@@ -38,14 +42,6 @@ function decrypt(encryptedText, keyHex, ivHex) {
 
 // Middleware to verify JWT tokens
 function verifyToken(req, res, next) {
-    console.log(res);
-    console.log(req);
-    
-    res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:3000');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    res.setHeader('Access-Control-Allow-Credentials', true);
-    
     if (!req.headers['api-key']) {
         return res.status(401).json({ error: 'API key is missing' });
     }
