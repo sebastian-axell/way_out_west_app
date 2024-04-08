@@ -33,7 +33,7 @@ function decrypt(encryptedText, keyHex, ivHex) {
     let decipher = crypto.createDecipheriv('aes-256-cbc', key, iv);
     let decrypted = decipher.update(encryptedTextBuffer);
     decrypted = Buffer.concat([decrypted, decipher.final()]);
-    return decrypted.toString();
+    return decrypted.toString('hex');
 }
 
 
