@@ -38,10 +38,8 @@ async function get_secret(){
   console.log(encryptedAPIKey);
   const myHeaders = new Headers();
   myHeaders.append("api-key", encryptedAPIKey);
-  myHeaders.append('Content-Type', 'application/json');
-  myHeaders.append('Accept', 'application/json');
-  // myHeaders.append('Authorization', 'Basic ' + base64.encode(username + ":" +  password));
-  myHeaders.append('Origin','http://localhost:3000');
+  // myHeaders.append("Authorization", `Bearer ${encryptedAPIKey}`);
+  // myHeaders.append("Access-Control-Allow-Origin",'http://localhost:3000');
 
   const requestOptions = {
     mode: 'cors',
@@ -51,9 +49,7 @@ async function get_secret(){
   };
   
   fetch("https://way-out-west-app-backend.vercel.app/protected", requestOptions)
-    .then((response) => response.text())
-    .then((result) => console.log(result))
-    .catch((error) => console.error(error));
+    .then((response) => console.log(response))
 }
 
 

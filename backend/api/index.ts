@@ -38,9 +38,10 @@ function decrypt(encryptedText, keyHex, ivHex) {
 
 // Middleware to verify JWT tokens
 function verifyToken(req, res, next) {
-   console.log(req);
+    console.log(res);
+    console.log(req);
     
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+    res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:3000');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     res.setHeader('Access-Control-Allow-Credentials', true);
