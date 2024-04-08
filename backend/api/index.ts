@@ -40,6 +40,8 @@ function decrypt(encryptedText, keyHex, ivHex) {
 function verifyToken(req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.setHeader('Access-Control-Allow-Credentials', true);
     
     if (!req.headers['api-key']) {
         return res.status(401).json({ error: 'API key is missing' });

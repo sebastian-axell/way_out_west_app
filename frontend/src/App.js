@@ -38,8 +38,13 @@ async function get_secret(){
   console.log(encryptedAPIKey);
   const myHeaders = new Headers();
   myHeaders.append("api-key", encryptedAPIKey);
+  myHeaders.append('Content-Type', 'application/json');
+  myHeaders.append('Accept', 'application/json');
+  // myHeaders.append('Authorization', 'Basic ' + base64.encode(username + ":" +  password));
+  myHeaders.append('Origin','http://localhost:3000');
 
   const requestOptions = {
+    mode: 'cors',
     method: "GET",
     headers: myHeaders,
     redirect: "follow"
