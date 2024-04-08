@@ -4,10 +4,10 @@ let app = express();
 let port = 4040;
 
 // let secretKey="m5yVsB3OH6SuUR5OrTFCMQK8sbzsRUbrzaQueYcr9oc="
-let apiKey = "E78j6jYcHFMz6miZXvmdoVdbW5ywhB9JunEfD980pK0="
 
 const access_key = process.env.SECRET_KEY;
 
+let apiKey = "E78j6jYcHFMz6miZXvmdoVdbW5ywhB9JunEfD980pK0="
 const keyHex = '01eda8f0bcae94a569139c6126dd5d2929863500de660b3f6414d0b4c9cc3770'; // 256-bit 
 const ivHex = 'b22ec2381daab4d862d5c76ab07c00d8'; // 128-bit 
 
@@ -38,7 +38,8 @@ function decrypt(encryptedText, keyHex, ivHex) {
 
 // Middleware to verify JWT tokens
 function verifyToken(req, res, next) {
-    console.log(req);
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
     
     if (!req.headers['api-key']) {
         return res.status(401).json({ error: 'API key is missing' });
