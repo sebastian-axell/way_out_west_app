@@ -17,9 +17,9 @@ const ivHex = 'b22ec2381daab4d862d5c76ab07c00d8'; // 128-bit
 function encrypt(text, keyHex, ivHex) {
     const key = Buffer.from(keyHex, 'hex');
     const iv = Buffer.from(ivHex, 'hex');
-    
     let cipher = crypto.createCipheriv('aes-256-cbc', key, iv);
-    let encrypted = cipher.update(JSON.stringify(text));
+    console.log(text);
+    let encrypted = cipher.update(text);
     encrypted = Buffer.concat([encrypted, cipher.final()]);
     return encrypted.toString('hex');
 }
