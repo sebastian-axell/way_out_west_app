@@ -19,7 +19,8 @@ function encrypt(text, keyHex, ivHex) {
     const iv = Buffer.from(ivHex, 'hex');
     let cipher = crypto.createCipheriv('aes-256-cbc', key, iv);
     console.log(text);
-    let encrypted = cipher.update(text);
+    let newExactString = text.replaceAll('"', '')
+    let encrypted = cipher.update(newExactString);
     encrypted = Buffer.concat([encrypted, cipher.final()]);
     return encrypted.toString('hex');
 }
