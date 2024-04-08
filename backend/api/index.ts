@@ -6,9 +6,6 @@ let port = 4040;
 
 app.use(cors());
 
-
-// let secretKey="m5yVsB3OH6SuUR5OrTFCMQK8sbzsRUbrzaQueYcr9oc="
-
 const access_key = process.env.SECRET_KEY;
 
 let apiKey = "E78j6jYcHFMz6miZXvmdoVdbW5ywhB9JunEfD980pK0="
@@ -42,12 +39,12 @@ function decrypt(encryptedText, keyHex, ivHex) {
 
 // Middleware to verify JWT tokens
 function verifyToken(req, res, next) {
-    if (!req.headers['api-key']) {
+    if (!req.headers['authorization'] || !req.hearders['authorization'].startsWith('Bearer ') ) {
         return res.status(401).json({ error: 'API key is missing' });
     }
 
     try {
-        let encryptedAPIKey = req.headers['api-key'];
+        let encryptedAPIKey = req.hearders['authorization'].split(' ')[1];
         let decryptedText = decrypt(encryptedAPIKey, keyHex, ivHex);
 
         // let calculatedHash = crypto.createHmac('sha256', secretKey)
