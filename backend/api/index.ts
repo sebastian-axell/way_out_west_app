@@ -39,12 +39,13 @@ function decrypt(encryptedText, keyHex, ivHex) {
 
 // Middleware to verify JWT tokens
 function verifyToken(req, res, next) {
-    if (!req.headers['authorization'] || !req.hearders['authorization'].startsWith('Bearer ') ) {
+    let auth_header = req.headers['authorization'];
+    if (!auth_header || !auth_header.startsWith('Bearer ') ) {
         return res.status(401).json({ error: 'API key is missing' });
     }
 
     try {
-        let encryptedAPIKey = req.hearders['authorization'].split(' ')[1];
+        let encryptedAPIKey = auth_header.split(' ')[1];
         let decryptedText = decrypt(encryptedAPIKey, keyHex, ivHex);
 
         // let calculatedHash = crypto.createHmac('sha256', secretKey)
