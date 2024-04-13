@@ -3,29 +3,24 @@ import './App.css';
 import { Octokit } from "octokit";
 const CryptoJS = require('crypto-js');
 
-// Define the encrypt function
 function encrypt(text, keyHex, ivHex) {
-    // Convert key and iv from hex to WordArray
     const key = CryptoJS.enc.Hex.parse(keyHex);
     const iv = CryptoJS.enc.Hex.parse(ivHex);
-
-    // Encrypt using AES-256-CBC
     const encrypted = CryptoJS.AES.encrypt(text, key, { iv: iv });
-
-    // Return the encrypted text as hex
-    return encrypted.toString();
+    return encrypted.ciphertext.toString(CryptoJS.enc.Hex);
 }
 
-// Define the decrypt function
 function decrypt(encryptedText, keyHex, ivHex) {
-  // Convert key and iv from hex to WordArray
   const key = CryptoJS.enc.Hex.parse(keyHex);
   const iv = CryptoJS.enc.Hex.parse(ivHex);
-
-  // Decrypt using AES-256-CBC
-  const decrypted = CryptoJS.AES.decrypt(encryptedText, key, { iv: iv });
-
-  // Return the decrypted text as a string
+  const encryptedTextBytes = CryptoJS.enc.Hex.parse(encryptedText);
+  
+  const decrypted = CryptoJS.AES.decrypt(
+      { ciphertext: encryptedTextBytes },
+      key,
+      { iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }
+  );
+  
   return decrypted.toString(CryptoJS.enc.Utf8);
 }
 
@@ -35,11 +30,8 @@ const ivHex = 'b22ec2381daab4d862d5c76ab07c00d8'; // 128-bit
 async function get_secret(){
   let apiKey = "E78j6jYcHFMz6miZXvmdoVdbW5ywhB9JunEfD980pK0="
   let encryptedAPIKey = encrypt(apiKey, keyHex, ivHex)
-  console.log(encryptedAPIKey);
   const myHeaders = new Headers();
-  myHeaders.append("api-key", encryptedAPIKey);
-  // myHeaders.append("Authorization", `Bearer ${encryptedAPIKey}`);
-  // myHeaders.append("Access-Control-Allow-Origin",'http://localhost:3000');
+  myHeaders.append("Authorization", `Bearer ${encryptedAPIKey}`);
 
   const requestOptions = {
     mode: 'cors',
@@ -48,26 +40,48 @@ async function get_secret(){
     redirect: "follow"
   };
   
-  fetch("https://way-out-west-app-backend.vercel.app/protected", requestOptions)
-    .then((response) => console.log(response))
+  let data = await fetch("https://way-out-west-app-backend.vercel.app/protected", requestOptions)
+  .then(response => response.json())
+  .then(data => {return data;})
+  .catch(error => console.error(error));
+  return data;
 }
 
-
 async function test(){
-  let secretKey = await get_secret();
-
+  const secretKey = await get_secret();
+  let key = secretKey['key'];
+  
   const octokit = new Octokit({ 
-    auth: ""
+    auth: decrypt(key, keyHex, ivHex)
   });
-  const response = await octokit.request('GET /repos/{owner}/{repo}/contents/{path}', {
+  const sha = await octokit.request('GET /repos/{owner}/{repo}/contents/{path}', {
     owner: 'sebastian-axell',
     repo: 'way_out_west',
     path: '.',
     headers: {
       'X-GitHub-Api-Version': '2022-11-28'
     }
+  }).then(response => {
+    return response['data'][0]['sha'];
   })
-  console.log(response);
+  const csv_data = await octokit.request('GET /repos/{owner}/{repo}/git/blobs/{file_sha}', {
+    owner: 'sebastian-axell',
+    repo: 'way_out_west',
+    file_sha: sha,
+    headers: {
+      'X-GitHub-Api-Version': '2022-11-28'
+    }
+  }).then(response=> {
+    return response['data'];
+  });
+  const decodedString = atob(csv_data['content']);
+      const lines = decodedString.split("\n");
+      // Parsing each line and creating an array of objects
+      const dataArray = lines.map(line => {
+          const decodedLine = decodeURIComponent(escape(line.trim())); 
+          return decodedLine;
+      });
+      console.log(dataArray);
 }
 
 function App() {
@@ -78,7 +92,7 @@ function App() {
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
-        {get_secret()}
+        {test()}
         <a
           className="App-link"
           href="https://reactjs.org"

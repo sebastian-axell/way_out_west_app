@@ -8,9 +8,9 @@ app.use(cors());
 
 const access_key = process.env.SECRET_KEY;
 
-let apiKey = "E78j6jYcHFMz6miZXvmdoVdbW5ywhB9JunEfD980pK0="
-const keyHex = '01eda8f0bcae94a569139c6126dd5d2929863500de660b3f6414d0b4c9cc3770'; // 256-bit 
-const ivHex = 'b22ec2381daab4d862d5c76ab07c00d8'; // 128-bit 
+let apiKey = process.env.apiKey; 
+const keyHex = process.env.keyHex; 
+const ivHex = process.env.ivHex;
 
 
 // Encrypt function using AES
@@ -18,9 +18,7 @@ function encrypt(text, keyHex, ivHex) {
     const key = Buffer.from(keyHex, 'hex');
     const iv = Buffer.from(ivHex, 'hex');
     let cipher = crypto.createCipheriv('aes-256-cbc', key, iv);
-    console.log(text);
-    let newExactString = text.replaceAll('"', '')
-    let encrypted = cipher.update(newExactString);
+    let encrypted = cipher.update(text);
     encrypted = Buffer.concat([encrypted, cipher.final()]);
     return encrypted.toString('hex');
 }
@@ -29,7 +27,6 @@ function encrypt(text, keyHex, ivHex) {
 function decrypt(encryptedText, keyHex, ivHex) {
     const key = Buffer.from(keyHex, 'hex');
     const iv = Buffer.from(ivHex, 'hex');
-    
     let encryptedTextBuffer = Buffer.from(encryptedText, 'hex');
     let decipher = crypto.createDecipheriv('aes-256-cbc', key, iv);
     let decrypted = decipher.update(encryptedTextBuffer);
@@ -44,14 +41,10 @@ function verifyToken(req, res, next) {
     if (!auth_header || !auth_header.startsWith('Bearer ') ) {
         return res.status(401).json({ error: 'API key is missing' });
     }
-
     try {
         let encryptedAPIKey = auth_header.split(' ')[1];
         let decryptedText = decrypt(encryptedAPIKey, keyHex, ivHex);
 
-        // let calculatedHash = crypto.createHmac('sha256', secretKey)
-        //                             .update(apiKey)
-        //                             .digest('hex');
         if (decryptedText === apiKey) {
             console.log('API key verified. Sender is trusted.');
             next();
