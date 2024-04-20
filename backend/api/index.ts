@@ -7,7 +7,6 @@ let port = 4040;
 app.use(cors());
 
 const access_key = process.env.SECRET_KEY;
-
 let apiKey = process.env.apiKey; 
 const keyHex = process.env.keyHex; 
 const ivHex = process.env.ivHex;

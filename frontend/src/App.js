@@ -1,7 +1,10 @@
-import logo from './logo.svg';
+import React from "react";
+import { useState, useEffect } from "react";
 import './App.css';
 import { Octokit } from "octokit";
+import ArtistCard from "./components/artistCard";
 const CryptoJS = require('crypto-js');
+const Papa = require('papaparse');
 
 function encrypt(text, keyHex, ivHex) {
     const key = CryptoJS.enc.Hex.parse(keyHex);
@@ -57,12 +60,12 @@ async function test(){
   const sha = await octokit.request('GET /repos/{owner}/{repo}/contents/{path}', {
     owner: 'sebastian-axell',
     repo: 'way_out_west',
-    path: '.',
+    path: 'data.csv',
     headers: {
       'X-GitHub-Api-Version': '2022-11-28'
     }
   }).then(response => {
-    return response['data'][0]['sha'];
+    return response['data']['sha'];
   })
   const csv_data = await octokit.request('GET /repos/{owner}/{repo}/git/blobs/{file_sha}', {
     owner: 'sebastian-axell',
@@ -76,32 +79,36 @@ async function test(){
   });
   const decodedString = atob(csv_data['content']);
       const lines = decodedString.split("\n");
-      // Parsing each line and creating an array of objects
       const dataArray = lines.map(line => {
-          const decodedLine = decodeURIComponent(escape(line.trim())); 
-          return decodedLine;
-      });
-      console.log(dataArray);
+        const decodedLine = decodeURIComponent(escape(line.trim())); 
+        return decodedLine;
+      }).join('\n')
+      const parsedData = Papa.parse(dataArray, { header: true }).data;
+      console.log(parsedData);
+      return parsedData;
 }
 
 function App() {
+  const [data, setData] = useState(true);
+
+  const getData = async () =>{
+    await test().then(response=>{
+      setData(response)
+      console.log(data);
+    })
+  }
+
+  useEffect(() => {
+    getData()
+  }, []);
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        {test()}
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div class="bg-red-200 h-screen overflow-y-auto py">      
+      <div class="pt-20 grid grid-cols-2 gap-4 sm:gap-4 sm:grid-cols-3 px-10 sm:px-20">
+        {Object.keys(data).map((dataEntry, value) =>(
+          <ArtistCard key={value} data={data[value]}/>
+        ))}
+      </div>
     </div>
   );
 }
