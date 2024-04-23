@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const names = ["luke","robbie","seb","a","b","c"]
+const names = ["luke","robbie","seb","longassname","b","c"]
 
 function Modal({
     closeModal,
@@ -44,7 +44,7 @@ function Modal({
     }
     return (
         <div className="z-10 h-screen w-screen bg-opacity-50 bg-gray-100 flex fixed justify-center items-center top-0 left-0 right-0">
-            <div className="px-3 md:px-5 py-5 bg-white shadow rounded-lg border w-11/12 sm:w-9/12 lg:w-7/12 h-3/6 sm:h-fit overflow-y-scroll">
+            <div className="px-3 md:px-5 py-5 bg-gray-50 shadow rounded-lg border w-11/12 sm:w-9/12 lg:w-7/12 h-3/6 md:h-3/6 lg:h-4/6 overflow-y-scroll">
                 <div className='flex justify-end'>
                 <button className='sm:-mr-0 sm:-mt-3 -mt-3 -mr-2 relative' onClick={()=> closeModal(false)}>
                     <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -57,10 +57,6 @@ function Modal({
                         <h1>Add interest for {artist}</h1>
                     </div>
                     <div className="flex grid grid-cols-6 text-2xl gap-y-3 text-center items-center">
-                        {/* <div className="flex col-span-full justify-between border-b-4 border-indigo-600 sm:mb-5 hidden sm:visible">
-                            <div className="flex justify-start col-span-1 mb-1">name</div>
-                            <div className="bg-red-200 flex justify-center mb-1 col-span-3 w-9/12">keeness</div>
-                        </div> */}
                         {names.map((name, index) =>{
                             return (
                             <>

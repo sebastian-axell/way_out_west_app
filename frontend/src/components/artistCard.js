@@ -28,7 +28,7 @@ function ArtistCard({
                     <a href={data['link']} id="title" class=" mb-2 text-sm md:text-xl lg:text-2xl text-center font-bold tracking-tight text-gray-900">
                         <p class="pt-2 truncate pr-4">{data['artist']}</p>
                     </a>
-                    <div class="mb-3 font-normal text-gray-700 flex flex-col gap-y-2">
+                    <div class="mb-3 font-normal text-gray-700 flex flex-col">
                         <div class="flex start" id="peeps">
                             <div class="flex items-center">      
                                 <svg class="w-4 h-4 md:w-7 m:h-7 lg:w-8 lg:h-8 text-green-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
@@ -36,13 +36,13 @@ function ArtistCard({
                                 </svg>
                             </div>
                             {/* -space-x-1 lg:-space-x-1.5 */}
-                            <div className="w-full flex justify-center h-16">
+                            <div className="w-full flex justify-center lg:h-20 md:h-12 h-8 overflow-x-hidden">
                                 {keenData ?
-                                <div className="overflow-y-auto flex flex-col grid grid-cols-2 bg-red-400 w-10/12 items-center sm:justify-center p-1 md:p-2">
-                                    {keenData.split(";").map((dataEntry) =>{
+                                <div className="flex w-full grid grid-cols-2 md:w-52 place-items-center gap-y-1 lg:grid-cols-3 justify-around md:pt-1 lg:pt-3">
+                                    {keenData.split(";").map((dataEntry, index) =>{
                                         const [name, keenness] = dataEntry.split("-");
                                         return (
-                                        <Tooltip text={name}>
+                                        <Tooltip text={name} key={index}>
                                             <NameBubble name={name} keenness={keenness}/>
                                         </Tooltip>
                                         );
@@ -53,7 +53,7 @@ function ArtistCard({
                             }
                             </div>
                         </div>
-                        <div class="flex start" id="day">
+                        <div class="flex start lg:mt-2" id="day">
                             <div class="flex items-center"> 
                                 <svg class="w-4 h-4 md:w-7 m:h-7 lg:w-8 lg:h-8 text-green-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                                     <path fill-rule="evenodd" d="M5 5a1 1 0 0 0 1-1 1 1 0 1 1 2 0 1 1 0 0 0 1 1h1a1 1 0 0 0 1-1 1 1 0 1 1 2 0 1 1 0 0 0 1 1h1a1 1 0 0 0 1-1 1 1 0 1 1 2 0 1 1 0 0 0 1 1 2 2 0 0 1 2 2v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a2 2 0 0 1 2-2ZM3 19v-7a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Zm6.01-6a1 1 0 1 0-2 0 1 1 0 0 0 2 0Zm2 0a1 1 0 1 1 2 0 1 1 0 0 1-2 0Zm6 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0Zm-10 4a1 1 0 1 1 2 0 1 1 0 0 1-2 0Zm6 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0Zm2 0a1 1 0 1 1 2 0 1 1 0 0 1-2 0Z" clip-rule="evenodd"/>

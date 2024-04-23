@@ -121,6 +121,7 @@ function updateCSVData(data){
 
 function App() {
   const [data, setData] = useState(true);
+  const [selectedDay, setSelectedDay] = useState("thursday")
 
   const getData = async () =>{
     await test().then(response=>{
@@ -142,11 +143,23 @@ function App() {
   }, []);
   
   return (
-    <div class="bg-red-200 h-screen overflow-y-auto py">      
-      <div class="pt-20 grid grid-cols-2 gap-4 sm:gap-4 sm:grid-cols-3 px-10 sm:px-20">
-        {Object.keys(data).map((dataEntry, value) =>(
-          <ArtistCard key={value} index={value} updateData={updateData} data={data[value]}/>
-        ))}
+    <div class="bg-red-200 h-screen overflow-y-auto w-full">
+      <div className="h-16 absolute bg-green-700 w-full ">
+        <img className="mx-auto" src="https://www.wayoutwest.se/wp-content/themes/wayoutwest/assets/img/logo.svg"/>
+      </div>      
+      <div className="mt-28 mb-10 w-full flex justify-center">
+        <div className="flex w-fit border border-xl border-black space-x-8 inline-flex items-center justify-center w-fit p-1 md:p-2 text-gray-500 bg-white border border-gray-200 rounded-lg">
+        <button onClick={()=>{setSelectedDay("thursday")}}>thursday</button>
+        <button onClick={()=>{setSelectedDay("friday")}}>friday</button>
+        <button onClick={()=>{setSelectedDay("saturday")}}>saturday</button>
+        </div>
+      </div>
+      <div class="px-10 md:px-16 lg:px-20 xl:px-32 w-full">
+        <div className="grid grid-cols-2 gap-4 sm:gap-4 sm:grid-cols-3 mb-16">
+          {Object.keys(data).map((dataEntry, value) =>(
+            data[value]['day'] == selectedDay && <ArtistCard key={value} index={value} updateData={updateData} data={data[value]}/>
+          ))}
+        </div>
       </div>
     </div>
   );
