@@ -83,9 +83,40 @@ async function test(){
         const decodedLine = decodeURIComponent(escape(line.trim())); 
         return decodedLine;
       }).join('\n')
-      const parsedData = Papa.parse(dataArray, { header: true }).data;
+      const parsedData = Papa.parse(dataArray.trim(), { header: true }).data;
       console.log(parsedData);
       return parsedData;
+}
+
+async function uploadCSV(base64Content){
+  const secretKey = await get_secret();
+  let key = secretKey['key'];
+  
+  const octokit = new Octokit({ 
+    auth: decrypt(key, keyHex, ivHex)
+  });
+
+  await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
+    owner: 'OWNER',
+    repo: 'REPO',
+    path: 'PATH',
+    message: 'a new commit message',
+    committer: {
+      name: 'Monalisa Octocat',
+      email: 'octocat@github.com'
+    },
+    content: 'bXkgdXBkYXRlZCBmaWxlIGNvbnRlbnRz',
+    sha: '95b966ae1c166bd92f8ae7d1c313e738c731dfc3',
+    headers: {
+      'X-GitHub-Api-Version': '2022-11-28'
+    }
+  })
+}
+
+function updateCSVData(data){
+  const csvString = Papa.unparse(data);
+  const base64Content = btoa(encodeURIComponent(csvString));
+
 }
 
 function App() {
@@ -94,8 +125,16 @@ function App() {
   const getData = async () =>{
     await test().then(response=>{
       setData(response)
-      console.log(data);
     })
+  }
+
+  const updateData = (index, keenData) => {
+    setData(prevItems => {
+      const updatedItems = [...prevItems]; // Create a copy of the current array
+      updatedItems[index]['keen'] = keenData; // Update the desired index with the new value
+      return updatedItems; // Set the updated array back to the state
+    });
+    updateCSVData(data);
   }
 
   useEffect(() => {
@@ -106,7 +145,7 @@ function App() {
     <div class="bg-red-200 h-screen overflow-y-auto py">      
       <div class="pt-20 grid grid-cols-2 gap-4 sm:gap-4 sm:grid-cols-3 px-10 sm:px-20">
         {Object.keys(data).map((dataEntry, value) =>(
-          <ArtistCard key={value} data={data[value]}/>
+          <ArtistCard key={value} index={value} updateData={updateData} data={data[value]}/>
         ))}
       </div>
     </div>
