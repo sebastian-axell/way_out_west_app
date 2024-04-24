@@ -64,7 +64,7 @@ function Modal({
                             <ul class="flex w-full gap-x-2 col-span-full sm:col-span-5 justify-around">
                                 <li >
                                     <input onChange={()=>handleChange(name, 'whyNot')} onClick={()=>handOnClick(name, "whyNot")} type="radio" id={`why-not-`+index} name={name} checked={selectedOptions[name] == "whyNot" ? true : false} class="hidden peer" required />
-                                    <label for={`why-not-`+index} class={`h-full inline-flex items-center justify-center w-fit p-1 md:p-2 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer peer-checked:border-yellow-200 peer-checked:text-yellow-600 hover:text-gray-600 hover:bg-gray-100`}>                           
+                                    <label for={`why-not-`+index} class={`h-full inline-flex items-center justify-center w-fit p-1 md:p-2 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer peer-checked:border-amber-400 peer-checked:text-amber-900 hover:text-gray-600 hover:bg-gray-100`}>                           
                                         <div class="">
                                             <div class="w-full mx-auto sm:w-fit text-xs sm:text-sm lg:text-base font-semibold">why not</div>
                                             <div class="w-fit text-xs sm:text-sm lg:text-base">don't mind going</div>

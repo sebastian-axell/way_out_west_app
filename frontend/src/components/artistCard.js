@@ -24,7 +24,7 @@ function ArtistCard({
                         <img class="rounded-t-lg" src={data['img']} alt="" />
                     </a>
                 </div>
-                <div class="rounded-b-lg pl-2 sm:pl-4 w-full flex flex-col justify-evenly mx-auto bg-green-200">
+                <div class="rounded-b-lg pl-2 sm:pl-4 w-full flex flex-col justify-evenly mx-auto bg-[#FFC857]">
                     <a href={data['link']} id="title" class=" mb-2 text-sm md:text-xl lg:text-2xl text-center font-bold tracking-tight text-gray-900">
                         <p class="pt-2 truncate pr-4">{data['artist']}</p>
                     </a>
@@ -65,7 +65,7 @@ function ArtistCard({
                         </div>
                     </div>
                     <div class="flex justify-center pb-1" id="button">
-                        <button onClick={()=>setOpenModal(!openModal)} type="button" class="py-1 px-3 me-1 mb-1 md:py-1.5 lg:py-2.5 md:px-4 lg:px-5 md:me-1.5 lg:me-2 md:mb-1.5 lg:mb-2 text-[10px] md:text-sm lg:text-md font-medium text-gray-900 bg-white rounded-full border border-gray-200 hover:bg-yellow-100 hover:text-green-800">
+                        <button onClick={()=>setOpenModal(!openModal)} type="button" class="py-1 px-3 me-1 mb-1 md:py-1.5 lg:py-2.5 md:px-4 lg:px-5 md:me-1.5 lg:me-2 md:mb-1.5 lg:mb-2 text-[10px] md:text-sm lg:text-md font-medium text-gray-900 bg-white rounded-full border border-gray-200 hover:text-teal-900">
                             Add interest
                         </button>
                     </div>

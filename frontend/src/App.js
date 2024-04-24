@@ -143,12 +143,12 @@ function App() {
   }, []);
   
   return (
-    <div class="bg-red-200 h-screen overflow-y-auto w-full">
-      <div className="h-16 absolute z-10 bg-pink-700 w-full" id="header">
+    <div class="bg-pink-200 h-screen overflow-y-auto w-full">
+      <div className="h-16 absolute z-10 bg-teal-700 w-full" id="header">
         <img className="mx-auto" src="https://www.wayoutwest.se/wp-content/themes/wayoutwest/assets/img/logo.svg"/>
       </div>   
       <div className="flex justify-between">
-        <div className="bg-pink-300 opacity-50 w-1/12 xl:w-[6rem] sm:max-w-xs content-center"></div>   
+        <div className="bg-teal-300 opacity-50 w-1/12 xl:w-[6rem] sm:max-w-xs content-center"></div>   
           <div className="">
             <div className="mt-24 md:mt-28 mb-5 md:mb-10 xl:mb-12 w-full flex justify-center">
               {/* sm:w-8/12 lg:w-5/12 xl:w-3/12 */}
@@ -166,7 +166,7 @@ function App() {
             </div>
           </div>
         </div>
-        <div className="bg-pink-300 opacity-50 w-1/12 xl:w-[6rem] sm:max-w-xs content-center"></div>
+        <div className="bg-teal-300 opacity-50 w-1/12 xl:w-[6rem] sm:max-w-xs content-center"></div>
       </div>
     </div>
   );
