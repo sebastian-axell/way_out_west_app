@@ -17,8 +17,8 @@ function ArtistCard({
     }
 
     return (
-        <div class="py-5 ">        
-            <div class="max-w-md sm:max-w-xs bg-white rounded-lg shadow mx-auto flex flex-col justify-evenly">
+        <div class="py-5">        
+            <div class="max-w-md md:max-w-md bg-white rounded-lg shadow mx-auto flex flex-col justify-evenly">
                 <div class="w-fit mx-auto">
                     <a href={data['link']} class="w-10/12">
                         <img class="rounded-t-lg" src={data['img']} alt="" />
@@ -38,7 +38,7 @@ function ArtistCard({
                             {/* -space-x-1 lg:-space-x-1.5 */}
                             <div className="w-full flex justify-center lg:h-20 md:h-12 h-8 overflow-x-hidden">
                                 {keenData ?
-                                <div className="flex w-full grid grid-cols-2 md:w-52 place-items-center gap-y-1 lg:grid-cols-3 justify-around md:pt-1 lg:pt-3">
+                                <div className="flex w-full grid grid-cols-2 md:w-52 place-items-center gap-y-1 lg:grid-cols-3 justify-around pt-1 md:pt-1 lg:pt-3">
                                     {keenData.split(";").map((dataEntry, index) =>{
                                         const [name, keenness] = dataEntry.split("-");
                                         return (

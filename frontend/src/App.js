@@ -144,25 +144,33 @@ function App() {
   
   return (
     <div class="bg-red-200 h-screen overflow-y-auto w-full">
-      <div className="h-16 absolute bg-green-700 w-full ">
+      <div className="h-16 absolute z-10 bg-pink-700 w-full" id="header">
         <img className="mx-auto" src="https://www.wayoutwest.se/wp-content/themes/wayoutwest/assets/img/logo.svg"/>
-      </div>      
-      <div className="mt-28 mb-10 w-full flex justify-center">
-        <div className="flex w-fit border border-xl border-black space-x-8 inline-flex items-center justify-center w-fit p-1 md:p-2 text-gray-500 bg-white border border-gray-200 rounded-lg">
-        <button onClick={()=>{setSelectedDay("thursday")}}>thursday</button>
-        <button onClick={()=>{setSelectedDay("friday")}}>friday</button>
-        <button onClick={()=>{setSelectedDay("saturday")}}>saturday</button>
+      </div>   
+      <div className="flex justify-between">
+        <div className="bg-pink-300 opacity-50 w-1/12 xl:w-[6rem] sm:max-w-xs content-center"></div>   
+          <div className="">
+            <div className="mt-24 md:mt-28 mb-5 md:mb-10 xl:mb-12 w-full flex justify-center">
+              {/* sm:w-8/12 lg:w-5/12 xl:w-3/12 */}
+              <div className="flex text-sm  md:text-2xl w-fit space-x-3 md:space-x-8 inline-flex items-center justify-around py-1 md:py-2 px-4 text-gray-500 rounded-lg">
+                <button value={"thursday"} className={`transition-transform rounded-xl rounded transition ${ selectedDay == "thursday" ?  "bg-white border border-green-900" : "bg-pink-100"} px-2 md:px-6 py-1 hover:-translate-y-1`} onClick={()=>{setSelectedDay("thursday")}}>thursday</button>
+                <button value={"friday"} className={`transition-transform rounded-xl rounded transition ${ selectedDay == "friday" ?  "bg-white border border-green-900" : "bg-pink-100"} px-2 md:px-6 py-1 hover:-translate-y-1`} onClick={()=>{setSelectedDay("friday");}}>friday</button>
+                <button className={`transition-transform rounded-xl transition rounded ${ selectedDay == "saturday" ?  "bg-white border border-green-900" : "bg-pink-100"} px-2 md:px-6 py-1 hover:-translate-y-1`} value={"saturday"} onClick={()=>{setSelectedDay("saturday")}}>saturday</button>
+              </div>
+            </div>
+          <div class="w-11/12 md:w-9/12 lg:w-10/12 xl:w-11/12 mx-auto">
+            <div className="grid grid-cols-2 gap-x-4 lg:gap-x-24 xl:gap-y-24 sm:grid-cols-3 mb-16">
+              {Object.keys(data).map((dataEntry, value) =>(
+                data[value]['day'] == selectedDay && <ArtistCard key={value} index={value} updateData={updateData} data={data[value]}/>
+              ))}
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="px-10 md:px-16 lg:px-20 xl:px-32 w-full">
-        <div className="grid grid-cols-2 gap-4 sm:gap-4 sm:grid-cols-3 mb-16">
-          {Object.keys(data).map((dataEntry, value) =>(
-            data[value]['day'] == selectedDay && <ArtistCard key={value} index={value} updateData={updateData} data={data[value]}/>
-          ))}
-        </div>
+        <div className="bg-pink-300 opacity-50 w-1/12 xl:w-[6rem] sm:max-w-xs content-center"></div>
       </div>
     </div>
   );
 }
+
 
 export default App;

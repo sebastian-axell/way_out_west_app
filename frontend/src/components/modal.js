@@ -43,8 +43,8 @@ function Modal({
         closeModal(false)
     }
     return (
-        <div className="z-10 h-screen w-screen bg-opacity-50 bg-gray-100 flex fixed justify-center items-center top-0 left-0 right-0">
-            <div className="px-3 md:px-5 py-5 bg-gray-50 shadow rounded-lg border w-11/12 sm:w-9/12 lg:w-7/12 h-3/6 md:h-3/6 lg:h-4/6 overflow-y-scroll">
+        <div className="z-10 h-screen w-screen bg-opacity-50 bg-pink-100 flex fixed justify-center items-center top-0 left-0 right-0">
+            <div className="px-3 md:px-5 py-5 bg-pink-50 shadow rounded-lg border w-11/12 sm:w-9/12 lg:w-7/12 xl:w-4/12 h-3/6 md:h-3/6 overflow-y-scroll">
                 <div className='flex justify-end'>
                 <button className='sm:-mr-0 sm:-mt-3 -mt-3 -mr-2 relative' onClick={()=> closeModal(false)}>
                     <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -53,8 +53,8 @@ function Modal({
                 </button>
                 </div>
                 <div className="-mt-4 flex flex-col gap-y-5">
-                    <div className="text-center">
-                        <h1>Add interest for {artist}</h1>
+                    <div className="text-center md:mb-3">
+                        <h1 className="text-xl  lg:text-4xl font-bold text-green- tracking-tight">Add interest for {artist}</h1>
                     </div>
                     <div className="flex grid grid-cols-6 text-2xl gap-y-3 text-center items-center">
                         {names.map((name, index) =>{
