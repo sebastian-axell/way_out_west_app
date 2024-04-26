@@ -4,7 +4,7 @@ function Timer({
     duration
 }){
     const today = new Date();
-    const theDate = new Date('7/09/2024');
+    const theDate = new Date('8/08/2024');
     const diffTime = Math.abs(theDate - today);
     const [time,setTime] = useState(diffTime)
     const [days,setDays] = useState()
@@ -39,7 +39,7 @@ function Timer({
     };
 
     return (
-        <div className="flex gap-5 font-bold">
+        <div className="flex gap-5 mt-2 font-bold">
             <div>
                 <span className="font-mono text-4xl">
                     <span>{days} </span>
