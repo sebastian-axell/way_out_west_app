@@ -2,6 +2,7 @@ let express = require('express');
 let crypto = require('crypto');
 const cors = require('cors'); // Import the cors packag
 let app = express();
+const multer = require('multer');
 let port = 4040;
 
 app.use(cors());
@@ -10,6 +11,17 @@ const access_key = process.env.SECRET_KEY;
 let apiKey = process.env.apiKey; 
 const keyHex = process.env.keyHex; 
 const ivHex = process.env.ivHex;
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, '../svgs/'); // Destination folder for uploaded SVG files
+    },
+    filename: function (req, file, cb) {
+      cb(null, file.originalname); // Use original file name
+    }
+  });
+
+const upload = multer({ storage: storage });
 
 
 // Encrypt function using AES
@@ -57,6 +69,15 @@ function verifyToken(req, res, next) {
     }
 }
 
+// Upload endpoint for multiple files
+app.post('/upload', upload.array('svgFiles', 10), (req, res) => {
+    res.send('SVGs uploaded successfully');
+  });
+  
+// Serve the uploaded SVG files statically
+app.use('/media', express.static(path.join(__dirname, 'svgs')));
+
+
 // Protected route
 app.get('/protected', verifyToken, (req, res) => {
     // Access user info from decoded token
@@ -70,4 +91,4 @@ app.listen(port, () => {
 module.exports = app;
 
 
-//npm install express axios crypto
+//npm install express axios crypto multer
