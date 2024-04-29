@@ -3,6 +3,7 @@ let crypto = require('crypto');
 const cors = require('cors'); // Import the cors packag
 let app = express();
 const multer = require('multer');
+const path = require('path'); // Importing the 'path' module
 let port = 4040;
 
 app.use(cors());
