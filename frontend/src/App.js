@@ -5,6 +5,7 @@ import { Octokit } from "octokit";
 import ArtistCard from "./components/artistCard";
 import Timer from "./components/timer";
 import Spinner from "./components/spinner";
+import DayButton from "./components/dayButton";
 const CryptoJS = require('crypto-js');
 const Papa = require('papaparse');
 
@@ -236,9 +237,12 @@ function App() {
                 <div className="mt-24 md:mt-24 lg:mt-32 mb-5 md:mb-10 xl:mb-12 2xl:mb-16 w-full flex justify-center">
                   {/* sm:w-8/12 lg:w-5/12 xl:w-3/12 */}
                   <div className="flex xl:w-6/12 h-14 inline-flex items-center w-11/12 md:w-9/12 justify-around py-1 md:py-2 text-gray-500 rounded-lg">
-                    <button value={"thursday"} className={`transition-transform rounded-xl rounded transition ${ selectedDay == "thursday" ?  "bg-white border border-green-900" : "bg-pink-100"} px-1 md:px-6  py-1 hover:-translate-y-1 w-3/12 md:w-4/12 mx-2 md:w-fit md:h-10 xl:h-14`} onClick={()=>{setSelectedDay("thursday")}}><img className="pb-0.5 md:pb-1.5 md:h-10 xl:h-12 w-full"  src={`data:image/svg+xml;base64,${btoa(svgData['thursday'])}`} /></button>
-                    <button value={"friday"} className={`transition-transform rounded-xl rounded transition ${ selectedDay == "friday" ?  "bg-white border border-green-900" : "bg-pink-100"} px-1 md:px-6 py-1 hover:-translate-y-1 w-3/12 md:w-4/12 mx-2 lg:w-fit md:h-10 xl:h-14`} onClick={()=>{setSelectedDay("friday");}}><img className="sm:h-10 h-8 xl:h-14 w-full mx-auto" src={`data:image/svg+xml;base64,${btoa(svgData['friday'])}`} /></button>
-                    <button className={`transition-transform rounded-xl transition rounded ${ selectedDay == "saturday" ?  "bg-white border border-green-900" : "bg-pink-100"} px-1 md:px-6 py-1 hover:-translate-y-1 w-3/12 md:w-4/12 mx-2 md:w-fit md:h-10 xl:h-14`} value={"saturday"} onClick={()=>{setSelectedDay("saturday")}}><img className="pb-0.5 md:pb-1.5 md:h-10 xl:h-12 w-full"  src={`data:image/svg+xml;base64,${btoa(svgData['saturday'])}`} /></button>
+                    <DayButton handleOnclick={setSelectedDay} day={"thursday"} svgData={svgData} selectedDay={selectedDay} />
+                    <DayButton handleOnclick={setSelectedDay} day={"friday"} svgData={svgData} selectedDay={selectedDay} />
+                    <DayButton handleOnclick={setSelectedDay} day={"saturday"} svgData={svgData} selectedDay={selectedDay} />
+                    {/* <button value={"thursday"} className={`transition-transform rounded-xl rounded transition ${ selectedDay == "thursday" ?  "bg-white border border-green-900" : "bg-pink-100"} px-1 md:px-6  py-1 hover:-translate-y-1 w-3/12 md:w-4/12 mx-2 md:w-fit md:h-10 xl:h-14`} onClick={()=>{setSelectedDay("thursday")}}><img className="pb-0.5 md:pb-1.5 md:h-10 xl:h-12 w-full"  src={`data:image/svg+xml;base64,${btoa(svgData['thursday'])}`} /></button> */}
+                    {/* <button value={"friday"} className={`transition-transform rounded-xl rounded transition ${ selectedDay == "friday" ?  "bg-white border border-green-900" : "bg-pink-100"} px-1 md:px-6 py-1 hover:-translate-y-1 w-3/12 md:w-4/12 mx-2 lg:w-fit md:h-10 xl:h-14`} onClick={()=>{setSelectedDay("friday");}}><img className="sm:h-10 h-8 xl:h-14 w-full mx-auto" src={`data:image/svg+xml;base64,${btoa(svgData['friday'])}`} /></button> */}
+                    {/* <button className={`transition-transform rounded-xl transition rounded ${ selectedDay == "saturday" ?  "bg-white border border-green-900" : "bg-pink-100"} px-1 md:px-6 py-1 hover:-translate-y-1 w-3/12 md:w-4/12 mx-2 md:w-fit md:h-10 xl:h-14`} value={"saturday"} onClick={()=>{setSelectedDay("saturday")}}><img className="pb-0.5 md:pb-1.5 md:h-10 xl:h-12 w-full"  src={`data:image/svg+xml;base64,${btoa(svgData['saturday'])}`} /></button> */}
                   </div>
                 </div>
               <div class="w-11/12 md:w-10/12 lg:w-10/12 xl:w-11/12 3xl:w-9/12 mx-auto">
