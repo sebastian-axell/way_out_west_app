@@ -6,6 +6,7 @@ import ArtistCard from "./components/artistCard";
 import Timer from "./components/timer";
 import Spinner from "./components/spinner";
 import DayButton from "./components/dayButton";
+import SideColumn from "./components/sideColumn";
 const CryptoJS = require('crypto-js');
 const Papa = require('papaparse');
 
@@ -218,22 +219,15 @@ function App() {
         ) :
         (
           <div className="">
-          <div className="h-16 lg:h-20 absolute top-0 z-10 bg-teal-700 w-full" id="header">
-            <div className="mx-auto w-fit flex h-full pb-1 justify-center p-2">
-                <img src={`data:image/svg+xml;base64,${btoa(svgData['weoutwest'])}`} />
-            </div>
-          </div>   
-          <div className="flex justify-between h-max mt-3">
-          <div className="bg-teal-300 bg-opacity-50 w-0/12 lg:w-[5rem] xl:w-[6rem] relative hidden lg:block max-h-none overflow-y-clip">
-                <div className="rotate-90 " >
-                    <div className="-rotate-180 min-w-max flex mt-32">
-                      <img className="h-18 py-2" src={`data:image/svg+xml;base64,${btoa(svgData['dates'])}`} />
-                    </div>
+            <div className="h-16 lg:h-20 absolute top-0 z-10 bg-teal-700 w-full" id="header">
+              <div className="mx-auto w-fit flex h-full pb-1 justify-center p-2">
+                  <img src={`data:image/svg+xml;base64,${btoa(svgData['weoutwest'])}`} />
               </div>
-            </div>
+            </div>   
+            <div className="flex justify-between h-max mt-3">
+              <SideColumn svg={btoa(svgData['dates'])} type={"dates"} repeatTimes={numberOfSVGs} />
               <div className="w-full">
                 <div className="mt-24 md:mt-24 lg:mt-32 mb-5 md:mb-10 xl:mb-12 2xl:mb-16 w-full flex justify-center">
-                  {/* sm:w-8/12 lg:w-5/12 xl:w-3/12 */}
                   <div className="flex xl:w-6/12 items-center w-11/12 md:w-9/12 justify-around py-1 md:py-2">
                     <DayButton handleOnclick={setSelectedDay} day={"thursday"} svgData={svgData} selectedDay={selectedDay} />
                     <DayButton handleOnclick={setSelectedDay} day={"friday"} svgData={svgData} selectedDay={selectedDay} />
@@ -247,16 +241,10 @@ function App() {
                   ))}
                 </div>
               </div>
-            </div>
-            <div className="bg-teal-300 bg-opacity-50 w-0/12 lg:w-[5rem] xl:w-[6rem] relative hidden lg:block max-h-none overflow-y-clip">
-                <div className="rotate-90" >
-                    <div className="min-w-max flex space-x-7 mt-32" >
-                      <img className="h-18 py-2"  src={`data:image/svg+xml;base64,${btoa(svgData['gothenburg'])}`} />
-                  </div>
               </div>
+              <SideColumn svg={btoa(svgData['gothenburg'])} repeatTimes={numberOfSVGs}/>
             </div>
           </div>
-        </div>
         )
       }
     </div>
