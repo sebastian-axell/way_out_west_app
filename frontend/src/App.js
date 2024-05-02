@@ -224,25 +224,20 @@ function App() {
             </div>
           </div>   
           <div className="flex justify-between h-max mt-3">
-          <div className="bg-teal-300 opacity-50 w-0/12 lg:w-[5rem] xl:w-[6rem] relative hidden lg:block max-h-none overflow-y-clip">
-                <div className="rotate-90" >
-                    <div className="min-w-max flex space-x-7 mt-32" >
-                    <div className="-rotate-180">
-                      <img src={`data:image/svg+xml;base64,${btoa(svgData['dates'])}`} />
+          <div className="bg-teal-300 bg-opacity-50 w-0/12 lg:w-[5rem] xl:w-[6rem] relative hidden lg:block max-h-none overflow-y-clip">
+                <div className="rotate-90 " >
+                    <div className="-rotate-180 min-w-max flex mt-32">
+                      <img className="h-18 py-2" src={`data:image/svg+xml;base64,${btoa(svgData['dates'])}`} />
                     </div>
-                  </div>
               </div>
             </div>
               <div className="w-full">
                 <div className="mt-24 md:mt-24 lg:mt-32 mb-5 md:mb-10 xl:mb-12 2xl:mb-16 w-full flex justify-center">
                   {/* sm:w-8/12 lg:w-5/12 xl:w-3/12 */}
-                  <div className="flex xl:w-6/12 h-14 inline-flex items-center w-11/12 md:w-9/12 justify-around py-1 md:py-2 text-gray-500 rounded-lg">
+                  <div className="flex xl:w-6/12 items-center w-11/12 md:w-9/12 justify-around py-1 md:py-2">
                     <DayButton handleOnclick={setSelectedDay} day={"thursday"} svgData={svgData} selectedDay={selectedDay} />
                     <DayButton handleOnclick={setSelectedDay} day={"friday"} svgData={svgData} selectedDay={selectedDay} />
                     <DayButton handleOnclick={setSelectedDay} day={"saturday"} svgData={svgData} selectedDay={selectedDay} />
-                    {/* <button value={"thursday"} className={`transition-transform rounded-xl rounded transition ${ selectedDay == "thursday" ?  "bg-white border border-green-900" : "bg-pink-100"} px-1 md:px-6  py-1 hover:-translate-y-1 w-3/12 md:w-4/12 mx-2 md:w-fit md:h-10 xl:h-14`} onClick={()=>{setSelectedDay("thursday")}}><img className="pb-0.5 md:pb-1.5 md:h-10 xl:h-12 w-full"  src={`data:image/svg+xml;base64,${btoa(svgData['thursday'])}`} /></button> */}
-                    {/* <button value={"friday"} className={`transition-transform rounded-xl rounded transition ${ selectedDay == "friday" ?  "bg-white border border-green-900" : "bg-pink-100"} px-1 md:px-6 py-1 hover:-translate-y-1 w-3/12 md:w-4/12 mx-2 lg:w-fit md:h-10 xl:h-14`} onClick={()=>{setSelectedDay("friday");}}><img className="sm:h-10 h-8 xl:h-14 w-full mx-auto" src={`data:image/svg+xml;base64,${btoa(svgData['friday'])}`} /></button> */}
-                    {/* <button className={`transition-transform rounded-xl transition rounded ${ selectedDay == "saturday" ?  "bg-white border border-green-900" : "bg-pink-100"} px-1 md:px-6 py-1 hover:-translate-y-1 w-3/12 md:w-4/12 mx-2 md:w-fit md:h-10 xl:h-14`} value={"saturday"} onClick={()=>{setSelectedDay("saturday")}}><img className="pb-0.5 md:pb-1.5 md:h-10 xl:h-12 w-full"  src={`data:image/svg+xml;base64,${btoa(svgData['saturday'])}`} /></button> */}
                   </div>
                 </div>
               <div class="w-11/12 md:w-10/12 lg:w-10/12 xl:w-11/12 3xl:w-9/12 mx-auto">
@@ -253,10 +248,10 @@ function App() {
                 </div>
               </div>
             </div>
-            <div className="bg-teal-300 bg-opacity-50 w-0/12 lg:w-[5rem] xl:w-[5rem] relative hidden lg:block max-h-none overflow-y-clip">
+            <div className="bg-teal-300 bg-opacity-50 w-0/12 lg:w-[5rem] xl:w-[6rem] relative hidden lg:block max-h-none overflow-y-clip">
                 <div className="rotate-90" >
-                    <div className="opacity-75 min-w-max flex space-x-7 mt-32" >
-                    <img src={`data:image/svg+xml;base64,${btoa(svgData['gothenburg'])}`} />
+                    <div className="min-w-max flex space-x-7 mt-32" >
+                      <img className="h-18 py-2"  src={`data:image/svg+xml;base64,${btoa(svgData['gothenburg'])}`} />
                   </div>
               </div>
             </div>

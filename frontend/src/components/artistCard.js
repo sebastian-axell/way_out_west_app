@@ -25,7 +25,7 @@ function ArtistCard({
                     </a>
                 </div>
                 <div class="rounded-b-lg pl-2 sm:pl-4 w-full flex flex-col justify-evenly mx-auto bg-[#FFC857]">
-                    <a href={data['link']} id="title" class=" mb-2 text-sm md:text-xl lg:text-xl xl:text-2xl text-center font-bold tracking-tight text- text-brown-800 -outline-white">
+                    <a href={data['link']} id="title" class=" mb-2 text-sm sm:text-lg md:text-xl lg:text-xl xl:text-2xl text-center font-bold tracking-tight text- text-brown-800 -outline-white">
                         <p class="pt-2 xl:h-12 truncate pr-4">{data['artist']}</p>
                     </a>
                     <div class="mb-3 font-normal text-gray-700 flex flex-col">
@@ -59,13 +59,12 @@ function ArtistCard({
                                 </svg>
                             </div>
                             <div class="mx-auto my-auto">
-                                <p class="tracking-widest font-sans text-xs md:text-lg xl:text-xl text-brown-900 font-semibold">{data['day']}</p> 
-                                {/* <img className="h-8 w-20 h-12 xl:h-10 lg:w-full" src={`https://way-out-west-app-backend.vercel.app/media/$.svg`} */}
+                                <p class="tracking-widest font-sans text-xs sm:text-base md:text-lg xl:text-xl text-brown-900 font-semibold">{data['day']}</p> 
                             </div>
                         </div>
                     </div>
                     <div class="flex justify-center pb-1 mt-2" id="button">
-                        <button onClick={()=>setOpenModal(!openModal)} type="button" class="py-1 mb-1 px-1.5 md:py-1 lg:py-1 md:px-4 lg:px-4 md:mb-1.5 lg:mb-2 text-[10px] md:text-sm 2xl:text-[15px] font-medium text-gray-900 bg-white rounded-full border border-gray-200 hover:text-teal-900">
+                        <button onClick={()=>setOpenModal(!openModal)} type="button" class="py-1 md:py-1 lg:py-1 px-2 md:px-4 lg:px-4  mb-1 md:mb-1.5 lg:mb-2 text-[10px] sm:text-xs md:text-sm 2xl:text-[15px] font-semibold text-gray-800 bg-white rounded-full shadow-md border border-gray-400 hover:border-gray-600 focus:border-gray-600 focus:outline-none">
                             Add interest
                         </button>
                     </div>
