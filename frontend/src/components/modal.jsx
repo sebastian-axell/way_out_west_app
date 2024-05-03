@@ -1,6 +1,8 @@
 import { useState } from "react";
 import KeenOption from "./keenOption";
 import ModalButton from "./modalButton";
+import ConfirmationButton from "./confirmationButton";
+import InProgressButton from "./inProgressButton";
 
 const names = ["luke","robbie","seb"]
 
@@ -8,7 +10,9 @@ function Modal({
     closeModal,
     data,
     updateKeenData,
-    artist
+    artist,
+    updateKeenComplete,
+    inProgress,
 }) {
     const [selectedOptions, setSelectedOptions] = useState(() => {
         const keenMapping = {};
@@ -45,8 +49,14 @@ function Modal({
         const dataString = Object.entries(selectedOptions).map(([name, keenness]) =>{
             return name + "-" + keenness;
         }).join(";")
-        updateKeenData(dataString);
-        closeModalHandle()
+        if (data != dataString){
+            updateKeenData(dataString);
+            setTimeout(() => {
+                closeModalHandle();
+            }, 2500); 
+        } else{
+            closeModalHandle();
+        }
     }
     return (
         <div className="z-10 h-screen w-screen bg-opacity-50 bg-pink-100 flex fixed justify-center items-center top-0 left-0 right-0">
@@ -78,41 +88,19 @@ function Modal({
                     </div>
                     <div className="flex grid-2 gap-x-3 pt-1 w-full justify-around">
                         <ModalButton text={'Cancel'} onClickHandle={closeModalHandle}/>
-                        <ModalButton text={'Confirm'} onClickHandle={updateKeenDataHandle}/>
+                        <ModalButton text={'Confirm'} onClickHandle={updateKeenDataHandle} disabled={inProgress}/>
                     </div>
+                    {
+                        inProgress &&
+                        <InProgressButton />
+                    }
+                    {
+                        updateKeenComplete &&
+                        <ConfirmationButton />
+                    }
                 </div>
             </div>
         </div>
     );
 }
 export default Modal;
-                        {/* <button class="py-1 px-2 mb-1 md:py-1 lg:py-1.5 md:px-3 lg:px-5 text-sm lg:text-lg font-medium text-gray-900 bg-white rounded-full border border-gray-200 hover:bg-teal-50 hover:text-green-800" onClick={()=> closeModal(false)}>Cancel</button> */}
-                        {/* <button class="py-1 px-2 mb-1 md:py-1 lg:py-1.5 md:px-3 lg:px-5 text-sm lg:text-lg font-medium text-gray-900 bg-white rounded-full border border-gray-200 hover:bg-teal-50 hover:text-green-800" onClick={()=> updateKeenDataHandle()}>Confirm</button> */}
-
-                                {/* <li>
-                                    <input onChange={()=>handleChange(name, 'whyNot')} onClick={()=>handOnClick(name, "whyNot")} type="radio" id={`why-not-`+index} name={name} checked={selectedOptions[name] == "whyNot" ? true : false} class="hidden peer" required />
-                                        <label for={`why-not-`+index} class={`h-full inline-flex items-center justify-center w-fit p-1 md:p-2 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer peer-checked:border-amber-400 peer-checked:text-amber-900 hover:text-gray-600 hover:bg-gray-100`}>                           
-                                            <div class="">
-                                                <div class="w-full mx-auto sm:w-fit text-xs sm:text-sm lg:text-base font-semibold">why not</div>
-                                                <div class="w-fit text-xs sm:text-sm lg:text-base">don't mind going</div>
-                                            </div>
-                                        </label>
-                                </li>
-                                <li>
-                                    <input onChange={()=>handleChange(name, 'deffo')} onClick={()=>handOnClick(name, "deffo")} type="radio" id={`deffo-keen-`+index} name={name} checked={selectedOptions[name] == "deffo" ? true : false} class="hidden peer" required />
-                                    <label for={`deffo-keen-`+index} class="h-full inline-flex items-center justify-center w-fit p-1 md:p-2 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer peer-checked:border-green-200 peer-checked:text-green-600 hover:text-gray-600 hover:bg-gray-100">                           
-                                        <div class="">
-                                            <div class="w-full mx-auto sm:w-fit text-xs sm:text-sm lg:text-base font-semibold">deffo keen</div>
-                                            <div class="w-fit text-xs sm:text-sm lg:text-base">'tis would be a good one</div>
-                                        </div>
-                                    </label>
-                                </li>
-                                <li>
-                                    <input onChange={()=>handleChange(name, 'hella')} onClick={()=>handOnClick(name, "hella")} type="radio" id={`hella-keen-`+index} name={name} checked={selectedOptions[name] == "hella" ? true : false} class="hidden peer" required />
-                                    <label for={`hella-keen-`+index} class="h-full inline-flex items-center justify-center w-fit p-1 md:p-2 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer peer-checked:border-red-200 peer-checked:text-red-600 hover:text-gray-600 hover:bg-gray-100">                           
-                                        <div class="">
-                                            <div class="w-full mx-auto sm:w-fit text-xs sm:text-sm lg:text-base font-semibold">hella keen</div>
-                                            <div class="w-fit text-xs sm:text-sm lg:text-base">bruh I'll go by myself</div>
-                                        </div>
-                                    </label>
-                                </li>  */}

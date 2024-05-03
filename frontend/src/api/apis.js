@@ -122,7 +122,7 @@ async function uploadCSV(base64Content){
   }).then(response =>{
     return response;
   })
-  console.log(updateResponse);
+  return updateResponse['status']
 }
 
 const toBase64 = file => new Promise((resolve, reject) => {
@@ -137,7 +137,8 @@ async function updateCSVData(data){
   const blob = new Blob([csvString], { type: 'text/csv' });
   let content = await toBase64(blob);
   content = content.replace(/^data:.+;base64,/, '');
-  uploadCSV(content);
+  const status = await uploadCSV(content);
+  return status;
 }
 
 async function fetchSvgData(){

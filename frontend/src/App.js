@@ -14,18 +14,22 @@ function App() {
   const [selectedDay, setSelectedDay] = useState("thursday")
   const [loading, setLoading] = useState(true)
   const [svgData, setSvgData] = useState(null);
+  const [isUpdateComplete, setUpdateComplete] = useState(false);
+  const [inProgress, setInProgress] = useState(false)
 
   const numberOfSVGs = 8;
 
-
-  const updateData = (index, keenData) => {
-    if (keenData != data[index]['keen']){
-      setData(prevItems => {
-        const updatedItems = [...prevItems]; // Create a copy of the current array
-        updatedItems[index]['keen'] = keenData; // Update the desired index with the new value
-        return updatedItems; // Set the updated array back to the state
-      });
-      apis.updateCSVData(data);
+  const updateData = async (index, keenData) => {
+    setData(prevItems => {
+      const updatedItems = [...prevItems]; // Create a copy of the current array
+      updatedItems[index]['keen'] = keenData; // Update the desired index with the new value
+      return updatedItems; // Set the updated array back to the state
+    });
+    setInProgress(true)
+    const result = await apis.updateCSVData(data);
+    if (result === 200){
+      setInProgress(false)
+      setUpdateComplete(true);
     }
   }
 
@@ -43,6 +47,14 @@ function App() {
     })
   }, []);
 
+
+  useEffect(() => {
+    if (isUpdateComplete) {
+      setTimeout(() => {
+        setUpdateComplete(false);
+      }, 2000); 
+    }
+  }, [isUpdateComplete]);
   
 
   
@@ -72,7 +84,7 @@ function App() {
               <div class="w-11/12 md:w-10/12 lg:w-10/12 xl:w-11/12 3xl:w-9/12 mx-auto">
                 <div className="grid grid-cols-2 gap-x-4 xl:gap-x-7 xl:gap-y-12 lg:grid-cols-3 2xl:grid-cols-4 mb-16">
                   {Object.keys(data).map((dataEntry, value) =>(
-                    data[value]['day'] == selectedDay && <ArtistCard key={value} index={value} updateData={updateData} data={data[value]}/>
+                    data[value]['day'] == selectedDay && <ArtistCard key={value} index={value} updateData={updateData} data={data[value]} updateKeenComplete={isUpdateComplete} inProgress={inProgress}/>
                   ))}
                 </div>
               </div>

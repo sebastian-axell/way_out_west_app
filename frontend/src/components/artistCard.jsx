@@ -6,7 +6,9 @@ import NameBubble from "./nameBubble";
 function ArtistCard({
     data,
     updateData,
-    index
+    index,
+    updateKeenComplete,
+    inProgress
 }){
     const [openModal, setOpenModal] = useState(false);
     const [keenData, setKeenData] = useState(data['keen']);
@@ -68,7 +70,7 @@ function ArtistCard({
                             Add interest
                         </button>
                     </div>
-                    {openModal && <Modal data={keenData} artist={data['artist']} updateKeenData={handleUpdate} closeModal={setOpenModal} />} 
+                    {openModal && <Modal data={keenData} artist={data['artist']} updateKeenData={handleUpdate} closeModal={setOpenModal} updateKeenComplete={updateKeenComplete} inProgress={inProgress}/>} 
                 </div>
             </div>
         </div>
