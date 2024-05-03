@@ -23,11 +23,11 @@ function decrypt(encryptedText, keyHex, ivHex) {
   return decrypted.toString(CryptoJS.enc.Utf8);
 }
 
-const keyHex = '01eda8f0bcae94a569139c6126dd5d2929863500de660b3f6414d0b4c9cc3770'; // 256-bit 
-const ivHex = 'b22ec2381daab4d862d5c76ab07c00d8'; // 128-bit 
+const keyHex = process.env.REACT_APP_key_Hex;
+const ivHex = process.env.REACT_APP_iv_Hex;
 
 async function get_secret(){
-  let apiKey = "E78j6jYcHFMz6miZXvmdoVdbW5ywhB9JunEfD980pK0="
+  let apiKey = process.env.REACT_APP_api_Key;
   let encryptedAPIKey = encrypt(apiKey, keyHex, ivHex)
   const myHeaders = new Headers();
   myHeaders.append("Authorization", `Bearer ${encryptedAPIKey}`);

@@ -21,9 +21,9 @@ function App() {
 
   const updateData = async (index, keenData) => {
     setData(prevItems => {
-      const updatedItems = [...prevItems]; // Create a copy of the current array
-      updatedItems[index]['keen'] = keenData; // Update the desired index with the new value
-      return updatedItems; // Set the updated array back to the state
+      const updatedItems = [...prevItems]; 
+      updatedItems[index]['keen'] = keenData; 
+      return updatedItems;
     });
     setInProgress(true)
     const result = await apis.updateCSVData(data);
@@ -84,7 +84,7 @@ function App() {
               <div class="w-11/12 md:w-10/12 lg:w-10/12 xl:w-11/12 3xl:w-9/12 mx-auto">
                 <div className="grid grid-cols-2 gap-x-4 xl:gap-x-7 xl:gap-y-12 lg:grid-cols-3 2xl:grid-cols-4 mb-16">
                   {Object.keys(data).map((dataEntry, value) =>(
-                    data[value]['day'] == selectedDay && <ArtistCard key={value} index={value} updateData={updateData} data={data[value]} updateKeenComplete={isUpdateComplete} inProgress={inProgress}/>
+                    data[value]['day'] == selectedDay && <ArtistCard key={data[value]['artist']} index={value} updateData={updateData} data={data[value]} updateKeenComplete={isUpdateComplete} inProgress={inProgress}/>
                   ))}
                 </div>
               </div>
