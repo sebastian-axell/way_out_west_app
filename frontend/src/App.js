@@ -53,8 +53,8 @@ function App() {
           <Spinner />
         ) :
         (
-          <div className="">
-            <div className="h-16 lg:h-20 absolute top-0 z-10 bg-teal-700 w-full" id="header">
+          <div className="fade-in">
+            <div className="h-16 lg:h-20 absolute top-0 z-10 bg-cyan-600 w-full" id="header">
               <div className="mx-auto w-fit flex h-full pb-1 justify-center p-2">
                   <img src={`data:image/svg+xml;base64,${btoa(svgData['weoutwest'])}`} />
               </div>

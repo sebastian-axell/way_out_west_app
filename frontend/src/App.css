@@ -50,3 +50,16 @@
                -0.5px  0.5px 0 #fff,
                 0.5px  0.5px 0 #fff;  
 }
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}

@@ -17,7 +17,7 @@ function ArtistCard({
     }
  
     return (
-        <div class="py-5">
+        <div class="py-5 fade-in">
             <div class="max-w-md md:max-w-md bg-white rounded-lg shadow mx-auto flex flex-col justify-evenly">
                 <div class="w-fit mx-auto">
                     <a href={data['link']} class="w-10/12">
