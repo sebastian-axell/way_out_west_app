@@ -13,13 +13,13 @@ function KeenOption({
     let buttonStyle;
     switch (keenLevel){
         case "hella":
-            buttonStyle = "peer-checked:border-red-200 peer-checked:text-red-600"
+            buttonStyle = "peer-checked:border-red-500 peer-checked:text-red-600"
             break;
         case "whyNot":
-            buttonStyle = "peer-checked:border-amber-400 peer-checked:text-amber-900"
+            buttonStyle = "peer-checked:border-amber-500 peer-checked:text-amber-800"
             break;
         case "deffo":
-            buttonStyle = "peer-checked:border-green-200 peer-checked:text-green-600"
+            buttonStyle = "peer-checked:border-green-500 peer-checked:text-green-800"
             break;
         default:
             buttonStyle = ""
