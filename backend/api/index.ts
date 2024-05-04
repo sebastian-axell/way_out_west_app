@@ -24,6 +24,18 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
+// Allow requests from your frontend domains
+const whitelist = ['https://we-out-west.vercel.app', 'https://weoutwest.info'];
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
+};
+
 
 // Encrypt function using AES
 function encrypt(text, keyHex, ivHex) {
