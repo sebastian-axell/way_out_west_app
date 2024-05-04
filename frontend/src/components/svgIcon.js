@@ -1,7 +1,7 @@
 
 
 
-const svgClass = "w-4 h-4 md:w-7 md:h-7 lg:w-7 lg:h-7 text-green-800"
+const svgClass = "w-4 h-4 sm:w-5 sm:h-5 md:w-7 md:h-7 lg:w-7 lg:h-7 text-green-800"
 const svgIcons = {
     peeps: 
     <svg class={svgClass} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
