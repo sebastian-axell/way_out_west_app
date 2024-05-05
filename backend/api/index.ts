@@ -23,7 +23,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 // Allow requests from your frontend domains
-const whitelist = ['https://we-out-west.vercel.app', "https://vercel.com/sebastians-projects-4168f7d8/we-out-west", 'https://weoutwest.info'];
+const whitelist = ['https://we-out-west.vercel.app', 'https://weoutwest.info'];
 const corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1 || !origin) {
