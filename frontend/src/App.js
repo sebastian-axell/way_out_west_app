@@ -74,7 +74,8 @@ function App() {
             <div className="flex justify-between h-max mt-3">
               <SideColumn svg={btoa(svgData['dates'])} type={"dates"} repeatTimes={numberOfSVGs} />
               <div className="w-full">
-                <div className="mt-24 lg:mt-28 mb-5 w-full flex justify-center">
+                <div className="mt-20
+                 lg:mt-24 mb-5 w-full flex justify-center">
                   <div className="flex xl:w-6/12 items-center w-11/12 md:w-9/12 justify-around py-1 md:py-2">
                     <DayButton handleOnclick={setSelectedDay} day={"thursday"} svgData={svgData} selectedDay={selectedDay} />
                     <DayButton handleOnclick={setSelectedDay} day={"friday"} svgData={svgData} selectedDay={selectedDay} />
