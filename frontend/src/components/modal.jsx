@@ -4,6 +4,7 @@ import ModalButton from "./modalButton";
 import ConfirmationButton from "./confirmationButton";
 import InProgressButton from "./inProgressButton";
 import svgIcons from "./svgIcon";
+import FailedButton from "./failedButton";
 
 const names = ["luke","robbie","seb"]
 
@@ -14,6 +15,7 @@ function Modal({
     artist,
     updateKeenComplete,
     inProgress,
+    updateFailed,
 }) {
     const [selectedOptions, setSelectedOptions] = useState(() => {
         const keenMapping = {};
@@ -90,12 +92,9 @@ function Modal({
                         <ModalButton text={'Confirm'} onClickHandle={updateKeenDataHandle} disabled={inProgress}/>
                     </div>
                     {
-                        inProgress &&
-                        <InProgressButton />
-                    }
-                    {
-                        updateKeenComplete &&
-                        <ConfirmationButton />
+                        inProgress ? <InProgressButton /> :
+                        updateKeenComplete ? <ConfirmationButton /> :
+                        updateFailed && <FailedButton />
                     }
                 </div>
             </div>

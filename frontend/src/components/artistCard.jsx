@@ -9,14 +9,17 @@ function ArtistCard({
     updateData,
     index,
     updateKeenComplete,
-    inProgress
+    inProgress,
+    updateFailed
 }){
     const [openModal, setOpenModal] = useState(false);
     const [keenData, setKeenData] = useState(data['keen']);
 
-    const handleUpdate = (data) =>{
-        setKeenData(data);
-        updateData(index, data)
+    const handleUpdate = async (data) =>{
+        let status = await updateData(index, data)
+        if (status != "bad"){
+            setKeenData(data);
+        }
     }
  
     return (
@@ -63,7 +66,16 @@ function ArtistCard({
                             Add interest
                         </button>
                     </div>
-                    {openModal && <Modal data={keenData} artist={data['artist']} updateKeenData={handleUpdate} closeModal={setOpenModal} updateKeenComplete={updateKeenComplete} inProgress={inProgress}/>} 
+                    {openModal && 
+                    <Modal 
+                    data={keenData} 
+                    artist={data['artist']} 
+                    updateKeenData={handleUpdate} 
+                    closeModal={setOpenModal} 
+                    updateKeenComplete={updateKeenComplete} 
+                    inProgress={inProgress}
+                    updateFailed={updateFailed}
+                    />} 
                 </div>
             </div>
         </div>

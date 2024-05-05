@@ -1,58 +1,48 @@
+import helpers from "../auxiliary/helpers"
 import { Octokit } from "octokit";
-const CryptoJS = require('crypto-js');
 const Papa = require('papaparse');
-
-function encrypt(text, keyHex, ivHex) {
-    const key = CryptoJS.enc.Hex.parse(keyHex);
-    const iv = CryptoJS.enc.Hex.parse(ivHex);
-    const encrypted = CryptoJS.AES.encrypt(text, key, { iv: iv });
-    return encrypted.ciphertext.toString(CryptoJS.enc.Hex);
-}
-
-function decrypt(encryptedText, keyHex, ivHex) {
-  const key = CryptoJS.enc.Hex.parse(keyHex);
-  const iv = CryptoJS.enc.Hex.parse(ivHex);
-  const encryptedTextBytes = CryptoJS.enc.Hex.parse(encryptedText);
-  
-  const decrypted = CryptoJS.AES.decrypt(
-      { ciphertext: encryptedTextBytes },
-      key,
-      { iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }
-  );
-  
-  return decrypted.toString(CryptoJS.enc.Utf8);
-}
 
 const keyHex = process.env.REACT_APP_key_Hex;
 const ivHex = process.env.REACT_APP_iv_Hex;
 
-async function get_secret(){
-  let apiKey = process.env.REACT_APP_api_Key;
-  let encryptedAPIKey = encrypt(apiKey, keyHex, ivHex)
-  const myHeaders = new Headers();
-  myHeaders.append("Authorization", `Bearer ${encryptedAPIKey}`);
+function configureRequestOptions() {
+    let apiKey = process.env.REACT_APP_api_Key;
 
-  const requestOptions = {
-    mode: 'cors',
-    method: "GET",
-    headers: myHeaders,
-    redirect: "follow"
-  };
+    let encryptedAPIKey = helpers.encrypt(apiKey, keyHex, ivHex);
+
+    const myHeaders = new Headers();
+
+    myHeaders.append("Authorization", `Bearer ${encryptedAPIKey}`);
+
+    const requestOptions = {
+        mode: 'cors',
+        method: "GET",
+        headers: myHeaders,
+        redirect: "follow"
+    };
+    return requestOptions;
+}
+
+async function createOctokit() {
+    const secretKey = await get_secret();
+
+    let key = secretKey['key'];
+
+    const octokit = new Octokit({
+        auth: helpers.decrypt(key, keyHex, ivHex)
+    });
+    return octokit;
+}
+
+async function get_secret(){
+  const requestOptions = configureRequestOptions();
   
   let data = await fetch("https://way-out-west-app-backend.vercel.app/protected", requestOptions)
-  .then(response => response.json())
-  .then(data => {return data;})
-  .catch(error => console.error(error));
+    .then(response => response.json())
   return data;
 }
 
-async function get_sha(){
-  const secretKey = await get_secret();
-  let key = secretKey['key'];
-  
-  const octokit = new Octokit({ 
-    auth: decrypt(key, keyHex, ivHex)
-  });
+async function get_sha(octokit){
 
   return await octokit.request('GET /repos/{owner}/{repo}/contents/{path}', {
     owner: 'sebastian-axell',
@@ -67,97 +57,104 @@ async function get_sha(){
 }
 
 async function fetchData(){
-  const secretKey = await get_secret();
-  let key = secretKey['key'];
-  
-  const octokit = new Octokit({ 
-    auth: decrypt(key, keyHex, ivHex)
-  });
+    try{
+        const octokit = await createOctokit();
+        
+        const sha = await get_sha(octokit);
+        
+        const csv_data = await getCsvBlob(octokit, sha);
 
-  const sha = await get_sha();
-
-  const csv_data = await octokit.request('GET /repos/{owner}/{repo}/git/blobs/{file_sha}', {
-    owner: 'sebastian-axell',
-    repo: 'way_out_west',
-    file_sha: sha,
-    headers: {
-      'X-GitHub-Api-Version': '2022-11-28'
+        let cvsData = helpers.processCsvData(csv_data);
+        
+        return cvsData;
+    } 
+    catch (error){
+        throw new Error('Failed to fetch data: ' + error.message);
     }
-  }).then(response=> {
-    return response['data'];
-  });
-  const decodedString = atob(csv_data['content']);
-      const lines = decodedString.split("\n");
-      const dataArray = lines.map(line => {
-        const decodedLine = decodeURIComponent(escape(line.trim())); 
-        return decodedLine;
-      }).join('\n')
-      const parsedData = Papa.parse(dataArray.trim(), { header: true }).data;
-      return parsedData;
 }
 
 async function uploadCSV(base64Content){
-  const secretKey = await get_secret();
-  let key = secretKey['key'];
-  
-  const octokit = new Octokit({ 
-    auth: decrypt(key, keyHex, ivHex)
-  });
 
-  const updateResponse = await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
-    owner: 'sebastian-axell',
-    repo: 'way_out_west',
-    path: 'data.csv',
-    message: 'updated keens',
-    committer: {
-      name: 'FrontEndKeenModifier',
-      email: 'na'
-    },
-    content: base64Content,
-    sha: await get_sha(),
-    headers: {
-      'X-GitHub-Api-Version': '2022-11-28'
-    }
-  }).then(response =>{
-    return response;
-  })
-  return updateResponse['status']
+    const octokit = await createOctokit();
+
+    const sha = await get_sha(octokit)
+
+    const updateResponse = await putUpdatedCsvData(octokit, base64Content, sha)
+
+    return updateResponse['status']
+
 }
 
-const toBase64 = file => new Promise((resolve, reject) => {
-  const reader = new FileReader();
-  reader.readAsDataURL(file);
-  reader.onload = () => resolve(reader.result);
-  reader.onerror = reject;
-});
 
 async function updateCSVData(data){
-  const csvString = Papa.unparse(data);
-  const blob = new Blob([csvString], { type: 'text/csv' });
-  let content = await toBase64(blob);
-  content = content.replace(/^data:.+;base64,/, '');
-  const status = await uploadCSV(content);
-  return status;
+    try{
+        const csvString = Papa.unparse(data);
+
+        const blob = new Blob([csvString], { type: 'text/csv' });
+
+        let content = await helpers.toBase64(blob);
+
+        content = content.replace(/^data:.+;base64,/, '');
+
+        const status = await uploadCSV(content);
+        
+        return status;
+    }
+    catch (error) {
+        throw new Error('Failed to update csv: ' + error.message);
+    }
 }
 
 async function fetchSvgData(){
-  const baseURL = "https://way-out-west-app-backend.vercel.app/media/";
-  const svgData = {};
-  const endpoints = ["thursday.svg", "friday.svg", "saturday.svg", "weoutwest.svg", "dates.svg", "gothenburg.svg"]
-  try {
-    for (const endpoint of endpoints) {
-      const response = await fetch(`${baseURL}${endpoint}`);
-      const svg = await response.text(); 
+    const baseURL = "https://way-out-west-app-backend.vercel.app/media/";
+    const svgData = {};
+    const endpoints = ["thursday.svg", "friday.svg", "saturday.svg", "weoutwest.svg", "dates.svg", "gothenburg.svg"]
+    try {
+        for (const endpoint of endpoints) {
+        const response = await fetch(`${baseURL}${endpoint}`);
+        const svg = await response.text(); 
 
-      // Extract the filename from the endpoint (e.g., '/media/thursday.svg' => 'thursday')
-      const filename = endpoint.split('/').pop().replace('.svg', '');
+        const filename = endpoint.split('/').pop().replace('.svg', '');
 
-      svgData[filename] = svg;
+        svgData[filename] = svg;
+        }
+        return svgData
+    } catch (error) {
+        throw new Error('Failed to fetch svgs: ' + error.message);
     }
-    return svgData
-  } catch (error) {
-    console.error('Error fetching SVG data:', error);
-  }
 };
+
+async function putUpdatedCsvData(octokit, base64Content, sha) {
+    return await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
+        owner: 'sebastian-axell',
+        repo: 'way_out_west',
+        path: 'data.csv',
+        message: 'updated keens',
+        committer: {
+            name: 'FrontEndKeenModifier',
+            email: 'na'
+        },
+        content: base64Content,
+        sha: sha,
+        headers: {
+            'X-GitHub-Api-Version': '2022-11-28'
+        }
+    }).then(response => {
+        return response;
+    });
+}
+
+async function getCsvBlob(octokit, sha) {
+    return await octokit.request('GET /repos/{owner}/{repo}/git/blobs/{file_sha}', {
+        owner: 'sebastian-axell',
+        repo: 'way_out_west',
+        file_sha: sha,
+        headers: {
+            'X-GitHub-Api-Version': '2022-11-28'
+        }
+    }).then(response => {
+        return response['data'];
+    });
+}
 
 export default {fetchData, fetchSvgData, updateCSVData};
