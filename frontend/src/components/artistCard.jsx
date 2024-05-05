@@ -28,8 +28,8 @@ function ArtistCard({
                     </a>
                 </div>
                 <div class="rounded-b-lg w-full flex flex-col relative justify-evenly mx-auto bg-[#FFC857]">
-                    <a href={data['link']} id="title" class=" md:mb-2 text-sm sm:text-lg md:text-xl lg:text-xl xl:text-2xl text-center font-bold tracking-tight text- text-brown-800 -outline-white">
-                        <p class="pt-2 xl:h-12 truncate">{data['artist']}</p>
+                    <a href={data['link']} id="title" class=" md:mb-2 text-sm sm:text-lg md:text-xl lg:text-xl xl:text-2xl text-center font-bold tracking-tight text-brown-800 -outline-white">
+                        <p class="pt-2 pl-1 xl:h-12 truncate">{data['artist']}</p>
                     </a>
                     <div class="mb-3 font-normal text-gray-700 flex flex-col">
                         <div class="flex start" id="peeps">

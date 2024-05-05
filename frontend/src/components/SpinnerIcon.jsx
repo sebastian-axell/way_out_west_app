@@ -10,7 +10,6 @@ function SpinnerIcon() {
         height="70.784"
         version="1.1"
         viewBox="0 0 114.822 18.728"
-        className="w-full h-20 " style={{ animation: 'App-logo-spin infinite 7s linear' }}
         >
             <g
             strokeDasharray="none"

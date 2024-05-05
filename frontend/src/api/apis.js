@@ -93,7 +93,6 @@ async function fetchData(){
         return decodedLine;
       }).join('\n')
       const parsedData = Papa.parse(dataArray.trim(), { header: true }).data;
-      console.log(parsedData);
       return parsedData;
 }
 
@@ -142,21 +141,17 @@ async function updateCSVData(data){
 }
 
 async function fetchSvgData(){
-  // Define an async function to fetch SVG data from the provided URLs
   const baseURL = "https://way-out-west-app-backend.vercel.app/media/";
   const svgData = {};
   const endpoints = ["thursday.svg", "friday.svg", "saturday.svg", "weoutwest.svg", "dates.svg", "gothenburg.svg"]
   try {
-    // Loop through each endpoint in the array
     for (const endpoint of endpoints) {
-      // Fetch SVG data from the current endpoint
       const response = await fetch(`${baseURL}${endpoint}`);
-      const svg = await response.text(); // Convert response to text
+      const svg = await response.text(); 
 
       // Extract the filename from the endpoint (e.g., '/media/thursday.svg' => 'thursday')
       const filename = endpoint.split('/').pop().replace('.svg', '');
 
-      // Store SVG data in the object with the filename as the key
       svgData[filename] = svg;
     }
     return svgData
