@@ -28,7 +28,6 @@ const ivHex = process.env.REACT_APP_iv_Hex;
 
 async function get_secret(){
   let apiKey = process.env.REACT_APP_api_Key;
-  console.log(apiKey);
   let encryptedAPIKey = encrypt(apiKey, keyHex, ivHex)
   const myHeaders = new Headers();
   myHeaders.append("Authorization", `Bearer ${encryptedAPIKey}`);
