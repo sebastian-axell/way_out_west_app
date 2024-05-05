@@ -6,8 +6,6 @@ const multer = require('multer');
 const path = require('path'); // Importing the 'path' module
 let port = 4040;
 
-app.use(cors());
-
 const access_key = process.env.SECRET_KEY;
 let apiKey = process.env.apiKey; 
 const keyHex = process.env.keyHex; 
@@ -35,6 +33,9 @@ const corsOptions = {
     }
   }
 };
+
+// Use CORS middleware with options
+app.use(cors(corsOptions));
 
 
 // Encrypt function using AES
