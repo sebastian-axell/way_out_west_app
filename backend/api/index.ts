@@ -38,7 +38,7 @@ app.post('/upload', upload.upload.array('svgFiles', 10), (req, res) => {
 app.use('/media', express.static(path.join(__dirname, '..', 'svgs')));
 
 app.get('/protected', middleware.verifyToken, (req, res) => {
-    res.json({ message: `Hello! You have access to this protected resource.`, key: helpers.encrypt(constants.access_key, constants.keyHex, constants.ivHex)});
+    res.json({ message: `Hello! You have access to this protected resource.`, key: helpers.encrypt(constants.secret_key, constants.keyHex, constants.ivHex)});
 });
 
 

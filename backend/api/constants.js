@@ -12,6 +12,7 @@ if (process.env.NODE_ENV == "local"){
   access_key = process.env.apiKey;
   keyHex = process.env.keyHex; 
   ivHex = process.env.ivHex;
+  secret_key = process.env.SECRET_KEY;
 }
 
 console.log(access_key, keyHex, ivHex);
@@ -19,5 +20,6 @@ console.log(access_key, keyHex, ivHex);
 module.exports = {
     access_key,
     ivHex,
-    keyHex
+    keyHex,
+    secret_key
 }
