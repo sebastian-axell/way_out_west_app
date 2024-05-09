@@ -7,7 +7,7 @@ function DayButton({
     svgData
 }){
     return (
-        <div className="flex justify-center items-center">
+        <div className="flex justify-center items-center cursor-pointer">
             <div 
                 value={day} 
                 className={`transition-transform rounded-xl rounded transition ${ selectedDay == day ?  "bg-yellow-300 border border-green-900" : "bg-pink-100"} mx-1 sm:mx-0 sm:w-10/12 p-1 hover:-translate-y-1`} onClick={()=>{handleOnclick(day)}}>

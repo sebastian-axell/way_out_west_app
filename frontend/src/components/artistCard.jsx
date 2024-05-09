@@ -21,13 +21,22 @@ function ArtistCard({
             setKeenData(data);
         }
     }
+
+      // Function to calculate width for the 640x740 image
+    const calculateWidth = (height, aspectRatio) => {
+        return height * aspectRatio;
+        };
  
     return (
         <div class="py-5 fade-in">
             <div class="max-w-md md:max-w-md bg-white rounded-lg shadow mx-auto flex flex-col justify-evenly">
                 <div class="w-fit mx-auto">
                     <a href={data['link']} class="w-10/12">
-                        <img class="rounded-t-lg" src={data['img']} alt="" />
+                        <img 
+                        class="rounded-t-lg aspect-square" 
+                        style={{ objectFit: 'cover' }}
+                        // style={data['artist'].includes("Sarah Klang") ? { width: `${calculateWidth(740, 640/740)}px` } : {}}
+                        src={data['img']} alt="" />
                     </a>
                 </div>
                 <div class="rounded-b-lg w-full flex flex-col relative justify-evenly mx-auto bg-[#FFC857]">
