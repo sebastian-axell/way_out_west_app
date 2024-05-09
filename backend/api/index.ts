@@ -8,17 +8,11 @@ const mysql = require('mysql2');
 let port = 4040;
 const helpers = require("./helpers/helpers");
 const upload = require("./storage/storage");
-const middleware = require("./middleware/middleware");
+const middleware = require("./middleware/middleware")
 const resourceIntegration = require("./resourceIntegration/resourceIntegration");
+const constants = require("./constants");
 
-
-const access_key = process.env.SECRET_KEY;
-const keyHex = process.env.keyHex; 
-const ivHex = process.env.ivHex;
-
-// Use CORS middleware with options
 app.use(cors(middleware.corsOptions));
-
 app.use(express.json());
 
 // connect to mysql database
@@ -37,18 +31,14 @@ connection.connect((err) => {
   console.log('Connected to MySQL database as ID ' + connection.threadId);
 });
 
-// Upload endpoint for multiple files
 app.post('/upload', upload.upload.array('svgFiles', 10), (req, res) => {
     res.send('SVGs uploaded successfully');
   });
   
-// Serve the uploaded SVG files statically
 app.use('/media', express.static(path.join(__dirname, '..', 'svgs')));
 
-// Protected route
 app.get('/protected', middleware.verifyToken, (req, res) => {
-    // Access user info from decoded token
-    res.json({ message: `Hello! You have access to this protected resource.`, key: helpers.encrypt(access_key, keyHex, ivHex)});
+    res.json({ message: `Hello! You have access to this protected resource.`, key: helpers.encrypt(constants.access_key, constants.keyHex, constants.ivHex)});
 });
 
 
@@ -63,7 +53,7 @@ app.get('/data',middleware.verifyToken, (req, res) => {
   });
 });
 
-app.put('/data/:id', (req, res) => {
+app.put('/data/:id', middleware.verifyToken, (req, res) => {
   const id = req.params.id;
   const updatedData = req.body;
   
@@ -73,7 +63,6 @@ app.put('/data/:id', (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
         return;
     }
-    // res.json(results); 
   });
   res.status(200).json({ message: 'Successfully updated' });
 });

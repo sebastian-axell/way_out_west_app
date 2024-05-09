@@ -4,6 +4,15 @@ const Papa = require('papaparse');
 
 const keyHex = process.env.REACT_APP_key_Hex;
 const ivHex = process.env.REACT_APP_iv_Hex;
+let apiKey = process.env.REACT_APP_api_Key;
+
+console.log(keyHex, ivHex,apiKey);
+
+async function getData(){
+    let data = await fetch("https://way-out-west-app-backend.vercel.app/protected")
+    .then(response => response.json())
+  return data;
+}
 
 function configureRequestOptions() {
     let apiKey = process.env.REACT_APP_api_Key;

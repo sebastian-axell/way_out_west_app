@@ -1,6 +1,7 @@
 
+const middlewareHelpers = require("../helpers/helpers")
+const middlewareConstants = require("../constants");
 
-let apiKey = process.env.apiKey; 
 
 // Allow requests from your frontend domains
 const whitelist = ['https://we-out-west.vercel.app', 'https://weoutwest.info', 'http://localhost:3000'];
@@ -22,9 +23,8 @@ function verifyToken(req, res, next) {
     }
     try {
         let encryptedAPIKey = auth_header.split(' ')[1];
-        let decryptedText = decrypt(encryptedAPIKey, keyHex, ivHex);
-
-        if (decryptedText === apiKey) {
+        let decryptedText = middlewareHelpers.decrypt(encryptedAPIKey, middlewareConstants.keyHex, middlewareConstants.ivHex);
+        if (decryptedText === middlewareConstants.access_key) {
             console.log('API key verified. Sender is trusted.');
             next();
         } else {
