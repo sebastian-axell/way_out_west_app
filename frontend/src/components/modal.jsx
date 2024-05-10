@@ -1,10 +1,8 @@
 import { useState } from "react";
 import KeenOption from "./keenOption";
 import ModalButton from "./modalButton";
-import ConfirmationButton from "./confirmationButton";
-import InProgressButton from "./inProgressButton";
 import svgIcons from "./svgIcon";
-import FailedButton from "./failedButton";
+import ResponseEmoji from "./responseEmojis";
 
 const names = ["luke","robbie","seb"]
 
@@ -92,9 +90,9 @@ function Modal({
                         <ModalButton text={'Confirm'} onClickHandle={updateKeenDataHandle} disabled={inProgress}/>
                     </div>
                     {
-                        inProgress ? <InProgressButton /> :
-                        updateKeenComplete ? <ConfirmationButton /> :
-                        updateFailed && <FailedButton />
+                        inProgress ? <ResponseEmoji emoji={'🤔'}/> :
+                        updateKeenComplete ? <ResponseEmoji emoji={'👌'}/> :
+                        updateFailed && <ResponseEmoji emoji={'🥲'}/>
                     }
                 </div>
             </div>

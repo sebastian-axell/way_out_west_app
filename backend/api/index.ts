@@ -56,15 +56,17 @@ app.get('/data',middleware.verifyToken, (req, res) => {
 app.put('/data/:id', middleware.verifyToken, (req, res) => {
   const id = req.params.id;
   const updatedData = req.body;
+
+  let query = resourceIntegration.generateUpdateQuery(updatedData['type'])
   
-  connection.query(resourceIntegration.PUT, [updatedData['keen'], id], (error, results, fields) => {
+  connection.query(query, [updatedData['data'], id], (error, results, fields) => {
     if (error) {
         console.error('Error executing MySQL query: ' + error.stack);
         res.status(500).json({ error: 'Internal server error' });
         return;
     }
+    res.status(200).json({ message: 'Successfully updated' });
   });
-  res.status(200).json({ message: 'Successfully updated' });
 });
 
 app.listen(port, () => {

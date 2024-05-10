@@ -7,7 +7,7 @@ import Spinner from "./components/spinner";
 import DayButton from "./components/dayButton";
 import SideColumn from "./components/sideColumn";
 import apis from "./api/apis"
-import FailedButton from "./components/failedButton";
+import ResponseEmoji from "./components/responseEmojis";
 
 
 function App() {
@@ -86,7 +86,7 @@ function App() {
     <div class="bg-pink-200 h-screen overflow-y-auto w-full">
       {
         loading ? (
-          failed ? <FailedButton addButton={true}/> : <Spinner />
+          failed ? <ResponseEmoji emoji={'🥲'} refreshButton={true}/> : <Spinner />
         ) : (
           <div className="fade-in">
             <div className="h-16 lg:h-20 absolute top-0 z-10 bg-cyan-600 w-full" id="header">

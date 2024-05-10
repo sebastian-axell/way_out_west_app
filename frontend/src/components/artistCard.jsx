@@ -31,16 +31,19 @@ function ArtistCard({
         <div class="py-5 fade-in">
             <div class="max-w-md md:max-w-md bg-white rounded-lg shadow mx-auto flex flex-col justify-evenly">
                 <div class="w-fit mx-auto">
-                    <a href={data['link']} class="w-10/12">
+                    <a href={data['link']} class="w-10/12" target="_blank" rel="noopener noreferrer">
                         <img 
                         class="rounded-t-lg aspect-square" 
-                        style={{ objectFit: 'cover' }}
-                        // style={data['artist'].includes("Sarah Klang") ? { width: `${calculateWidth(740, 640/740)}px` } : {}}
-                        src={data['img']} alt="" />
+                        src={data['img']} alt=""/>
                     </a>
                 </div>
                 <div class="rounded-b-lg w-full flex flex-col relative justify-evenly mx-auto bg-[#FFC857]">
-                    <a href={data['link']} id="title" class=" md:mb-2 text-sm sm:text-lg md:text-xl lg:text-xl xl:text-2xl text-center font-bold tracking-tight text-brown-800 -outline-white">
+                    <a 
+                    href={data['link']} 
+                    id="title" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    class=" md:mb-2 text-sm sm:text-lg md:text-xl lg:text-xl xl:text-2xl text-center font-bold tracking-tight text-brown-800 -outline-white">
                         <p class="pt-2 pl-1 xl:h-12 truncate">{data['artist']}</p>
                     </a>
                     <div class="mb-3 font-normal text-gray-700 flex flex-col">

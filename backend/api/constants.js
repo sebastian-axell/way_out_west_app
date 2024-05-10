@@ -8,6 +8,7 @@ if (process.env.NODE_ENV == "local"){
   access_key = process.env.SECRET_API_KEY;
   keyHex = process.env.ENCRYPT_KEY_HEX; 
   ivHex = process.env.ENCRYPT_IV_HEX;  
+  secret_key = process.env.SECRET_KEY;
 } else {
   access_key = process.env.apiKey;
   keyHex = process.env.keyHex; 
