@@ -21,11 +21,6 @@ function ArtistCard({
             setKeenData(data);
         }
     }
-
-      // Function to calculate width for the 640x740 image
-    const calculateWidth = (height, aspectRatio) => {
-        return height * aspectRatio;
-        };
  
     return (
         <div class="py-5 fade-in">

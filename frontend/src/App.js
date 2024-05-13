@@ -23,17 +23,20 @@ function App() {
   const numberOfSVGs = 8;
 
   const updateData = async (index, keenData) => {
-    
     setData(prevItems => {
       const updatedItems = [...prevItems]; 
       updatedItems[index]['keen'] = keenData; 
       return updatedItems;
     });
 
-    setInProgress(true)
-    
+    setInProgress(true);
+
+    // let response = apis.putUpdate("data/" + (index + 1), keenData);
+    // console.log(await response);
+
     let status = await apis.updateCSVData(data).then(response => {
       if (response === 200){
+        // should set the data here
         setInProgress(false);
         setUpdateComplete(true);
         return "ok";
@@ -62,6 +65,19 @@ function App() {
         setFailed(true);
       });
   }, []);
+
+  
+  // useEffect(()=>{
+  //   const fetchDataFromApi = async () => {
+  //     try {
+  //       const result = await apis.fetchDataNew("data");
+  //       console.log(result);
+  //     } catch (error) {
+  //       // Handle error
+  //     }
+  //   };
+  //   fetchDataFromApi();
+  // })
 
 
   useEffect(() => {

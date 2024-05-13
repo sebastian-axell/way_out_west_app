@@ -4,31 +4,62 @@ const Papa = require('papaparse');
 
 const keyHex = process.env.REACT_APP_key_Hex;
 const ivHex = process.env.REACT_APP_iv_Hex;
-let apiKey = process.env.REACT_APP_api_Key;
 
-console.log(keyHex, ivHex,apiKey);
 
-async function getData(){
-    let data = await fetch("https://way-out-west-app-backend.vercel.app/protected")
-    .then(response => response.json())
-  return data;
+const constructUrl = (endpoint) => {
+  return `${BASE_URL}/${endpoint}`;
+};
+
+const fetchDataNew = async (endpoint) => {
+    const requestOptions = configureRequestOptions();
+    const url = constructUrl(endpoint);
+    try {
+        const response = await fetch(url, requestOptions);
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error("Error fetching data:", error);
+        throw error;
+    }
+};
+
+const putUpdate = async (endpoint, data) => {
+    const requestOptions = configureRequestOptions("PUT", data);
+    const url = constructUrl(endpoint);
+    console.log(requestOptions);
+    try{
+        let data = await fetch(url, requestOptions).then(response =>{
+            return response.json()
+        });
+        return data;
+    } catch (error){
+        throw new Error('Failed to update data: ' + error.message);
+    }
 }
 
-function configureRequestOptions() {
+function configureRequestOptions(method, data) {
     let apiKey = process.env.REACT_APP_api_Key;
-
     let encryptedAPIKey = helpers.encrypt(apiKey, keyHex, ivHex);
-
     const myHeaders = new Headers();
-
     myHeaders.append("Authorization", `Bearer ${encryptedAPIKey}`);
+    myHeaders.append('Content-Type', 'application/json')
+
+    let requestMethod;
+    method ? requestMethod = method : requestMethod = 'GET';
+
 
     const requestOptions = {
         mode: 'cors',
-        method: "GET",
+        method: requestMethod,
         headers: myHeaders,
         redirect: "follow"
+
     };
+    
+    if (requestMethod !== 'GET') {
+        requestOptions.body = JSON.stringify({"data": data, "type": "keen"});
+      }
+
     return requestOptions;
 }
 
@@ -166,4 +197,4 @@ async function getCsvBlob(octokit, sha) {
     });
 }
 
-export default {fetchData, fetchSvgData, updateCSVData};
+export default {fetchData, fetchSvgData, updateCSVData, fetchDataNew, putUpdate};

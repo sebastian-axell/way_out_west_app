@@ -16,24 +16,37 @@ app.use(cors(middleware.corsOptions));
 app.use(express.json());
 
 // connect to mysql database
-const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'seb',
-  password: 'saxell11',
-  database: 'weoutwest'
-});
 
-connection.connect((err) => {
-  if (err) {
-      console.error('Error connecting to MySQL database: ' + err.stack);
-      return;
-  }
-  console.log('Connected to MySQL database as ID ' + connection.threadId);
-});
+
+// connection.connect((err) => {
+//   if (err) {
+//       console.error('Error connecting to MySQL database: ' + err.stack);
+//       return;
+//   }
+//   console.log('Connected to MySQL database as ID ' + connection.threadId);
+// });
 
 app.post('/upload', upload.upload.array('svgFiles', 10), (req, res) => {
     res.send('SVGs uploaded successfully');
   });
+
+app.post('/script_sql',middleware.verifyToken, (req, res) => {
+  const queries = req.body;
+
+  console.log(queries);
+  
+  queries.forEach(query => {
+    connection.query(query.sql, query.params, (error, results, fields) => {
+      if (error) {
+        console.error(error);
+        return res.status(500).json({ error: 'An error occurred' });
+      }
+      console.log("successfully executed: " + query.sql);
+    });
+  });
+  res.status(200).json({ message: 'SQL queries executed successfully' });
+});
+
   
 app.use('/media', express.static(path.join(__dirname, '..', 'svgs')));
 

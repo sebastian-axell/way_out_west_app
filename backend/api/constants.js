@@ -16,8 +16,6 @@ if (process.env.NODE_ENV == "local"){
   secret_key = process.env.SECRET_KEY;
 }
 
-console.log(access_key, keyHex, ivHex);
-
 module.exports = {
     access_key,
     ivHex,
