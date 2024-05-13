@@ -5,6 +5,7 @@ const Papa = require('papaparse');
 const keyHex = process.env.REACT_APP_key_Hex;
 const ivHex = process.env.REACT_APP_iv_Hex;
 
+const BASE_URL = "tbd";
 
 const constructUrl = (endpoint) => {
   return `${BASE_URL}/${endpoint}`;
