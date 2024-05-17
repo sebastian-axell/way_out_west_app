@@ -28,7 +28,8 @@ function ArtistCard({
                 <div class="w-fit mx-auto">
                     <a href={data['link']} class="w-10/12" target="_blank" rel="noopener noreferrer">
                         <img 
-                        class="rounded-t-lg aspect-square" 
+                        class="rounded-t-lg" 
+                        style={{ width: '100%', aspectRatio: '1 / 1'}}
                         src={data['img']} alt=""/>
                     </a>
                 </div>

@@ -19,6 +19,7 @@ function App() {
   const [updateFailed, setUpdateFailed] = useState(false);
   const [inProgress, setInProgress] = useState(false)
   const [failed, setFailed] = useState(false)
+  const [openHeaderMenu, setOpenHeaderMenu] = useState(false)
 
   const numberOfSVGs = 8;
 
@@ -34,7 +35,7 @@ function App() {
     // let response = apis.putUpdate("data/" + (index + 1), keenData);
     // console.log(await response);
 
-    let status = await apis.updateCSVData(data).then(response => {
+    let status = await apis.putUpdate("data/" + (index + 1), keenData).then(response => {
       if (response === 200){
         // should set the data here
         setInProgress(false);
@@ -54,7 +55,7 @@ function App() {
   }
 
   useEffect(() => {
-    Promise.all([apis.fetchData(), apis.fetchSvgData()])
+    Promise.all([apis.fetchDataNew("data"), apis.fetchSvgData()])
       .then(([dataResponse, svgResponse]) => {
         setData(dataResponse);
         setSvgData(svgResponse);
@@ -65,19 +66,6 @@ function App() {
         setFailed(true);
       });
   }, []);
-
-  
-  // useEffect(()=>{
-  //   const fetchDataFromApi = async () => {
-  //     try {
-  //       const result = await apis.fetchDataNew("data");
-  //       console.log(result);
-  //     } catch (error) {
-  //       // Handle error
-  //     }
-  //   };
-  //   fetchDataFromApi();
-  // })
 
 
   useEffect(() => {
@@ -105,10 +93,34 @@ function App() {
           failed ? <ResponseEmoji emoji={'🥲'} refreshButton={true}/> : <Spinner />
         ) : (
           <div className="fade-in">
-            <div className="h-16 lg:h-20 absolute top-0 z-10 bg-cyan-600 w-full" id="header">
-              <div className="mx-auto w-fit flex h-full pb-1 justify-center p-2">
-                  <img src={`data:image/svg+xml;base64,${btoa(svgData['weoutwest'])}`} />
+            <div className="h-16 lg:h-20 fixed top-0 z-10 bg-cyan-600 w-full" id="header">
+              <div className="mx-auto w-fit flex h-full pb-1.5 justify-around p-2 relative">
+                  <img className="" src={`data:image/svg+xml;base64,${btoa(svgData['weoutwest'])}`} />
               </div>
+              {/* <div className="hidden md:block absolute top-0 h-full flex w-1/3 bg-red-200">
+                <button className="h-full flex items-center w-full justify-center pr-20">relative</button>
+              </div> */}
+              {/* <div className="w-full flex flex-col justify-center md:hidden transition-all">
+                <div className="w-[70px] text-sm mx-auto bg-cyan-600 px-2 rounded-b-lg border-white border-l border-b border-r">
+                  <div className={`transition-opacity duration-300 ${openHeaderMenu ? 'opacity-100' : 'opacity-0 hidden'}`}>
+                    <div className="flex justify-center">option1</div>
+                    <div className="flex justify-center">option1</div>
+                    <div className="flex justify-center">option1</div>
+                  </div>
+                  <button className="flex w-full justify-center focus:border-green-200" onClick={()=>setOpenHeaderMenu(!openHeaderMenu)}>
+                    {
+                      openHeaderMenu ?
+                      <svg class="w-4 h-4 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m5 15 7-7 7 7"/>
+                      </svg>
+                    : 
+                      <svg class="w-4 h-4 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 9-7 7-7-7"/>
+                      </svg>
+                    }
+                  </button>
+                </div>
+              </div> */}
             </div>   
             <div className="flex justify-between h-max mt-3">
               <SideColumn svg={btoa(svgData['dates'])} type={"dates"} repeatTimes={numberOfSVGs} />

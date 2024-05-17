@@ -5,7 +5,7 @@ const Papa = require('papaparse');
 const keyHex = process.env.REACT_APP_key_Hex;
 const ivHex = process.env.REACT_APP_iv_Hex;
 
-const BASE_URL = "tbd";
+const BASE_URL = "https://way-out-west-app-backend.vercel.app";
 
 const constructUrl = (endpoint) => {
   return `${BASE_URL}/${endpoint}`;
@@ -30,7 +30,7 @@ const putUpdate = async (endpoint, data) => {
     console.log(requestOptions);
     try{
         let data = await fetch(url, requestOptions).then(response =>{
-            return response.json()
+            return response['status']
         });
         return data;
     } catch (error){

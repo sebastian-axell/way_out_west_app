@@ -1,85 +1,89 @@
-let express = require('express');
 const cors = require('cors'); 
-let app = express();
-
 const path = require('path'); 
-const mysql = require('mysql2');
-
-let port = 4040;
+const mysql = require('mysql2/promise');
+let express = require('express');
 const helpers = require("./helpers/helpers");
 const upload = require("./storage/storage");
 const middleware = require("./middleware/middleware")
+const databaseMiddleware = require("./middleware/databaseMiddleware");
 const resourceIntegration = require("./resourceIntegration/resourceIntegration");
 const constants = require("./constants");
 
+let port = 4040;
+let app = express();
+let pool;
+
 app.use(cors(middleware.corsOptions));
+app.use('/media', express.static(path.join(__dirname, '..', 'svgs')));
 app.use(express.json());
-
-// connect to mysql database
-
-
-// connection.connect((err) => {
-//   if (err) {
-//       console.error('Error connecting to MySQL database: ' + err.stack);
-//       return;
-//   }
-//   console.log('Connected to MySQL database as ID ' + connection.threadId);
-// });
-
-app.post('/upload', upload.upload.array('svgFiles', 10), (req, res) => {
-    res.send('SVGs uploaded successfully');
-  });
-
-app.post('/script_sql',middleware.verifyToken, (req, res) => {
-  const queries = req.body;
-
-  console.log(queries);
-  
-  queries.forEach(query => {
-    connection.query(query.sql, query.params, (error, results, fields) => {
-      if (error) {
-        console.error(error);
-        return res.status(500).json({ error: 'An error occurred' });
-      }
-      console.log("successfully executed: " + query.sql);
-    });
-  });
-  res.status(200).json({ message: 'SQL queries executed successfully' });
+app.use(middleware.verifyToken);
+app.use(async (req, res, next) => {
+  if (!pool) {
+    console.log("initialising connection to database");
+    pool = await databaseMiddleware.initializeDatabaseConnection();
+  }
+  req.db = pool;
+  next();
 });
 
-  
-app.use('/media', express.static(path.join(__dirname, '..', 'svgs')));
 
-app.get('/protected', middleware.verifyToken, (req, res) => {
+app.post('/script_sql', async (req, res) => {
+  const connection = await req.db.getConnection();
+
+  try {
+    const queries = req.body;
+
+    const queryPromises = queries.map(query =>
+      connection.execute(query.sql, query.params)
+        .then(() => {
+          console.log("successfully executed: " + query.sql);
+        })
+    );
+
+    await Promise.all(queryPromises);
+
+    res.status(200).json({ message: 'SQL queries executed successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'An error occurred' });
+  } finally {
+    connection.release();
+  }
+});
+
+app.get('/protected', (req, res) => {
     res.json({ message: `Hello! You have access to this protected resource.`, key: helpers.encrypt(constants.secret_key, constants.keyHex, constants.ivHex)});
 });
 
-
-app.get('/data',middleware.verifyToken, (req, res) => {
-  connection.query(resourceIntegration.GET, (error, results, fields) => {
-    if (error) {
-        console.error('Error executing MySQL query: ' + error.stack);
-        res.status(500).json({ error: 'Internal server error' });
-        return;
-    }
-    res.json(results); 
-  });
+app.get('/data', async (req, res) => {
+  try {
+    const connection = await req.db.getConnection();
+    const [result, _] = await connection.execute(resourceIntegration.GET);
+    connection.release();
+    res.json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 });
 
-app.put('/data/:id', middleware.verifyToken, (req, res) => {
+app.put('/data/:id', async (req, res) => {
+  const connection = await pool.getConnection();
   const id = req.params.id;
   const updatedData = req.body;
 
-  let query = resourceIntegration.generateUpdateQuery(updatedData['type'])
-  
-  connection.query(query, [updatedData['data'], id], (error, results, fields) => {
-    if (error) {
-        console.error('Error executing MySQL query: ' + error.stack);
-        res.status(500).json({ error: 'Internal server error' });
-        return;
-    }
-    res.status(200).json({ message: 'Successfully updated' });
-  });
+  try {
+    const [results] = await connection.execute(
+      resourceIntegration.PUT,
+      [updatedData['data'], id]
+    );
+    res.status(200).json({ message: 'Successfully updated', results });
+  } catch (error) {
+    console.error('Error executing MySQL query: ' + error.stack);
+    res.status(500).json({ error: 'Internal server error' });
+  } finally {
+    connection.release();
+  }
 });
 
 app.listen(port, () => {
@@ -89,4 +93,4 @@ app.listen(port, () => {
 module.exports = app;
 
 
-//npm install express axios crypto multer mysql2
+//npm install express axios crypto multer mysql2 @google-cloud/cloud-sql-connector
