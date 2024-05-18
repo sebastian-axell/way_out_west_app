@@ -3,6 +3,7 @@ import KeenOption from "./keenOption";
 import ModalButton from "./modalButton";
 import svgIcons from "./svgIcon";
 import ResponseEmoji from "./responseEmojis";
+import constants from "../auxiliary/constants";
 
 const names = ["luke","robbie","seb"]
 
@@ -14,6 +15,7 @@ function Modal({
     updateKeenComplete,
     inProgress,
     updateFailed,
+    timedOut
 }) {
     const [selectedOptions, setSelectedOptions] = useState(() => {
         const keenMapping = {};
@@ -46,15 +48,16 @@ function Modal({
         closeModal(false)
     }
     
-    const updateKeenDataHandle = () =>{
+    const updateKeenDataHandle = async () =>{
         const dataString = Object.entries(selectedOptions).map(([name, keenness]) =>{
             return name + "-" + keenness;
         }).join(";")
         if (data != dataString){
-            updateKeenData(dataString);
-            setTimeout(() => {
+            let response = await updateKeenData(dataString);
+            const timer = setTimeout(() => {
                 closeModalHandle();
-            }, 2500); 
+            }, constants.modalTimeOut); 
+            return () => clearTimeout(timer);
         } else{
             closeModalHandle();
         }
@@ -92,6 +95,7 @@ function Modal({
                     {
                         inProgress ? <ResponseEmoji emoji={'🤔'}/> :
                         updateKeenComplete ? <ResponseEmoji emoji={'👌'}/> :
+                        timedOut ? <ResponseEmoji emoji={'⏲️'}/> :
                         updateFailed && <ResponseEmoji emoji={'🥲'}/>
                     }
                 </div>

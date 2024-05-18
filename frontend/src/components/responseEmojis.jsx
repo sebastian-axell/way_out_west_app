@@ -23,6 +23,11 @@ function ResponseEmoji({
             body = "Interest updated";
             bodyMargin = "mt-2"
             break;
+        case "⏲️":
+            bg_color = "bg-red-600";
+            body = "Request timed out";
+            bodyMargin = "mt-2"
+            break;            
         default:
             bg_color = "bg-cyan-600";
             body = "Uh-oh"

@@ -10,15 +10,19 @@ function ArtistCard({
     index,
     updateKeenComplete,
     inProgress,
-    updateFailed
+    updateFailed,
+    timedOut
 }){
     const [openModal, setOpenModal] = useState(false);
     const [keenData, setKeenData] = useState(data['keen']);
 
     const handleUpdate = async (data) =>{
         let status = await updateData(index, data)
-        if (status != "bad"){
+        if (status === "ok"){
             setKeenData(data);
+            return "ok";
+        } else {
+            return "bad"
         }
     }
  
@@ -83,6 +87,7 @@ function ArtistCard({
                     updateKeenComplete={updateKeenComplete} 
                     inProgress={inProgress}
                     updateFailed={updateFailed}
+                    timedOut={timedOut}
                     />} 
                 </div>
             </div>

@@ -21,13 +21,13 @@ app.use(middleware.verifyToken);
 
 app.get('/csvData', async (req, res) => {
   let csvData = await githubHelpers.fetchData()
-  res.json(csvData);;
+  res.json(csvData);
 });
 
 app.put("/updateCsvData", async (req, res) =>{
   const csvBlob = req.body;
   let response = await githubHelpers.uploadCSV(csvBlob);
-  res.json({ status: response['status']});
+  res.status(response['status']).json();
 })
 
 app.use(async (req, res, next) => {

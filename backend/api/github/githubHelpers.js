@@ -47,8 +47,7 @@ async function uploadCSV(csvData){
         const buffer = Buffer.from(csvString);
         const base64String = buffer.toString('base64', 'utf-8');
         const updateResponse = await apis.putUpdatedCsvData(octokit, base64String, sha)
-        return updateResponse['status']
-
+        return updateResponse
     } catch (error){
         console.log(error);
         return (error)

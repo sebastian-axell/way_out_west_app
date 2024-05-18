@@ -9,7 +9,8 @@ import SideColumn from "./components/sideColumn";
 import apis from "./api/apis"
 import ResponseEmoji from "./components/responseEmojis";
 import constants from "./auxiliary/constants";
-
+import TimeOutHook from "./components/timeOutHook";
+import CreateTimeOutPromise from "./auxiliary/timeOutPromise";
 
 function App() {
   const [data, setData] = useState(false);
@@ -18,26 +19,32 @@ function App() {
   const [svgData, setSvgData] = useState(null);
   const [isUpdateComplete, setUpdateComplete] = useState(false);
   const [updateFailed, setUpdateFailed] = useState(false);
-  const [inProgress, setInProgress] = useState(false)
+  const [inProgress, setInProgress] = useState(false);
+  const [timeoutError, setTimeoutError] = useState(false);
+  const [timeoutErrorMain, setTimeoutErrorMain] = useState(false);
   const [failed, setFailed] = useState(false)
   const [openHeaderMenu, setOpenHeaderMenu] = useState(false)
 
   const numberOfSVGs = 8;
 
   const updateData = async (index, keenData) => {
-    setData(prevItems => {
-      const updatedItems = [...prevItems]; 
-      updatedItems[index]['keen'] = keenData; 
-      return updatedItems;
-    });
+    try{
+      setData(prevItems => {
+        const updatedItems = [...prevItems]; 
+        updatedItems[index]['keen'] = keenData; 
+        return updatedItems;
+      });
 
-    setInProgress(true);
+      setInProgress(true);
+      let url = constants.mode == "csv" ? "updateCsvData" : "data/" + (index + 1);
+      let content = constants.mode == "csv" ? data : keenData;
 
-    let url = constants.mode == "csv" ? "updateCsvData" : "data/" + (index + 1);
-    let content = constants.mode == "csv" ? data : keenData;
-
-    let status = await apis.putUpdate(url, content).then(response => {
-      if (response === 200){
+      let status = await Promise.race([
+        apis.putUpdate(url, content),
+        CreateTimeOutPromise(),
+      ]);
+      
+      if (status === 200){
         setInProgress(false);
         setUpdateComplete(true);
         return "ok";
@@ -46,51 +53,46 @@ function App() {
         setUpdateFailed(true);
         return "bad";
       }
-    })
-    .catch(error =>{
-      console.log("error:", error)
-      return "bad";
-    })
-    return status;
+    } catch (error){
+      setInProgress(false);
+      if (error.message == "Request timed out"){
+        setTimeoutError(true);
+      } else {
+        setUpdateFailed(true);
+      }
+    }
   }
 
   useEffect(() => {
-    Promise.all([apis.fetchData(constants.mode == "csv" ? "csvData" : "data"), apis.fetchSvgData()])
-      .then(([dataResponse, svgResponse]) => {
+    const fetchData = async () => {
+      try{
+        const dataPromise = apis.fetchData(constants.mode == "csv" ? "csvData" : "data");
+        const svgDataPromise = apis.fetchSvgData();
+        const [dataResponse, svgResponse] = await Promise.race([Promise.all([dataPromise, svgDataPromise]), CreateTimeOutPromise()]);
         setData(dataResponse);
         setSvgData(svgResponse);
         setLoading(false);
-      })
-      .catch(error => {
-        console.log("Error:", error);
+      } catch(error) {
         setFailed(true);
-      });
+        if (error.message == "Request timed out"){
+          setTimeoutErrorMain(true);
+        }
+        console.log("Error:", error);
+        };
+      }
+    fetchData();
   }, []);
-
-
-  useEffect(() => {
-    if (isUpdateComplete) {
-      setTimeout(() => {
-        setUpdateComplete(false);
-      }, 2000); 
-    }
-  }, [isUpdateComplete]);
-
-  useEffect(() => {
-    if (updateFailed) {
-      setTimeout(() => {
-        setUpdateFailed(false);
-      }, 2000); 
-    }
-  }, [updateFailed]);
-  
+     
+    TimeOutHook(timeoutError, setTimeoutError, constants.emojiTimeOut);
+    TimeOutHook(isUpdateComplete, setUpdateComplete, constants.emojiTimeOut);
+    TimeOutHook(updateFailed, setUpdateFailed, constants.emojiTimeOut);
 
   
   return (
     <div class="bg-pink-200 h-screen overflow-y-auto w-full">
       {
         loading ? (
-          failed ? <ResponseEmoji emoji={'🥲'} refreshButton={true}/> : <Spinner />
+          failed ? <ResponseEmoji emoji={timeoutErrorMain ? '⏲️' : '🥲'} refreshButton={true}/> : <Spinner />
         ) : (
           <div className="fade-in">
             <div className="h-16 lg:h-20 fixed top-0 z-10 bg-cyan-600 w-full" id="header">
@@ -145,6 +147,7 @@ function App() {
                     updateKeenComplete={isUpdateComplete} 
                     inProgress={inProgress}
                     updateFailed={updateFailed}
+                    timedOut={timeoutError}
                     />
                   ))}
                 </div>

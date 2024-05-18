@@ -13,10 +13,11 @@ function Timer({
     const [seconds,setSeconds] = useState()
     
     useEffect(()=>{
-        setTimeout(()=>{
+        const timer = setTimeout(()=>{
             setTime(time-1000)
         }, 1000);
         updateTimeVars(time)
+        return () => clearTimeout(timer);
     }, [time])
 
     const updateTimeVars = (milliseconds) =>{
