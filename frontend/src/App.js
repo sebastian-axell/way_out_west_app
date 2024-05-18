@@ -8,6 +8,7 @@ import DayButton from "./components/dayButton";
 import SideColumn from "./components/sideColumn";
 import apis from "./api/apis"
 import ResponseEmoji from "./components/responseEmojis";
+import constants from "./auxiliary/constants";
 
 
 function App() {
@@ -32,12 +33,11 @@ function App() {
 
     setInProgress(true);
 
-    // let response = apis.putUpdate("data/" + (index + 1), keenData);
-    // console.log(await response);
+    let url = constants.mode == "csv" ? "updateCsvData" : "data/" + (index + 1);
+    let content = constants.mode == "csv" ? data : keenData;
 
-    let status = await apis.putUpdate("data/" + (index + 1), keenData).then(response => {
+    let status = await apis.putUpdate(url, content).then(response => {
       if (response === 200){
-        // should set the data here
         setInProgress(false);
         setUpdateComplete(true);
         return "ok";
@@ -55,7 +55,7 @@ function App() {
   }
 
   useEffect(() => {
-    Promise.all([apis.fetchDataNew("data"), apis.fetchSvgData()])
+    Promise.all([apis.fetchData(constants.mode == "csv" ? "csvData" : "data"), apis.fetchSvgData()])
       .then(([dataResponse, svgResponse]) => {
         setData(dataResponse);
         setSvgData(svgResponse);

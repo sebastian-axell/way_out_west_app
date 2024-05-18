@@ -40,7 +40,7 @@ function ArtistCard({
                     target="_blank" 
                     rel="noopener noreferrer"
                     class=" md:mb-2 text-sm sm:text-lg md:text-xl lg:text-xl xl:text-2xl text-center font-bold tracking-tight text-brown-800 -outline-white">
-                        <p class="pt-2 pl-1 xl:h-12 truncate">{data['artist']}</p>
+                        <p class="pt-2 px-5 xl:h-12 truncate">{data['artist']}</p>
                     </a>
                     <div class="mb-3 font-normal text-gray-700 flex flex-col">
                         <div class="flex start" id="peeps">

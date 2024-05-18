@@ -3,6 +3,7 @@ const path = require('path');
 const mysql = require('mysql2/promise');
 let express = require('express');
 const helpers = require("./helpers/helpers");
+const githubHelpers = require("./github/githubHelpers");
 const upload = require("./storage/storage");
 const middleware = require("./middleware/middleware")
 const databaseMiddleware = require("./middleware/databaseMiddleware");
@@ -14,9 +15,21 @@ let app = express();
 let pool;
 
 app.use(cors(middleware.corsOptions));
-app.use('/media', express.static(path.join(__dirname, '..', 'svgs')));
 app.use(express.json());
+app.use('/media', express.static(path.join(__dirname, '..', 'svgs')));
 app.use(middleware.verifyToken);
+
+app.get('/csvData', async (req, res) => {
+  let csvData = await githubHelpers.fetchData()
+  res.json(csvData);;
+});
+
+app.put("/updateCsvData", async (req, res) =>{
+  const csvBlob = req.body;
+  let response = await githubHelpers.uploadCSV(csvBlob);
+  res.json({ status: response['status']});
+})
+
 app.use(async (req, res, next) => {
   if (!pool) {
     console.log("initialising connection to database");
@@ -25,7 +38,6 @@ app.use(async (req, res, next) => {
   req.db = pool;
   next();
 });
-
 
 app.post('/script_sql', async (req, res) => {
   const connection = await req.db.getConnection();
@@ -71,7 +83,6 @@ app.put('/data/:id', async (req, res) => {
   const connection = await pool.getConnection();
   const id = req.params.id;
   const updatedData = req.body;
-
   try {
     const [results] = await connection.execute(
       resourceIntegration.PUT,
@@ -93,4 +104,4 @@ app.listen(port, () => {
 module.exports = app;
 
 
-//npm install express axios crypto multer mysql2 @google-cloud/cloud-sql-connector
+//npm install express axios fs crypto multer mysql2 @google-cloud/cloud-sql-connector papaparse

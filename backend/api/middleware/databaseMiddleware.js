@@ -11,15 +11,12 @@ let connectionLimit = process.env.connectionLimit;
 
 
 async function initializeDatabaseConnection() {
-  // Decode the base64-encoded credentials
   const encodedCredentials = process.env.GOOGLE_APPLICATION_CREDENTIALS;
   const credentials = Buffer.from(encodedCredentials, 'base64').toString('utf8');
 
-  // Write the credentials to a temporary file
   const tempFilePath = '/tmp/service-account.json';
   await fs.writeFile(tempFilePath, credentials);
 
-  // Set the GOOGLE_APPLICATION_CREDENTIALS environment variable to the temp file path
   process.env.GOOGLE_APPLICATION_CREDENTIALS = tempFilePath;
   console.log("making connection to database...");
   const connector = new Connector();
