@@ -1,5 +1,5 @@
-const cors = require('cors'); 
-const path = require('path'); 
+const cors = require('cors');
+const path = require('path');
 const mysql = require('mysql2/promise');
 let express = require('express');
 const helpers = require("./helpers/helpers");
@@ -24,7 +24,7 @@ app.get('/csvData', async (req, res) => {
   res.json(csvData);
 });
 
-app.put("/updateCsvData", async (req, res) =>{
+app.put("/updateCsvData", async (req, res) => {
   const csvBlob = req.body;
   let response = await githubHelpers.uploadCSV(csvBlob['data']);
   res.status(response['status']).json();
@@ -64,14 +64,14 @@ app.post('/script_sql', async (req, res) => {
 });
 
 app.get('/protected', (req, res) => {
-    res.json({ message: `Hello! You have access to this protected resource.`, key: helpers.encrypt(constants.secret_key, constants.keyHex, constants.ivHex)});
+  res.json({ message: `Hello! You have access to this protected resource.`, key: helpers.encrypt(constants.secret_key, constants.keyHex, constants.ivHex) });
 });
 
 app.get('/data', async (req, res) => {
   try {
     const connection = await req.db.getConnection();
     const [result, _] = await connection.execute(resourceIntegration.GET);
-    
+    const dayIndices = {};
     const groupedData = {
       thursday: [],
       friday: [],
@@ -79,12 +79,23 @@ app.get('/data', async (req, res) => {
     };
 
     result.forEach(row => {
-      const dayOfWeek = row.day; 
+      const dayOfWeek = row.day;
+
+      if (!dayIndices.hasOwnProperty(dayOfWeek)) {
+        dayIndices[dayOfWeek] = 0;
+      }
+
+      row.index = dayIndices[dayOfWeek];
+
+      dayIndices[dayOfWeek]++;
 
       if (groupedData.hasOwnProperty(dayOfWeek)) {
         groupedData[dayOfWeek].push(row);
+      } else {
+        groupedData[dayOfWeek] = [row];
       }
     });
+
     connection.release();
     res.json(groupedData);
   } catch (error) {
@@ -112,7 +123,7 @@ app.put('/data/:id', async (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log(`Backend server is running on port ${port}`);
+  console.log(`Backend server is running on port ${port}`);
 });
 
 module.exports = app;
