@@ -22,7 +22,7 @@ const Tooltip = ({ text, children }) => {
     >
       {children}
       {isVisible && (
-        <div className='absolute p-1 bg-green-900 text-white rounded-md text-[7px] sm:text-xs lg:text-sm -right-2 bottom-2 transform -translate-x-1/2'>
+        <div className='absolute p-1 bg-green-900 text-white rounded-md text-[7px] sm:text-xs lg:text-sm bottom-0'>
           {text}
         </div>
       )}

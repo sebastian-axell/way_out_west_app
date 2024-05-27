@@ -5,7 +5,7 @@ function ArtistCardSvg({
     type
 }){
     return (
-        <div class="flex items-center pl-2 sm:pl-4">{svgIcons[type]}</div>
+        <div class="flex items-center pl-2 sm:pl-4 md:pl-0 md:hidden">{svgIcons[type]}</div>
     )
 }
 

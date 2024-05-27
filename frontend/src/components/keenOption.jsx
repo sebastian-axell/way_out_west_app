@@ -28,10 +28,10 @@ function KeenOption({
     return (
         <li>
             <input onChange={()=>handleChange(name, keenLevel)} onClick={()=>handOnClick(name, keenLevel)} type="radio" id={idTag} checked={selectedOptions[name] == keenLevel ? true : false} class="hidden peer" required />
-            <label for={idTag} className={`h-full inline-flex items-center justify-center w-fit p-1 md:p-2 bg-white border text-gray-800 border-gray-200 rounded-lg cursor-pointer hover:text-gray-600 hover:bg-gray-100 ${buttonStyle}`}>                           
+            <label for={idTag} className={`h-full inline-flex items-center justify-center w-fit p-1 md:p-2 bg-white border-2 text-gray-800 border-gray-200 rounded-lg cursor-pointer hover:text-gray-600 hover:bg-gray-100 ${buttonStyle}`}>                           
                 <div class="">
-                    <div class="w-full mx-auto sm:w-fit text-xs sm:text-sm lg:text-base font-semibold">{title}</div>
-                    <div class="w-fit text-xs sm:text-sm lg:text-base">{body}</div>
+                    <div class="w-full mx-auto sm:w-fit text-xs sm:text-sm lg:text-base">{title}</div>
+                    <div class="w-fit text-xs sm:text-sm lg:text-base font-normal">{body}</div>
                 </div>
             </label>
         </li>

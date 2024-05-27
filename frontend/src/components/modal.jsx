@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import KeenOption from "./keenOption";
 import ModalButton from "./modalButton";
 import svgIcons from "./svgIcon";
@@ -12,6 +12,7 @@ function Modal({
     data,
     updateKeenData,
     artist,
+    day,
     updateKeenComplete,
     inProgress,
     updateFailed,
@@ -41,7 +42,7 @@ function Modal({
         setSelectedOptions({
             ...selectedOptions,
             [name]: keenness,
-          });
+          })
     };
 
     const closeModalHandle =()=>{
@@ -49,11 +50,11 @@ function Modal({
     }
     
     const updateKeenDataHandle = async () =>{
-        const dataString = Object.entries(selectedOptions).map(([name, keenness]) =>{
+        let dataString = Object.entries(selectedOptions).map(([name, keenness]) =>{
             return name + "-" + keenness;
         }).join(";")
         if (data != dataString){
-            let response = await updateKeenData(dataString);
+            let response = await updateKeenData(dataString, day);
             const timer = setTimeout(() => {
                 closeModalHandle();
             }, constants.modalTimeOut); 
@@ -63,8 +64,8 @@ function Modal({
         }
     }
     return (
-        <div className="z-10 h-screen w-screen bg-opacity-50 bg-pink-100 flex fixed justify-center items-center top-0 left-0 right-0">
-            <div className="px-3 md:px-5 py-5 bg-pink-50 shadow rounded-lg border w-11/12 h-fit sm:w-fit overflow-y-auto">
+        <div className="z-10 h-screen w-screen bg-opacity-50 bg-pink-100 flex fixed justify-center items-center top-0 left-0 right-0 font-semibold">
+            <div className="px-3 md:px-5 py-5 bg-pink-50 shadow rounded-lg border-2 border-black w-11/12 h-fit sm:w-fit overflow-y-auto">
                 <div className='flex justify-end'>
                 <button className='sm:-mr-0 lg:-mr-2 sm:-mt-4 -mt-3 -mr-1 relative' onClick={()=> closeModalHandle()}>
                     {svgIcons.cross}

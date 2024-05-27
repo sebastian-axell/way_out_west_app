@@ -1,5 +1,4 @@
 import helpers from "../auxiliary/helpers"
-import constants from "../auxiliary/constants";
 
 const keyHex = process.env.REACT_APP_key_Hex;
 const ivHex = process.env.REACT_APP_iv_Hex;
@@ -64,7 +63,7 @@ function configureRequestOptions(method, data) {
 async function fetchSvgData(){
     const url = constructUrl("media/");
     const svgData = {};
-    const endpoints = ["thursday.svg", "friday.svg", "saturday.svg", "weoutwest.svg", "dates.svg", "gothenburg.svg"]
+    const endpoints = ["thursday.svg", "friday.svg", "saturday.svg"]
     try {
         for (const endpoint of endpoints) {
         const response = await fetch(`${url}${endpoint}`);

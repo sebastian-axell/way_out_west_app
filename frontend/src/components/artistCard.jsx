@@ -27,72 +27,77 @@ function ArtistCard({
     }
 
     return (
-        <div class="py-5 fade-in">
-            <div class="max-w-md md:max-w-md bg-white rounded-lg shadow mx-auto flex flex-col justify-evenly">
-                <div class="w-fit mx-auto">
-                    <a
-                        href={data['link']}
-                        id="title"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="w-full border- border-black rounded-t-lg font-bold text-center tracking-tight text-brown-800 -outline-white">
-                        <p class="p-2 truncate">{data['artist']}</p>
-                    </a>
-                    <a href={data['link']} class="w-10/12  relative" target="_blank" rel="noopener noreferrer">
-                        <img
-                            class="rounded--lg"
-                            src={data['img']} alt="" />
-                    </a>
-                </div>
-                <div class="rounded-b-lg w-full flex flex-col relative justify-evenly mx-auto bg-[#FFC857]">
-                    <div class="mb-3 font-normal text-gray-700 flex flex-col">
-                        <div class="flex start" id="peeps">
-                            <ArtistCardSvg type={"peeps"} />
-                            <div className="w-full flex justify-center lg:h-10 h-9 overflow-x-hidden">
-                                {keenData ?
-                                    <div className="flex w-full grid grid-cols-2 md:w-10/12 place-items-center gap-y-1 lg:grid-cols-3 justify-around py-1 md:pt-1">
-                                        {keenData.split(";").map((dataEntry, index) => {
-                                            const [name, keenness] = dataEntry.split("-");
-                                            return (
-                                                <Tooltip text={name} key={index}>
-                                                    <NameBubble name={name} keenness={keenness} />
-                                                </Tooltip>
-                                            );
-                                        })}
+        <div class="fade-in relative">
+            <a
+                href={data['link']}
+                id="title"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="w-full font-bold text-center tracking-tight text-brown-800 -outline-white">
+                <p class="p-1 md:p-2 bg-[#F194B4] border-2 border-black rounded-t-lg  truncate text-xs md:text-lg">{data['artist']}</p>
+            </a>
+            <div class="max-w-md shadow mx-auto flex flex-col justify-evenly bg-[#FFEBC6] border-2 border-t-0 border-black rounded-b-lg">
+                <div className="w-full flex flex-col md:flex-row text-xs md:text-sm 2xl:text-[15px]">
+                    <div class="md:w-8/12 w-full mx-auto">
+                        <a href={data['link']} class="" target="_blank" rel="noopener noreferrer">
+                            <img
+                                class="md:rounded-b-lg md:rounded-r-none"
+                                src={data['img']} alt="" />
+                        </a>
+                    </div>
+                    <div class="md:w-4/12 md:border-l-2 min-h-[5.5rem] border-t-2 md:border-t-0 p-1 md:p-2 border-black w-full flex flex-col justify-around mx-auto rounded-b-lg md:rounded-l-none">
+                        {keenData ?
+                            <div class="font-normal text-gray-700 flex md:flex-col">
+                                <div class="flex flex-col w-full mb-4 md:mb-0" id="peeps">
+                                    <div className="w-full flex justify-center items-center">
+                                        <p className="tracking-widest font-sans p-1 text-brown-900 font-semibold">who's keen</p>
                                     </div>
-                                    :
-                                    <></>
-                                }
+                                    <div className="w-full flex justify-center lg:h-10 h-9 overflow-x-hidden relative">
+                                        <div className="flex w-full items-center justify-around">
+                                            {keenData.split(";").map((dataEntry, index) => {
+                                                const [name, keenness] = dataEntry.split("-");
+                                                return (
+                                                    <Tooltip text={name} key={index}>
+                                                        <NameBubble name={name} keenness={keenness} />
+                                                    </Tooltip>
+                                                );
+                                            })}
+                                        </div>
+                                    </div>
+                                    <div className="absolute cursor-pointer bottom-0 right-0 text-center rounded-l rounded-t-none border-2 font-semibold bg-white p-0.5 border-black border-lg w-full md:w-1/3" onClick={() => setOpenModal(!openModal)}>
+                                        <button className="">modify interest</button>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="flex start lg:mt-2" id="day">
-                            <ArtistCardSvg type={"calender"} />
-                            <div class="mx-auto my-auto absolute w-full flex justify-center">
-                                <p class="tracking-widest font-sans text-xs sm:text-base md:text-lg xl:text-xl text-brown-900 font-semibold">{data['day']}</p>
+                            :
+                            <div  onClick={() => setOpenModal(!openModal)} className="cursor-pointer px-2 rounded-lg border-2 bg-white text-center border-black border-lg w-8/12 mx-auto md:w-10/12">
+                                <button className="font-semibold">add interest</button>
                             </div>
-                        </div>
+                        }
+                        {openModal &&
+                            <Modal
+                                data={keenData}
+                                artist={data['artist']}
+                                day={data['day']}
+                                updateKeenData={handleUpdate}
+                                closeModal={setOpenModal}
+                                updateKeenComplete={updateKeenComplete}
+                                inProgress={inProgress}
+                                updateFailed={updateFailed}
+                                timedOut={timedOut}
+                            />}
                     </div>
-                    <div class="flex justify-center pb-1 mt-2" id="button">
-                        <button onClick={() => setOpenModal(!openModal)} type="button" class="py-1 md:py-1 lg:py-1 px-2 md:px-4 lg:px-4  mb-1 md:mb-1.5 lg:mb-2 text-[10px] sm:text-xs md:text-sm 2xl:text-[15px] font-semibold text-gray-800 bg-white rounded-full shadow-md border border-gray-400 hover:border-gray-600 focus:border-gray-600 focus:outline-none">
-                            Add interest
-                        </button>
-                    </div>
-                    {openModal &&
-                        <Modal
-                            data={keenData}
-                            artist={data['artist']}
-                            day={data['day']}
-                            updateKeenData={handleUpdate}
-                            closeModal={setOpenModal}
-                            updateKeenComplete={updateKeenComplete}
-                            inProgress={inProgress}
-                            updateFailed={updateFailed}
-                            timedOut={timedOut}
-                        />}
                 </div>
             </div>
         </div>
     )
 }
-
+{/* <div class="w-full flex justify-center hidden md:block" id="button"> */}
+{/* <button onClick={() => setOpenModal(!openModal)} type="button" class="p-1 px-2 text-[10px] sm:text-xs md:text-sm 2xl:text-[15px] w-full font-semibold text-gray-800 bg-white rounded-full shadow-md border-2 border-gray-400 hover:border-gray-600 focus:border-gray-600 focus:outline-none">
+        Add interest
+    </button> */}
+{/* <div className="px-2 rounded-lg rounded-t-none border-t-2  bg-white text-center border-black border-lg w-full" onClick={() => setOpenModal(!openModal)}>
+    <button className="">modify interest</button>
+</div> */}
+{/* </div> */}
 export default ArtistCard;

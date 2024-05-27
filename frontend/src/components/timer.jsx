@@ -40,27 +40,27 @@ function Timer({
     };
 
     return (
-        <div className="flex gap-5 mt-2 font-bold">
+        <div className="flex justify-center lg:flex-row gap-5 mt-2 lg:font-bold mb-7">
             <div>
-                <span className="font-mono text-4xl">
+                <span className="font-mono text-lg lg:text-4xl">
                     <span>{days} </span>
                 </span>
                 days
             </div> 
             <div>
-                <span className="font-mono text-4xl">
+                <span className="font-mono text-lg lg:text-4xl">
                     <span>{hours} </span>
                 </span>
                 hours
             </div> 
             <div>
-                <span className="font-mono text-4xl">
+                <span className="font-mono text-lg lg:text-4xl">
                     <span>{minutes} </span>
                 </span>
                 min
             </div> 
             <div>
-                <span className="font-mono text-4xl">
+                <span className="font-mono text-lg lg:text-4xl">
                     <span>{seconds} </span>
                 </span>
                 sec
