@@ -26,7 +26,7 @@ app.get('/csvData', async (req, res) => {
 
 app.put("/updateCsvData", async (req, res) =>{
   const csvBlob = req.body;
-  let response = await githubHelpers.uploadCSV(csvBlob);
+  let response = await githubHelpers.uploadCSV(csvBlob['data']);
   res.status(response['status']).json();
 })
 
@@ -71,8 +71,22 @@ app.get('/data', async (req, res) => {
   try {
     const connection = await req.db.getConnection();
     const [result, _] = await connection.execute(resourceIntegration.GET);
+    
+    const groupedData = {
+      thursday: [],
+      friday: [],
+      saturday: []
+    };
+
+    result.forEach(row => {
+      const dayOfWeek = row.day; 
+
+      if (groupedData.hasOwnProperty(dayOfWeek)) {
+        groupedData[dayOfWeek].push(row);
+      }
+    });
     connection.release();
-    res.json(result);
+    res.json(groupedData);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal server error' });

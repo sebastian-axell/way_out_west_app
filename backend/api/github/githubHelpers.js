@@ -21,34 +21,60 @@ function processCsvData(csv_data) {
     return parsedData;
 }
 
-async function fetchData(){
-    try{
+async function fetchData() {
+    const groupedData = {
+        thursday: [],
+        friday: [],
+        saturday: []
+    };
+
+    try {
         const octokit = await createOctokit();
-        
+
         const sha = await apis.get_sha(octokit);
-        
+
         const csv_data = await apis.getCsvBlob(octokit, sha);
 
         const processed_data = processCsvData(csv_data['content']);
-        
-        return processed_data;
-    } 
-    catch (error){
+
+        const dayIndices = {};
+
+        processed_data.forEach(row => {
+            const dayOfWeek = row.day;
+
+            if (!dayIndices.hasOwnProperty(dayOfWeek)) {
+                dayIndices[dayOfWeek] = 0;
+            }
+
+            row.index = dayIndices[dayOfWeek];
+
+            dayIndices[dayOfWeek]++;
+
+            if (groupedData.hasOwnProperty(dayOfWeek)) {
+                groupedData[dayOfWeek].push(row);
+            } else {
+                groupedData[dayOfWeek] = [row];
+            }
+        });
+
+        return groupedData;
+    }
+    catch (error) {
         throw new Error('Failed to fetch data: ' + error.message);
     }
 }
 
 
-async function uploadCSV(csvData){
-    try{
+async function uploadCSV(csvData) {
+    try {
         const octokit = await createOctokit();
         const sha = await apis.get_sha(octokit);
-        const csvString = Papa.unparse(csvData);
+        const csvString = Papa.unparse(Object.values(csvData).flat());
         const buffer = Buffer.from(csvString);
         const base64String = buffer.toString('base64', 'utf-8');
         const updateResponse = await apis.putUpdatedCsvData(octokit, base64String, sha)
         return updateResponse
-    } catch (error){
+    } catch (error) {
         console.log(error);
         return (error)
     }
