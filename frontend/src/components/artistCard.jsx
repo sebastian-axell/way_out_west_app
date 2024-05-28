@@ -34,9 +34,9 @@ function ArtistCard({
                 target="_blank"
                 rel="noopener noreferrer"
                 class="w-full font-bold text-center tracking-tight text-brown-800 -outline-white">
-                <p class="p-1 md:p-2 bg-[#F194B4] border-2 border-black rounded-t-lg  truncate text-xs md:text-lg">{data['artist']}</p>
+                <p class="max-w-sm mx-auto p-1 md:p-2 bg-[#F194B4] border-2 border-black rounded-t-lg truncate text-xs md:text-lg">{data['artist']}</p>
             </a>
-            <div class="max-w-md shadow mx-auto flex flex-col justify-evenly bg-[#FFEBC6] border-2 border-t-0 border-black rounded-b-lg">
+            <div class="max-w-sm md:max-w-md mx-auto shadow flex flex-col justify-evenly bg-[#FFEBC6] border-2 border-t-0 border-black rounded-b-lg">
                 <div className="w-full flex flex-col md:flex-row text-xs md:text-sm 2xl:text-[15px]">
                     <div class="md:w-8/12 w-full mx-auto">
                         <a href={data['link']} class="" target="_blank" rel="noopener noreferrer">
@@ -45,14 +45,14 @@ function ArtistCard({
                                 src={data['img']} alt="" />
                         </a>
                     </div>
-                    <div class="md:w-4/12 md:border-l-2 min-h-[5.5rem] border-t-2 md:border-t-0 p-1 md:p-2 border-black w-full flex flex-col justify-around mx-auto rounded-b-lg md:rounded-l-none">
+                    <div class="md:w-4/12 md:border-l-2 min-h-[5rem] border-t-2 md:border-t-0 p-1 md:p-2 border-black w-full flex flex-col justify-around">
                         {keenData ?
                             <div class="font-normal text-gray-700 flex md:flex-col">
-                                <div class="flex flex-col w-full mb-4 md:mb-0" id="peeps">
-                                    <div className="w-full flex justify-center items-center">
-                                        <p className="tracking-widest font-sans p-1 text-brown-900 font-semibold">who's keen</p>
+                                <div class="flex flex-col w-full md:h-[10rem] justify-center relative" id="peeps">
+                                    <div className="w-full flex justify-center">
+                                        <p className="tracking-widest font-sans p-1 lg:text-lg text-brown-900 font-semibold">interested</p>
                                     </div>
-                                    <div className="w-full flex justify-center lg:h-10 h-9 overflow-x-hidden relative">
+                                    <div className="w-full flex lg:h-10 h-9 relative">
                                         <div className="flex w-full items-center justify-around">
                                             {keenData.split(";").map((dataEntry, index) => {
                                                 const [name, keenness] = dataEntry.split("-");
@@ -64,15 +64,21 @@ function ArtistCard({
                                             })}
                                         </div>
                                     </div>
-                                    <div className="absolute cursor-pointer bottom-0 right-0 text-center rounded-l rounded-t-none border-2 font-semibold bg-white p-0.5 border-black border-lg w-full md:w-1/3" onClick={() => setOpenModal(!openModal)}>
-                                        <button className="">modify interest</button>
+                                    <div className="absolute cursor-pointer top-0 right-0 p-1 md:p-3 text-center w-fit" onClick={() => setOpenModal(!openModal)}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6 -rotate-90">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75a4.5 4.5 0 0 1-4.884 4.484c-1.076-.091-2.264.071-2.95.904l-7.152 8.684a2.548 2.548 0 1 1-3.586-3.586l8.684-7.152c.833-.686.995-1.874.904-2.95a4.5 4.5 0 0 1 6.336-4.486l-3.276 3.276a3.004 3.004 0 0 0 2.25 2.25l3.276-3.276c.256.565.398 1.192.398 1.852Z" />
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M4.867 19.125h.008v.008h-.008v-.008Z" />
+                                        </svg>
                                     </div>
                                 </div>
                             </div>
                             :
-                            <div  onClick={() => setOpenModal(!openModal)} className="cursor-pointer px-2 rounded-lg border-2 bg-white text-center border-black border-lg w-8/12 mx-auto md:w-10/12">
-                                <button className="font-semibold">add interest</button>
+                            <div onClick={() => setOpenModal(!openModal)} className="cursor-pointer w-fit text-center mx-auto">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6 lg:size-8">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                </svg>
                             </div>
+
                         }
                         {openModal &&
                             <Modal
@@ -92,12 +98,4 @@ function ArtistCard({
         </div>
     )
 }
-{/* <div class="w-full flex justify-center hidden md:block" id="button"> */}
-{/* <button onClick={() => setOpenModal(!openModal)} type="button" class="p-1 px-2 text-[10px] sm:text-xs md:text-sm 2xl:text-[15px] w-full font-semibold text-gray-800 bg-white rounded-full shadow-md border-2 border-gray-400 hover:border-gray-600 focus:border-gray-600 focus:outline-none">
-        Add interest
-    </button> */}
-{/* <div className="px-2 rounded-lg rounded-t-none border-t-2  bg-white text-center border-black border-lg w-full" onClick={() => setOpenModal(!openModal)}>
-    <button className="">modify interest</button>
-</div> */}
-{/* </div> */}
 export default ArtistCard;

@@ -29,7 +29,7 @@ function DaySchedule({
             {
                 Object.keys(daydata).map((elem) => (
                     <div key={elem} className={`overflow-y-scroll bg-[#FFEBC6] ${elem == activeDay || activeDay == "all"
-                        ? "grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 md:gap-x-1 max-h-[490px] lg:max-h-[300px] expand-animation"
+                        ? "grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 md:gap-x-1 max-h-[490px] lg:max-h-[310px] expand-animation"
                         :
                         "max-h-0"
                         }

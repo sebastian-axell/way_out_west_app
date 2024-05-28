@@ -1,9 +1,7 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import DayButton from "./dayButton";
-import SideColumn from "./sideColumn";
 import ArtistCard from "./artistCard";
-import Timer from "./timer";
 
 function Home({
   data,
@@ -15,13 +13,10 @@ function Home({
   timeoutError,
 }) {
   const [selectedDay, setSelectedDay] = useState("thursday")
-  const numberOfSVGs = 8;
   return (
     <div className="flex">
-      {/* <SideColumn svg={btoa(svgData['dates'])} type={"dates"} repeatTimes={numberOfSVGs} /> */}
       <div className="w-full">
-        <div className="mt-20
-           lg:mt-24 mb-2 md:mb-5 w-full flex justify-center">
+        <div className="mt-24 mb-2 md:mb-5 w-full flex justify-center">
           <div className="flex xl:w-6/12 items-center w-11/12 md:w-9/12 justify-around py-1 md:py-2">
             <DayButton handleOnclick={setSelectedDay} day={"thursday"} svgData={svgData} selectedDay={selectedDay} />
             <DayButton handleOnclick={setSelectedDay} day={"friday"} svgData={svgData} selectedDay={selectedDay} />
@@ -32,7 +27,7 @@ function Home({
           {
             Object.keys(data).map((elem) => (
               <div className={`${elem == selectedDay
-                ? "grid grid-cols-2 gap-x-4 xl:gap-x-7 gap-y-7 xl:grid-cols-3 mb-9"
+                ? "grid grid-cols-1 md:grid-cols-2 gap-x-4 xl:gap-x-7 gap-y-7 xl:grid-cols-3 mb-9"
                 :
                 "hidden"
                 }
@@ -53,7 +48,6 @@ function Home({
             ))}
         </div>
       </div>
-      {/* <SideColumn svg={btoa(svgData['gothenburg'])} repeatTimes={numberOfSVGs}/> */}
     </div>
   )
 }

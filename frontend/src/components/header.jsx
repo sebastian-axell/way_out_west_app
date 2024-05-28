@@ -17,7 +17,7 @@ function Header({
     }
     return (
 
-        <div className="h-16 lg:h-20 fixed top-0 z-10 bg-cyan-600 w-full border-b-2 border-black" id="header">
+        <div className="h-16 lg:h-20 fixed top-0 z-10 bg-yellow-300 w-full border-b-2 border-t-2 border-black" id="header">
             <HeaderButton LinkButton={LinkButton} LinkText={"schedule"} />
             <div className="mx-auto w-fit flex h-full pb-1.5 p-2 relative">
                 <Link className='flex justify-center' to="/" onClick={() => setOpenHeaderMenu(false)}>
