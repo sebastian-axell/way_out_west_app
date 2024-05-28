@@ -34,7 +34,7 @@ function ArtistCard({
                 target="_blank"
                 rel="noopener noreferrer"
                 class="w-full font-bold text-center tracking-tight text-brown-800 -outline-white">
-                <p class="max-w-sm mx-auto p-1 md:p-2 bg-[#F194B4] border-2 border-black rounded-t-lg truncate text-xs md:text-lg">{data['artist']}</p>
+                <p class="max-w-sm md:max-w-md mx-auto p-1 md:p-2 bg-[#F194B4] border-2 border-black rounded-t-lg truncate text-xs md:text-lg">{data['artist']}</p>
             </a>
             <div class="max-w-sm md:max-w-md mx-auto shadow flex flex-col justify-evenly bg-[#FFEBC6] border-2 border-t-0 border-black rounded-b-lg">
                 <div className="w-full flex flex-col md:flex-row text-xs md:text-sm 2xl:text-[15px]">
