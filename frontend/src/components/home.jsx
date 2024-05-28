@@ -27,7 +27,7 @@ function Home({
           {
             Object.keys(data).map((elem) => (
               <div className={`${elem == selectedDay
-                ? "grid grid-cols-1 md:grid-cols-2 gap-x-4 xl:gap-x-7 gap-y-7 xl:grid-cols-3 mb-9"
+                ? "grid grid-cols-1 md:grid-cols-2 gap-x-4 xl:gap-x-7 gap-y-7 xl:grid-cols-4 mb-9"
                 :
                 "hidden"
                 }

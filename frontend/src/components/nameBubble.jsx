@@ -20,8 +20,8 @@ function NameBubble({
             break;
     }    
     return (
-        <div class="border border-black w-5 h-5 sm:w-6 sm:h-6 lg:w-8 lg:h-8 relative inline-flex items-center justify-center bg-teal-500 rounded-full">
-            <span class="font-medium text-xs sm:text-sm lg:pb-1 md:text-lg xl:text-2xl font-bold">{name[0]}</span>
+        <div class="border border-black w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7 relative inline-flex items-center justify-center bg-teal-500 rounded-full">
+            <span class="font-medium text-xs sm:text-sm lg:pb-1 md:text-lg xl:text-xl font-bold">{name[0]}</span>
             <span class={`-top-0.5 md:-top-1 md:left-3 left-3 lg:left-5 xl:left-6 lg:-top-0 absolute w-2 h-2 xl:w-2.5 xl:h-2.5 border-2 border-white ${color} rounded-full`}></span>
         </div>
     );
