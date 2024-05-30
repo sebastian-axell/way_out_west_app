@@ -25,9 +25,9 @@ function ScheduleCard({
     const getInterestClass = (interest) => {
         switch (interest) {
             case "hella":
-                return "😍"
+                return "👌"
             case "whyNot":
-                return "🤷"
+                return "🤏"
             case "deffo":
                 return "🤝"
             default:
@@ -35,11 +35,11 @@ function ScheduleCard({
         }
     };
     return (
-        <div className="h-full bg-gray-50">
+        <div className="h-full">
             {/* w-4/12 md:w-8/12 3xl:w-10/12 */}
             <div class="relative mx-auto font-bold h-full">
                 <div className="flex flex-row h-full">
-                    <div className="w-full flex flex-col justify-start h-full border-2 border-black relative">
+                    <div className="w-full flex flex-col justify-start h-full border-2 border-black relative bg-pink-50 ">
                         {/* <a href={item['link']} class="" target="_blank" rel="noopener noreferrer">
                             <img src={item['img']} className="opacity" alt="" />
                         </a> */}
@@ -47,15 +47,16 @@ function ScheduleCard({
                             <p className="tracking-widest font-sans p-1 lg:text-lg text-brown-900 text-center font-semibold">interested</p>
                         </div>
                         {/* <div className="border-b-2 border-black w-full flex justify-center">interested:</div> */}
-                        <div className="w-full h-full flex flex-col justify-start mb-8">
+                        <div className="w-full h-full flex flex-row justify-around mb-8 text-base lg:text-md 2xl:text-lg">
                             {
                                 item['keen'].split(";").map((interest) => {
                                     const [name, level] = interest.split("-");
                                     return (
                                         // rounded-r-full
-                                        <div className={`relative p-1 md:p-1 flex justify-between border-b-2  border-black  text-center bg-teal-500`}>
+                                        <div className={`relative p-0.5 md:p-1 flex flex-col justify-center text-center`}>
                                             <p className={`p-1`}>{name}</p>
-                                            <p className="absolute text-base right-0 p-1 rounded-full border border-gray-400 bg-[#006400]">{getInterestClass(level)}</p>
+                                            {/* <p className="absolute text-base right-0 p-1 rounded-full border border-gray-400 bg-[#006400]">{getInterestClass(level)}</p> */}
+                                            <p className="p-1 lg:text-xl w-fit mx-auto rounded-full bg-pink-900">{getInterestClass(level)}</p>
                                         </div>
                                     )
                                 })
