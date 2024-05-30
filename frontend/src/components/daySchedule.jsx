@@ -38,7 +38,7 @@ function DaySchedule({
                             daydata[elem].map((item) => (
                                 item['day'] == day &&
                                 <div className="flex flex-col xl:flex-row p-3">
-                                    <div className="xl:w-7/12 w-full border-2 xl:border-r-0 border-black relative">
+                                    <div className="xl:w-7/12 w-full border-2 xl:border-r-0 border-black border-b-0 relative">
                                         <img src={item['img']} className="" alt="" />
                                         <a
                                             href={item['link']}
