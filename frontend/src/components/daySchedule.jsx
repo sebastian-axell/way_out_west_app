@@ -23,7 +23,7 @@ function DaySchedule({
     return (
         <div className="">
             <div className="w-full">
-                <button value={day} className={`w-full border-2 border-black font-bold text-xl bg-[#F194B4] p-2 ${getClassNames(day, activeDay)}`}
+                <button value={day} className={`w-full border-2 border-black font-bold text-xl bg-yellow-300 p-2 ${getClassNames(day, activeDay)}`}
                     onClick={(e) => setActiveDay(e.target.value)}>{day}</button>
             </div>
             {
@@ -38,7 +38,7 @@ function DaySchedule({
                             daydata[elem].map((item) => (
                                 item['day'] == day &&
                                 <div className="flex flex-col xl:flex-row p-3">
-                                    <div className="xl:w-7/12 w-full border-2 border-r-0 border-black  md:block relative">
+                                    <div className="xl:w-7/12 w-full border-2 xl:border-r-0 border-black relative">
                                         <img src={item['img']} className="" alt="" />
                                         <a
                                             href={item['link']}

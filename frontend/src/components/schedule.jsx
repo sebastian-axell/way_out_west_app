@@ -43,7 +43,7 @@ function Schedule({
                         ))}
                     </tbody>
                 </table> */}
-                <button onClick={() => { setActiveDay("all"); }} className="text-xl px-2 py-1 rounded-lg rounded-b-none border-2 border-b-0 border-black bg-cyan-600 text-white">expand all</button>
+                <button onClick={() => { setActiveDay("all"); }} className="text-xl px-2 py-1 rounded-lg rounded-b-none border-2 border-b-0 font-bold border-black bg-[#F194B4] bg-opacity-50">expand all</button>
                 <div className="w-9/12 xl:w-10/12 3xl:w-10/12 mx-auto">
                     {
                         days.map((day) => (

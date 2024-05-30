@@ -8,7 +8,7 @@ function HeaderMenu({
 }) {
     return (
         <div className="w-full flex flex-col justify-center md:hidden">
-            <div className="w-[100px] text-sm mx-auto bg-cyan-600 px-2 rounded-b-lg border-black border-2 border-t-0">
+            <div className="w-[100px] text-sm mx-auto bg-[#F194B4] px-2 rounded-b-lg border-black border-2 border-t-0">
                 <div
                     className={`text-white text-base ${openHeaderMenu ? 'ease-in-slow max-height-expanded' : 'ease-in-slow max-height-collapsed'}`}
                 >
