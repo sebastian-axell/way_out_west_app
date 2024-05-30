@@ -39,7 +39,7 @@ function ScheduleCard({
             <div class="relative mx-auto font-bold h-full">
                 <div className="flex flex-row h-full">
                     <div className="w-full flex flex-col justify-start h-full border-2 border-black relative bg-pink-50 ">
-                        <div className="hidden xl:block bg-[#F194B4] bg-opacity-50 border-b-2 border-black ">
+                        <div className="hidden xl:block bg-yellow-300 border-b-2 border-black ">
                             <p className="tracking-widest font-sans p-1 lg:text-lg text-brown-900 text-center font-semibold">interested</p>
                         </div>
                         <div className="w-full h-full flex flex-row justify-around mb-8 text-base lg:text-md 2xl:text-lg">

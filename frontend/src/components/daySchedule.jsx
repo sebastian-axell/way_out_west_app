@@ -23,7 +23,7 @@ function DaySchedule({
     return (
         <div className="">
             <div className="w-full">
-                <button value={day} className={`w-full border-2 border-black font-bold text-xl bg-teal-500 p-2 ${getClassNames(day, activeDay)}`}
+                <button value={day} className={`w-full border-2 border-black font-bold text-xl bg-[#F194B4] p-2 ${getClassNames(day, activeDay)}`}
                     onClick={(e) => setActiveDay(e.target.value)}>{day}</button>
             </div>
             {
