@@ -56,7 +56,7 @@ function ScheduleCard({
                                         <div className={`relative p-0.5 md:p-1 flex flex-col justify-center text-center`}>
                                             <p className={`p-1`}>{name}</p>
                                             {/* <p className="absolute text-base right-0 p-1 rounded-full border border-gray-400 bg-[#006400]">{getInterestClass(level)}</p> */}
-                                            <p className="p-1 lg:text-xl w-fit mx-auto rounded-full bg-pink-900">{getInterestClass(level)}</p>
+                                            <p className="p-2 xl:p-1 2xl:p-2 lg:text-xl w-fit mx-auto rounded-full bg-pink-900">{getInterestClass(level)}</p>
                                         </div>
                                     )
                                 })

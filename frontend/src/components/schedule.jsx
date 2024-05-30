@@ -31,7 +31,7 @@ function Schedule({
         setDayData(newFilteredData)
     }, [data])
     return (
-        <div className="mt-24 mb-2 md:mb-5 ">
+        <div className="mt-24 mb2 md:mb-5 ">
             <div className="flex flex-col h-full justify-start items-center w-11/12 xl:w-11/12 3xl:w-7/12 mx-auto mx-auto">
                 {/* <table>
                     <tbody>
@@ -43,8 +43,8 @@ function Schedule({
                         ))}
                     </tbody>
                 </table> */}
-                <button onClick={() => { setActiveDay("all"); }} className="text-xl p-3 rounded-lg rounded-b-none border-2 border-b-0 border-black bg-cyan-600 text-white">expand all</button>
-                <div className="mb-9 pb-12 w-9/12 xl:w-10/12 3xl:w-10/12 mx-auto">
+                <button onClick={() => { setActiveDay("all"); }} className="text-xl px-2 py-1 rounded-lg rounded-b-none border-2 border-b-0 border-black bg-cyan-600 text-white">expand all</button>
+                <div className="w-9/12 xl:w-10/12 3xl:w-10/12 mx-auto">
                     {
                         days.map((day) => (
                             <DaySchedule setActiveDay={setActiveDay} activeDay={activeDay} day={day} daydata={dayData}
