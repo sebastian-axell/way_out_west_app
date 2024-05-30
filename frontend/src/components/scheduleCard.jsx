@@ -35,7 +35,7 @@ function ScheduleCard({
         }
     };
     return (
-        <div className="h-full">
+        <div className="h-full bg-gray-50">
             {/* w-4/12 md:w-8/12 3xl:w-10/12 */}
             <div class="relative mx-auto font-bold h-full">
                 <div className="flex flex-row h-full">
@@ -53,7 +53,7 @@ function ScheduleCard({
                                     const [name, level] = interest.split("-");
                                     return (
                                         // rounded-r-full
-                                        <div className={`relative p-1 md:p-1 flex justify-between bg-[#FAF0E6] border-b-2  border-black  text-center bg-teal-500`}>
+                                        <div className={`relative p-1 md:p-1 flex justify-between border-b-2  border-black  text-center bg-teal-500`}>
                                             <p className={`p-1`}>{name}</p>
                                             <p className="absolute text-base right-0 p-1 rounded-full border border-gray-400 bg-[#006400]">{getInterestClass(level)}</p>
                                         </div>
