@@ -33,7 +33,7 @@ function ArtistCard({
                     <div class="w-full mx-auto relative">
                         <a href={data['link']} class="" target="_blank" rel="noopener noreferrer">
                             <img
-                                class="rounded-t-lg"
+                                class="rounded-t-md"
                                 src={data['img']} alt="" />
                         </a>
                         <a
@@ -42,7 +42,7 @@ function ArtistCard({
                             target="_blank"
                             rel="noopener noreferrer"
                             class="w-full font-bold text-center tracking-tight text-brown-800 -outline-white">
-                            <p class="max-w-sm absolute bottom-0 md:max-w-md lg:max-w-full mx-auto p-1 md:p-2 bg-[#F194B4] border-2 border-black rounded-t-lg truncate text-xs md:text-lg">{data['artist']}</p>
+                            <p class="max-w-sm absolute bottom-0 md:max-w-md lg:max-w-full mx-auto p-1 md:p-2 bg-[#F194B4] border-2 border-b-0 border-black rounded-t-lg truncate text-xs md:text-lg">{data['artist']}</p>
                         </a>
                     </div>
                     <div class="min-h-[5rem] md:min-h-[6rem] border-t-2 border-black w-full flex flex-col justify-around">

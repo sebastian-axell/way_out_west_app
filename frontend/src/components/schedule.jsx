@@ -16,6 +16,11 @@ function Schedule({
         friday: [],
         saturday: [],
     });
+    const emojiMapping = {
+        hella: '😍',
+        cool: '😎',
+        happy: '😊'
+    };
     useEffect(() => {
         const newFilteredData = {};
         days.forEach(day => {
@@ -26,10 +31,19 @@ function Schedule({
         setDayData(newFilteredData)
     }, [data])
     return (
-        <div className="mt-20 lg:mt-24 mb-2 md:mb-5 ">
-            <h2 className="text-5xl text-center p-3">here's the plan</h2>
+        <div className="mt-24 mb-2 md:mb-5 ">
             <div className="flex flex-col h-full justify-start items-center w-11/12 xl:w-11/12 3xl:w-7/12 mx-auto mx-auto">
-                <button onClick={() => { setActiveDay("all"); }} className="text-xl p-3 rounded-lg rounded-b-none border-2 border-b-0 border-black bg-white">expand all</button>
+                {/* <table>
+                    <tbody>
+                        {Object.entries(emojiMapping).map(([value, emoji]) => (
+                            <tr key={value}>
+                                <td>{emoji}</td>
+                                <td>means bro is {value} keen</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table> */}
+                <button onClick={() => { setActiveDay("all"); }} className="text-xl p-3 rounded-lg rounded-b-none border-2 border-b-0 border-black bg-cyan-600 text-white">expand all</button>
                 <div className="mb-9 pb-12 w-9/12 xl:w-10/12 3xl:w-10/12 mx-auto">
                     {
                         days.map((day) => (
