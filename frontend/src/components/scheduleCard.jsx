@@ -43,12 +43,11 @@ function ScheduleCard({
                         {/* <a href={item['link']} class="" target="_blank" rel="noopener noreferrer">
                             <img src={item['img']} className="opacity" alt="" />
                         </a> */}
-                        <div className=" xl:block bg-[#F194B4] bg-opacity-50 border-b-2 border-black ">
+                        <div className="hidden xl:block bg-[#F194B4] bg-opacity-50 border-b-2 border-black ">
                             <p className="tracking-widest font-sans p-1 lg:text-lg text-brown-900 text-center font-semibold">interested</p>
-                            </div>
+                        </div>
                         {/* <div className="border-b-2 border-black w-full flex justify-center">interested:</div> */}
                         <div className="w-full h-full flex flex-col justify-start mb-8">
-                            {/* <div className="">keen</div> */}
                             {
                                 item['keen'].split(";").map((interest) => {
                                     const [name, level] = interest.split("-");
@@ -61,7 +60,6 @@ function ScheduleCard({
                                     )
                                 })
                             }
-                            {/* <div className="p-1 text-right"></div> */}
                         </div>
                         <div className="absolute cursor-pointer bottom-0 right-0 text-center w-fit p-1" onClick={() => setOpenModal(!openModal)}>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6 -rotate-90">
