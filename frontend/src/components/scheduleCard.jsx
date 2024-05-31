@@ -39,17 +39,17 @@ function ScheduleCard({
             <div class="relative mx-auto font-bold h-full">
                 <div className="flex flex-row h-full">
                     <div className="w-full flex flex-col justify-start h-full border-2 border-black relative bg-[#FFF2E5] ">
-                        <div className="hidden xl:block mb-2">
-                            <p className="tracking-widest font-sans p-1 lg:text-lg text-brown-900 text-center font-semibold">interested</p>
+                        <div className="hidden xl:block">
+                            <p className="tracking-widest font-sans p-1 lg:text-lg text-brown-900 text-center font-semibold border-b-2 border-black">interested</p>
                         </div>
-                        <div className="w-full h-full flex flex-row xl:flex-col justify-around xl:justify-start mb-8 text-base lg:text-md 2xl:text-lg">
+                        <div className="w-full h-full flex flex-row xl:flex-col justify-around xl:justify-start mb-8">
                             {
                                 item['keen'].split(";").map((interest) => {
                                     const [name, level] = interest.split("-");
                                     return (
-                                        <div className={`relative p-0.5 md:p-1 flex flex-col xl:flex-row justify-center xl:justify-start text-center`}>
-                                            <p className={`p-1`}>{name}</p>
-                                            <p className="py-1 px-1.5 lg:px-1 xl:absolute xl:bottom-0 xl:right-0 xl:px-1 2xl:p-2 lg:text-xl w-fit mx-auto rounded-full border-2 border-black bg-teal-500">{getInterestClass(level)}</p>
+                                        <div className={`relative p-0.5 md:p-1 flex flex-col xl:flex-row justify-center justify-between text-center items-center`}>
+                                            <p className={`p-1 text-xl`}>{name}</p>
+                                            <p className="py-1 px-1.5 lg:px-1 xl:px-1 2xl:p-0.5 lg:text-xl w-fit rounded-full mx-auto xl:mx-0 border-2 border-black bg-teal-500">{getInterestClass(level)}</p>
                                         </div>
                                     )
                                 })

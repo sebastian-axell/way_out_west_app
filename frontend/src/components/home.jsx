@@ -23,11 +23,11 @@ function Home({
             <DayButton handleOnclick={setSelectedDay} day={"saturday"} svgData={svgData} selectedDay={selectedDay} />
           </div>
         </div>
-        <div class="mx-auto w-10/12 3xl:w-full">
+        <div class="mx-auto w-10/12">
           {
             Object.keys(data).map((elem) => (
               <div className={`${elem == selectedDay
-                ? "grid grid-cols-1 md:grid-cols-2 gap-x-4 xl:gap-x-7 gap-y-7 xl:grid-cols-4 mb-9"
+                ? "grid grid-cols-1 md:grid-cols-2 gap-x-4 xl:gap-x-7 gap-y-7 xl:grid-cols-3 3xl:grid-cols-4 mb-9"
                 :
                 "hidden"
                 }

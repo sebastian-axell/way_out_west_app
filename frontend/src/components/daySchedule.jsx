@@ -23,13 +23,13 @@ function DaySchedule({
     return (
         <div className="">
             <div className="w-full">
-                <button value={day} className={`w-full border-2 border-black font-bold text-xl bg-[#B0C4DE] p-2 ${getClassNames(day, activeDay)}`}
+                <button value={day} className={`w-full border-2 border-black font-bold text-xl bg-teal-300 bg-opacity-50 p-2 ${getClassNames(day, activeDay)}`}
                     onClick={(e) => setActiveDay(e.target.value)}>{day}</button>
             </div>
             {
                 Object.keys(daydata).map((elem) => (
                     <div key={elem} className={`overflow-y-scroll bg-[#FFEBC6] ${elem == activeDay || activeDay == "all"
-                        ? "grid grid-cols-1 sm:grid-cols-2 xl:grid-cols- md:gap-x-1 max-h-[400px] sm:max-h-[470px] lg:max-h-[400px] expand-animation"
+                        ? "grid grid-cols-1 sm:grid-cols-2 xl:grid-cols- md:gap-x-1 max-h-[400px] sm:max-h-[470px] lg:max-h-[500px] expand-animation"
                         :
                         "max-h-0"
                         }

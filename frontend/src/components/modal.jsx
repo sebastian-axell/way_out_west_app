@@ -73,7 +73,7 @@ function Modal({
                 </div>
                 <div className="-mt-3 flex flex-col gap-y-5 min-h-full flex-1 place-content-center justify-around">
                     <div className="text-center md:mb-3">
-                        <h1 className="text-xl lg:text-3xl font-bold text-green- tracking-tight">Add interest for {artist}</h1>
+                        <h1 className="text-xl lg:text-3xl font-bold tracking-tight">Add interest for {artist}</h1>
                     </div>
                     <div className="flex grid grid-cols-6 text-2xl gap-y-3 text-center items-center">
                         {names.map((name, index) =>{
@@ -81,7 +81,7 @@ function Modal({
                             <>
                             <div className="flex justify-center pr-4 col-span-full sm:col-span-1 text-base font-semibold md:text-lg mt-2 sm:mt-0">{name}</div>
                             <ul class="flex w-full gap-x-2 col-span-full sm:col-span-5 justify-around">
-                                <KeenOption keenLevel={"whyNot"} title={"why not"} body={"don't mind going"} idTag={"why-not-"+index} name={name} selectedOptions={selectedOptions} handleChange={handleChange} handOnClick={handOnClick} />
+                                <KeenOption keenLevel={"whyNot"} title={"wittle bit keen"} body={"don't mind going"} idTag={"why-not-"+index} name={name} selectedOptions={selectedOptions} handleChange={handleChange} handOnClick={handOnClick} />
                                 <KeenOption keenLevel={"deffo"} title={"deffo keen"} body={'tis would be a good one'} idTag={"deffo-keen-"+index} name={name} selectedOptions={selectedOptions} handleChange={handleChange} handOnClick={handOnClick} />
                                 <KeenOption keenLevel={"hella"} title={"hella keen"} body={"bruh I'll go by myself"} idTag={"hella-keen-"+index} name={name} selectedOptions={selectedOptions} handleChange={handleChange} handOnClick={handOnClick} />
                             </ul>
