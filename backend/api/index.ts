@@ -7,7 +7,8 @@ const githubHelpers = require("./github/githubHelpers");
 const upload = require("./storage/storage");
 const middleware = require("./middleware/middleware")
 const databaseMiddleware = require("./middleware/databaseMiddleware");
-const resourceIntegration = require("./resourceIntegration/resourceIntegration");
+const performances = require("./resourceIntegration/performances");
+const users = require("./resourceIntegration/users");
 const constants = require("./constants");
 
 let port = 4040;
@@ -33,7 +34,19 @@ app.put("/updateCsvData", async (req, res) => {
 app.use(async (req, res, next) => {
   if (!pool) {
     console.log("initialising connection to database");
-    pool = await databaseMiddleware.initializeDatabaseConnection();
+    if (process.env.NODE_ENV == "local") {
+      pool = await mysql.createPool({
+        user: process.env.databaseUser,
+        password: process.env.databaseUserPassword,
+        database: process.env.database,
+        connectionLimit: process.env.connectionLimit,
+      });
+    } else {
+      console.log("initialising connection to database");
+      pool = await databaseMiddleware.initializeDatabaseConnection();
+    }
+    console.log("connected and pool created");
+
   }
   req.db = pool;
   next();
@@ -67,10 +80,22 @@ app.get('/protected', (req, res) => {
   res.json({ message: `Hello! You have access to this protected resource.`, key: helpers.encrypt(constants.secret_key, constants.keyHex, constants.ivHex) });
 });
 
+// app.get('/users', async (req, res) => {
+//   try {
+//     const connection = await req.db.getConnection();
+//     const [result, _] = await connection.execute(users.GET);
+//     res.json(result);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: 'Internal server error' });
+//   }
+// });
+
+
 app.get('/data', async (req, res) => {
   try {
     const connection = await req.db.getConnection();
-    const [result, _] = await connection.execute(resourceIntegration.GET);
+    const [result, _] = await connection.execute(performances.GET);
     const dayIndices = {};
     const groupedData = {
       thursday: [],
@@ -110,7 +135,7 @@ app.put('/data/:id', async (req, res) => {
   const updatedData = req.body;
   try {
     const [results] = await connection.execute(
-      resourceIntegration.PUT,
+      performances.PUT,
       [updatedData['data'], id]
     );
     res.status(200).json({ message: 'Successfully updated', results });

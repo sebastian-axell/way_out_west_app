@@ -55,7 +55,7 @@ function Schedule({
             {
                 tableActive &&
                 <div className="z-10 h-screen w-screen bg-opacity-50 bg-pink-200 flex fixed justify-center items-center top-0 left-0 right-0 font-semibold">
-                    <div className="px-3 md:px-5 py-5 bg-[#FFEBC6] shadow rounded-lg border-2 border-black h-fit w-fit overflow-y-auto">
+                    <div className="px-3 md:px-5 py-5 bg-[#FFEBC6] shadow rounded-lg border-2 border-black h-fit w-10/12 lg:w-fit overflow-y-auto">
                         <div className='flex justify-end'>
                             <button className='sm:-mr-0 lg:-mr-2 sm:-mt-4 -mt-3 -mr-1 relative' onClick={() => setTableActive(false)}>
                                 {svgIcons.cross}
@@ -78,7 +78,7 @@ function Schedule({
                     </div>
                 </div>
             }
-            <div className="fixed bottom-5 xl:bottom-1/4 md:right-10 right-0 sm:right-5 lg:right-[12%] p-5">
+            <div className="fixed bottom-5 md:right-10 right-0 sm:right-5 lg:right-[12%] p-5">
                 <button onClick={() => (setTableActive(true))}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6 lg:size-10">
                         <path strokeLinecap="round" strokeLinejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />

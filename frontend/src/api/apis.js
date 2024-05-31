@@ -3,8 +3,7 @@ import helpers from "../auxiliary/helpers"
 const keyHex = process.env.REACT_APP_key_Hex;
 const ivHex = process.env.REACT_APP_iv_Hex;
 
-const BASE_URL = "https://way-out-west-app-backend.vercel.app";
-// const BASE_URL = "http://localhost:4040";
+const BASE_URL = process.env.REACT_APP_env == "local" ? process.env.REACT_APP_localhost : process.env.REACT_APP_backend;
 
 const constructUrl = (endpoint) => {
   return `${BASE_URL}/${endpoint}`;

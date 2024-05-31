@@ -18,21 +18,18 @@ async function initializeDatabaseConnection() {
   await fs.writeFile(tempFilePath, credentials);
 
   process.env.GOOGLE_APPLICATION_CREDENTIALS = tempFilePath;
-  console.log("making connection to database...");
   const connector = new Connector();
   const clientOpts = await connector.getOptions({
     instanceConnectionName: connectionName,
     ipType: ipType,
   });
-  
-  console.log("connected!");
-  console.log("creating pool...");
+
   return mysql.createPool({
     ...clientOpts,
     user: databaseUser,
     password: databaseUserPassword,
     database: database,
-    connectionLimit: connectionLimit, // Example limit
+    connectionLimit: connectionLimit, 
   });
   }
 
