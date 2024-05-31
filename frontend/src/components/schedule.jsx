@@ -62,7 +62,7 @@ function Schedule({
                             </button>
                         </div>
                         <div className="text-center">
-                            <h1 className="text-xl lg:text-3xl font-bold tracking-tight">this page is shows who we're keen to see each day</h1>
+                            <h1 className="text-xl lg:text-3xl font-bold tracking-tight">this page shows who we're keen to see each day</h1>
                             <h3 className="text-base lg:text-xl font-semibold tracking-tight mt-2 underline">here's how the emojis work</h3>
 
                             <div className="flex lg:flex-row flex-col">
