@@ -49,7 +49,7 @@ function ScheduleCard({
                                     return (
                                         <div className={`relative p-0.5 md:p-1 flex flex-col xl:flex-row justify-center xl:justify-start text-center`}>
                                             <p className={`p-1`}>{name}</p>
-                                            <p className="p-2 xl:absolute xl:bottom-0 xl:right-0 xl:p-1 2xl:p-2 lg:text-xl w-fit mx-auto rounded-full border-2 border-black bg-teal-500">{getInterestClass(level)}</p>
+                                            <p className="py-1 px-1.5 lg:px-1 xl:absolute xl:bottom-0 xl:right-0 xl:px-1 2xl:p-2 lg:text-xl w-fit mx-auto rounded-full border-2 border-black bg-teal-500">{getInterestClass(level)}</p>
                                         </div>
                                     )
                                 })
