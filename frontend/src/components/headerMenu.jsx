@@ -8,12 +8,12 @@ function HeaderMenu({
 }) {
     return (
         <div className="w-full flex flex-col justify-center md:hidden">
-            <div className="w-[100px] text-sm mx-auto bg-teal-500 px-2 rounded-b-lg border-black border-2 border-t-0">
+            <div className="w-[100px] text-sm mx-auto bg-[#00796B] text-white px-2 rounded-b-lg border-black border-2 border-t-0">
                 <div
                     className={`text-black text-base ${openHeaderMenu ? 'ease-in-slow max-height-expanded' : 'ease-in-slow max-height-collapsed'}`}
                 >
-                    <div className="flex justify-center p-1">{LinkButton("schedule")}</div>
-                    <div className="flex justify-center p-1">{LinkButton("login")}</div>
+                    <div className="flex justify-center p-1 text-white">{LinkButton("schedule")}</div>
+                    <div className="flex justify-center p-1 text-white">{LinkButton("login")}</div>
                 </div>
                 <button
                     className="flex w-full justify-center focus:border-green-200"
