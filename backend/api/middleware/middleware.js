@@ -4,17 +4,9 @@ const middlewareConstants = require("../constants");
 const jwt = require('jsonwebtoken');
 
 const whitelist = ['https://we-out-west.vercel.app', 'https://weoutwest.info', 'http://localhost:3000'];
-const corsOptions = {
-  origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1 || !origin) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true
-};
-
+var corsOptions = {
+  origin: 'https://weoutwest.info',
+  credentials: true };
 
 function verifyApiKey(req, res, next){
   let auth_header = req.headers['authorization'];
