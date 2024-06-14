@@ -27,7 +27,6 @@ function verifyApiKey(req, res, next){
     let decryptedText = middlewareHelpers.decrypt(encryptedAPIKey, middlewareConstants.keyHex, middlewareConstants.ivHex);
     if (decryptedText === middlewareConstants.access_key) {
       console.log('API key verified. Sender is trusted.');
-      res.header('Access-Control-Allow-Credentials', 'true');
       next();
     } else {
       console.log('API key could not be verified.');
