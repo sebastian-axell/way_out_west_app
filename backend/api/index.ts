@@ -1,3 +1,4 @@
+require('dotenv').config();
 const cors = require('cors');
 const path = require('path');
 const mysql = require('mysql2/promise');
@@ -10,6 +11,8 @@ const databaseMiddleware = require("./middleware/databaseMiddleware");
 const performances = require("./resourceIntegration/performances");
 const users = require("./resourceIntegration/users");
 const constants = require("./constants");
+const jwt = require('jsonwebtoken');
+const cookieParser = require('cookie-parser');
 
 let port = 4040;
 let app = express();
@@ -17,8 +20,14 @@ let pool;
 
 app.use(cors(middleware.corsOptions));
 app.use(express.json());
+app.use(cookieParser());
 app.use('/media', express.static(path.join(__dirname, '..', 'svgs')));
-app.use(middleware.verifyToken);
+
+app.use(middleware.verifyApiKey);
+
+app.get('/protected', (req, res) => {
+  res.json({ message: `Hello! You have access to this protected resource.`, key: helpers.encrypt(constants.secret_key, constants.keyHex, constants.ivHex) });
+});
 
 app.get('/csvData', async (req, res) => {
   let csvData = await githubHelpers.fetchData()
@@ -52,45 +61,34 @@ app.use(async (req, res, next) => {
   next();
 });
 
-app.post('/script_sql', async (req, res) => {
-  const connection = await req.db.getConnection();
+app.post('/login', async (req, res) => {
+  const connection = await pool.getConnection();
+  const { username, password } = req.body['data'];
 
   try {
-    const queries = req.body;
-
-    const queryPromises = queries.map(query =>
-      connection.execute(query.sql, query.params)
-        .then(() => {
-          console.log("successfully executed: " + query.sql);
-        })
+    const [result] = await connection.execute(
+      users.FIND,
+      [username]
     );
-
-    await Promise.all(queryPromises);
-
-    res.status(200).json({ message: 'SQL queries executed successfully' });
+    const user = result[0]
+    if (!user || !(password === user.password)) {
+      return res.status(401).json({ message: 'Invalid username or password' });
+    }
+    const userData = {
+      id: user.userId,
+      username: user.username,
+      role: "user"
+    }
+    const token = jwt.sign(userData, process.env.jwtpassword, { expiresIn: '1h' });
+    res.cookie('token', token, { httpOnly: true })
+    res.status(201  ).json({ message: 'Login successful', user: {email: user['email'], email_updates: user['email_updates']} });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'An error occurred' });
+    console.error('Error executing MySQL query: ' + error.stack);
+    res.status(500).json({ error: 'Internal server error' });
   } finally {
     connection.release();
   }
 });
-
-app.get('/protected', (req, res) => {
-  res.json({ message: `Hello! You have access to this protected resource.`, key: helpers.encrypt(constants.secret_key, constants.keyHex, constants.ivHex) });
-});
-
-// app.get('/users', async (req, res) => {
-//   try {
-//     const connection = await req.db.getConnection();
-//     const [result, _] = await connection.execute(users.GET);
-//     res.json(result);
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: 'Internal server error' });
-//   }
-// });
-
 
 app.get('/data', async (req, res) => {
   try {
@@ -123,6 +121,45 @@ app.get('/data', async (req, res) => {
 
     connection.release();
     res.json(groupedData);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// app.use(middleware.verifyToken);
+
+app.post('/script_sql', async (req, res) => {
+  const connection = await req.db.getConnection();
+
+  try {
+    const queries = req.body;
+
+    const queryPromises = queries.map(query =>
+      connection.execute(query.sql, query.params)
+        .then(() => {
+          console.log("successfully executed: " + query.sql);
+        })
+    );
+
+    await Promise.all(queryPromises);
+
+    res.status(200).json({ message: 'SQL queries executed successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'An error occurred' });
+  } finally {
+    connection.release();
+  }
+});
+
+app.use(middleware.verifyToken);
+
+app.get('/users', async (req, res) => {
+  try {
+    const connection = await req.db.getConnection();
+    const [result, _] = await connection.execute(users.GET);
+    res.json({ message: 'Profile accessed successfully', "data": result });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal server error' });
