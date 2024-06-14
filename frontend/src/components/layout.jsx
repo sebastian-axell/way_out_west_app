@@ -1,5 +1,4 @@
 import React from 'react';
-import { useState, useEffect } from "react";
 import Header from './header';
 import SideColumn from './sideColumn';
 

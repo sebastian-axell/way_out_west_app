@@ -29,7 +29,7 @@ function DaySchedule({
             {
                 Object.keys(daydata).map((elem) => (
                     <div key={elem} className={`overflow-y-scroll bg-[#FFEBC6] ${elem == activeDay || activeDay == "all"
-                        ? "grid grid-cols-1 sm:grid-cols-2 xl:grid-cols- md:gap-x-1 max-h-[400px] sm:max-h-[470px] lg:max-h-[400px] expand-animation"
+                        ? "grid grid-cols-1 sm:grid-cols-2 xl:grid-cols- md:gap-x-1 max-h-[400px] sm:max-h-[470px] expand-animation"
                         :
                         "max-h-0"
                         }
@@ -46,7 +46,7 @@ function DaySchedule({
                                             target="_blank"
                                             rel="noopener noreferrer"
                                             class="w-full font-bold text-center tracking-tight text-brown-800 -outline-white">
-                                            <p class="max-w-sm absolute bottom-0 md:max-w-md lg:max-w-full mx-auto p-1 md:p-2 bg-[#F194B4] border-2 border-b-0 border-black rounded-t-lg truncate text-xs md:text-lg">{item['artist']}</p>
+                                            <p class="max-w-sm absolute bottom-0 md:max-w-md lg:max-w-full mx-auto p-1 lg:p-2 bg-[#F194B4] border-2 border-b-0 border-black rounded-t-lg truncate text-xs lg:text-base xl:text-lg">{item['artist']}</p>
                                         </a>
                                     </div>
                                     <div className="w-full xl:w-5/12 h-full">

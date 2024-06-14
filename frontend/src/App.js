@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useState, useEffect } from "react";
 import './App.css';
 import Spinner from "./components/spinner";
@@ -11,7 +11,8 @@ import CreateTimeOutPromise from "./auxiliary/timeOutPromise";
 import Home from "./components/home";
 import Schedule from "./components/schedule";
 import Layout from "./components/layout";
-
+import Me from "./components/me";
+import { useAuth } from "./authContext";
 
 
 function App() {
@@ -24,40 +25,45 @@ function App() {
   const [timeoutError, setTimeoutError] = useState(false);
   const [timeoutErrorMain, setTimeoutErrorMain] = useState(false);
   const [failed, setFailed] = useState(false)
+  const { isAuthenticated, logout } = useAuth();
 
   const updateData = async (index, keenData, day) => {
+    const updatedData = { ...data };
+    updatedData[day] = [...updatedData[day]];
+    updatedData[day][index] = { ...updatedData[day][index], keen: keenData };
     try {
-      setData(prevData => {
-        const updatedData = {... prevData}
-        const updatedDayData = [...updatedData[day]];
-        updatedDayData[index]['keen'] = keenData;
-        updatedData[day] = updatedDayData
-        return updatedData;
-      });
-
       setInProgress(true);
-      let url = constants.mode == "csv" ? "updateCsvData" : "data/" + (data[day][index]['id']);
-      let content = constants.mode == "csv" ? data : keenData;
+      let url = constants.mode == "csv" ? "updateCsvData" : "data/" + (updatedData[day][index]['id']);
+      let content = constants.mode == "csv" ? updatedData : keenData;
 
-      let status = await Promise.race([
+      let response = await Promise.race([
         apis.putUpdate(url, content),
         CreateTimeOutPromise(),
       ]);
-
+      let modalResponse="unsure"
+      let status = response['status']
       if (status === 200) {
-        setInProgress(false);
+        setData(updatedData)
         setUpdateComplete(true);
-        return "ok";
-      } else {
-        setInProgress(false);
-        setUpdateFailed(true);
-        return "bad";
+        modalResponse="success"
       }
+      else if (status === 401) {
+        setUpdateFailed(true);
+        logout();
+        modalResponse=response['statusText']
+      }
+      else {
+        setUpdateFailed(true);
+        modalResponse="failed";
+      }
+      setInProgress(false);
+      return modalResponse
     } catch (error) {
       setInProgress(false);
       if (error.message == "Request timed out") {
         setTimeoutError(true);
-      } else {
+      }
+      else {
         setUpdateFailed(true);
       }
     }
@@ -89,35 +95,41 @@ function App() {
   TimeOutHook(updateFailed, setUpdateFailed, constants.emojiTimeOut);
 
   return (
-    <div class="bg-pink-200 h-screen overflow-y-auto w-full">
+    <div className="bg-pink-200 h-screen overflow-y-auto w-full">
       {
         loading ? (
-          failed ? <ResponseEmoji emoji={timeoutErrorMain ? '⏲️' : '🥲'} refreshButton={true} /> : <Spinner />
+          failed ? <ResponseEmoji state={timeoutErrorMain ? "timeout" : "failed"} refreshButton={true} /> : <Spinner />
         ) : (
           <Router>
             <Layout>
               <Routes>
                 <Route exact path="/" element={
-                <Home
-                  data={data}
-                  svgData={svgData}
-                  updateData={updateData}
-                  isUpdateComplete={isUpdateComplete}
-                  inProgress={inProgress}
-                  updateFailed={updateFailed}
-                  timeoutError={timeoutError}
-                />} />
+                  <Home
+                    data={data}
+                    svgData={svgData}
+                    updateData={updateData}
+                    isUpdateComplete={isUpdateComplete}
+                    inProgress={inProgress}
+                    updateFailed={updateFailed}
+                    timeoutError={timeoutError}
+                  />} />
                 <Route path="schedule" element={
-                <Schedule
-                data={data} 
-                updateData={updateData}
-                isUpdateComplete={isUpdateComplete}
-                inProgress={inProgress}
-                updateFailed={updateFailed}
-                timeoutError={timeoutError}
-                />} />
-                <Route path="login" element={<div>hi</div>} />
-                <Route path="*" element={<ResponseEmoji emoji={'🥲'} />} />
+                  isAuthenticated ?
+                  <Schedule
+                    data={data}
+                    updateData={updateData}
+                    isUpdateComplete={isUpdateComplete}
+                    inProgress={inProgress}
+                    updateFailed={updateFailed}
+                    timeoutError={timeoutError}
+                  />
+                  :
+                  <Navigate to={"/me"}/> 
+                } />
+                <Route path="me" element={
+                  <Me data={data} />
+                } />
+                <Route path="*" element={<ResponseEmoji state={"failed"}/>} />
               </Routes>
             </Layout>
           </Router>

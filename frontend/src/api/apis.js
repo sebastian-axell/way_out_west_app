@@ -6,7 +6,7 @@ const ivHex = process.env.REACT_APP_iv_Hex;
 const BASE_URL = process.env.REACT_APP_env == "local" ? process.env.REACT_APP_localhost : process.env.REACT_APP_backend;
 
 const constructUrl = (endpoint) => {
-  return `${BASE_URL}/${endpoint}`;
+    return `${BASE_URL}/${endpoint}`;
 };
 
 const fetchData = async (endpoint) => {
@@ -22,15 +22,41 @@ const fetchData = async (endpoint) => {
     }
 };
 
+const login = async (endpoint, data) => {
+    const requestOptions = configureRequestOptions("POST", data);
+    const url = constructUrl(endpoint);
+    try {
+        let data = await fetch(url, requestOptions).then(response => {
+            return response
+        });
+        return data;
+    } catch (error) {
+        throw new Error('Failed to update data: ' + error.message);
+    }
+}
+
+const user = async (endpoint) => {
+    const requestOptions = configureRequestOptions("GET");
+    const url = constructUrl(endpoint);
+    try {
+        let data = await fetch(url, requestOptions).then(response => {
+            return response.json()
+        });
+        return data;
+    } catch (error) {
+        throw new Error('Failed to update data: ' + error.message);
+    }
+}
+
 const putUpdate = async (endpoint, data) => {
     const requestOptions = configureRequestOptions("PUT", data);
     const url = constructUrl(endpoint);
-    try{
-        let data = await fetch(url, requestOptions).then(response =>{
-            return response['status']
+    try {
+        let data = await fetch(url, requestOptions).then(response => {
+            return response
         });
         return data;
-    } catch (error){
+    } catch (error) {
         throw new Error('Failed to update data: ' + error.message);
     }
 }
@@ -49,28 +75,29 @@ function configureRequestOptions(method, data) {
         mode: 'cors',
         method: requestMethod,
         headers: myHeaders,
-        redirect: "follow"
+        redirect: "follow",
+        credentials: "include" // includes the cookies send from the backend
     };
-    
+
     if (requestMethod !== 'GET') {
-        requestOptions.body = JSON.stringify({"data": data});
-      }
+        requestOptions.body = JSON.stringify({ "data": data });
+    }
 
     return requestOptions;
 }
 
-async function fetchSvgData(){
+async function fetchSvgData() {
     const url = constructUrl("media/");
     const svgData = {};
     const endpoints = ["thursday.svg", "friday.svg", "saturday.svg"]
     try {
         for (const endpoint of endpoints) {
-        const response = await fetch(`${url}${endpoint}`);
-        const svg = await response.text(); 
+            const response = await fetch(`${url}${endpoint}`);
+            const svg = await response.text();
 
-        const filename = endpoint.split('/').pop().replace('.svg', '');
+            const filename = endpoint.split('/').pop().replace('.svg', '');
 
-        svgData[filename] = svg;
+            svgData[filename] = svg;
         }
         return svgData
     } catch (error) {
@@ -78,4 +105,4 @@ async function fetchSvgData(){
     }
 };
 
-export default {fetchSvgData, fetchData, putUpdate};
+export default { fetchSvgData, fetchData, putUpdate, login, user };

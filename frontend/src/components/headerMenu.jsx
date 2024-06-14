@@ -4,7 +4,8 @@ import svgIcons from './svgIcon';
 function HeaderMenu({
     openHeaderMenu,
     setOpenHeaderMenu,
-    LinkButton
+    scheduleButton,
+    accountButton
 }) {
     return (
         <div className="w-full flex flex-col justify-center md:hidden">
@@ -12,8 +13,8 @@ function HeaderMenu({
                 <div
                     className={`text-black text-base flex justify-around ${openHeaderMenu ? 'ease-in-slow max-height-expanded' : 'ease-in-slow max-height-collapsed'}`}
                 >
-                    <div className="flex justify-center p-2">{LinkButton("schedule")}</div>
-                    <div className="flex justify-center p-2">{LinkButton("login")}</div>
+                    <div className="flex justify-center p-2 pb-0">{scheduleButton}</div>
+                    <div className="flex justify-center p-2 pb-0">{accountButton}</div>
                 </div>
                 <button
                     className="flex w-full justify-center focus:border-green-200"

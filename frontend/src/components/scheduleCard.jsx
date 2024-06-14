@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Modal from "./modal";
+import svgIcons from "./svgIcon";
 
 function ScheduleCard({
     item,
@@ -11,16 +12,14 @@ function ScheduleCard({
 }) {
     const [openModal, setOpenModal] = useState(false);
     const [keenData, setKeenData] = useState(item['keen']);
+    const keenItems = item['keen'].split(";")
 
     const handleUpdate = async (keenData, day) => {
-
         let status = await updateData(item['index'], keenData, day)
-        if (status === "ok") {
+        if (status === "success") {
             setKeenData(keenData);
-            return "ok";
-        } else {
-            return "bad"
         }
+        return status
     }
     const getInterestClass = (interest) => {
         switch (interest) {
@@ -42,24 +41,21 @@ function ScheduleCard({
                         <div className="hidden xl:block">
                             <p className="tracking-widest font-sans p-1 lg:text-lg text-brown-900 text-center font-semibold border-b-2 border-black">interested</p>
                         </div>
-                        <div className="w-full h-full flex flex-row xl:flex-col justify-around xl:justify-start mb-8">
+                        <div className={`h-full flex flex-row xl:flex-col justify-around xl:justify-start mb-1 lg:mb-8 w-full`}>
                             {
-                                item['keen'].split(";").map((interest) => {
+                                keenItems.map((interest) => {
                                     const [name, level] = interest.split("-");
                                     return (
                                         <div className={`relative p-0.5 md:p-1 flex flex-col xl:flex-row justify-center justify-between text-center items-center`}>
-                                            <p className={`p-1 text-xl`}>{name}</p>
-                                            <p className="py-1 px-1.5 lg:px-1 xl:px-1 2xl:p-0.5 lg:text-xl w-fit rounded-full mx-auto xl:mx-0 border-2 border-black bg-teal-500">{getInterestClass(level)}</p>
+                                            <p className={`p-1 lg:text-xl`}>{name}</p>
+                                            <p className="p-0.5 lg:text-xl w-fit rounded-full mx-auto xl:mx-0 border-2 border-black bg-teal-500">{getInterestClass(level)}</p>
                                         </div>
                                     )
                                 })
                             }
                         </div>
-                        <div className="absolute cursor-pointer bottom-0 right-0 text-center w-fit p-1" onClick={() => setOpenModal(!openModal)}>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6 -rotate-90">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75a4.5 4.5 0 0 1-4.884 4.484c-1.076-.091-2.264.071-2.95.904l-7.152 8.684a2.548 2.548 0 1 1-3.586-3.586l8.684-7.152c.833-.686.995-1.874.904-2.95a4.5 4.5 0 0 1 6.336-4.486l-3.276 3.276a3.004 3.004 0 0 0 2.25 2.25l3.276-3.276c.256.565.398 1.192.398 1.852Z" />
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M4.867 19.125h.008v.008h-.008v-.008Z" />
-                            </svg>
+                        <div className="absolute cursor-pointer -top-7 xl:top-0 right-0 px-1 xl:pt-1.5 bg-[#F194B4] xl:bg-transparent border-2 xl:border-0 border-b-0 border-black rounded-t-lg" onClick={() => setOpenModal(!openModal)}>
+                            {svgIcons.cog}
                         </div>
                     </div>
                 </div>

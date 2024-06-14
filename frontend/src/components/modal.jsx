@@ -1,11 +1,12 @@
-import { useEffect, useState } from "react";
+import { useAuth } from "../authContext";
+import { useState } from "react";
 import KeenOption from "./keenOption";
 import ModalButton from "./modalButton";
 import svgIcons from "./svgIcon";
 import ResponseEmoji from "./responseEmojis";
 import constants from "../auxiliary/constants";
 
-const names = ["luke","robbie","seb"]
+const names = constants.names
 
 function Modal({
     closeModal,
@@ -18,86 +19,84 @@ function Modal({
     updateFailed,
     timedOut
 }) {
+    const { isAuthenticated, user } = useAuth();
+    const [state, setState] = useState()
     const [selectedOptions, setSelectedOptions] = useState(() => {
         const keenMapping = {};
         data.split(";").forEach((dataEntry) => {
-          const [name, keenness] = dataEntry.split("-");
-          if (names.includes(name)) {
-            keenMapping[name] = keenness;
-          }
+            const [name, keenness] = dataEntry.split("-");
+            if (names.includes(name)) {
+                keenMapping[name] = keenness;
+            }
         });
         return keenMapping;
-      });
-    
-    const handOnClick = (name, keeness) =>{
+    });
+
+    const handOnClick = (name, keeness) => {
         if (selectedOptions[name] == keeness) {
             setSelectedOptions(prevState => {
                 const newState = { ...prevState };
                 delete newState[name];
                 return newState;
-              });
+            });
         }
     }
-    const handleChange = (name, keenness) =>{
+    const handleChange = (name, keenness) => {
         setSelectedOptions({
             ...selectedOptions,
             [name]: keenness,
-          })
+        })
     };
 
-    const closeModalHandle =()=>{
+    const closeModalHandle = () => {
         closeModal(false)
     }
-    
-    const updateKeenDataHandle = async () =>{
-        let dataString = Object.entries(selectedOptions).map(([name, keenness]) =>{
+
+    const updateKeenDataHandle = async () => {
+        let dataString = Object.entries(selectedOptions).map(([name, keenness]) => {
             return name + "-" + keenness;
         }).join(";")
-        if (data != dataString){
-            let response = await updateKeenData(dataString, day);
+        if (data != dataString) {
+            setState(await updateKeenData(dataString, day))
             const timer = setTimeout(() => {
                 closeModalHandle();
-            }, constants.modalTimeOut); 
+            }, constants.modalTimeOut);
             return () => clearTimeout(timer);
-        } else{
+        } else {
             closeModalHandle();
         }
     }
     return (
         <div className="z-10 h-screen w-screen bg-opacity-50 bg-pink-200 flex fixed justify-center items-center top-0 left-0 right-0 font-semibold">
-            <div className="px-3 md:px-5 py-5 bg-[#FFEBC6] shadow rounded-lg border-2 border-black w-11/12 h-fit sm:w-fit overflow-y-auto">
-                <div className='flex justify-end'>
-                <button className='sm:-mr-0 lg:-mr-2 sm:-mt-4 -mt-3 -mr-1 relative' onClick={()=> closeModalHandle()}>
+            <div className="p-4 bg-[#FFEBC6] shadow rounded-lg border-2 border-black w-8/12 h-fit sm:w-fit relative">
+                <button className='absolute top-0 right-0 p-2 pt-1 pr-1' onClick={() => closeModalHandle()}>
                     {svgIcons.cross}
                 </button>
-                </div>
-                <div className="-mt-3 flex flex-col gap-y-5 min-h-full flex-1 place-content-center justify-around">
-                    <div className="text-center md:mb-3">
-                        <h1 className="text-xl lg:text-3xl font-bold tracking-tight">Add interest for {artist}</h1>
+                <div className="-mt-3 flex flex-col gap-y-3 lg:gap-y-5 place-content-center justify-around">
+                    <div className="text-center">
+                        <h1 className="text-base md:text-lg lg:text-3xl font-bold tracking-tight pt-4">Add interest for: <br />{artist}</h1>
                     </div>
-                    <div className="flex grid grid-cols-6 text-2xl gap-y-3 text-center items-center">
-                        {names.map((name, index) =>{
+                    <div className="flex text-2xl text-center items-center justify-center">
+                        {names.map((name, index) => {
                             return (
-                            <>
-                            <div className="flex justify-center pr-4 col-span-full sm:col-span-1 text-base font-semibold md:text-lg mt-2 sm:mt-0">{name}</div>
-                            <ul class="flex w-full gap-x-2 col-span-full sm:col-span-5 justify-around">
-                                <KeenOption keenLevel={"whyNot"} title={"wittle bit keen"} body={"don't mind going"} idTag={"why-not-"+index} name={name} selectedOptions={selectedOptions} handleChange={handleChange} handOnClick={handOnClick} />
-                                <KeenOption keenLevel={"deffo"} title={"deffo keen"} body={'tis would be a good one'} idTag={"deffo-keen-"+index} name={name} selectedOptions={selectedOptions} handleChange={handleChange} handOnClick={handOnClick} />
-                                <KeenOption keenLevel={"hella"} title={"hella keen"} body={"bruh I'll go by myself"} idTag={"hella-keen-"+index} name={name} selectedOptions={selectedOptions} handleChange={handleChange} handOnClick={handOnClick} />
-                            </ul>
-                            </>
+                                isAuthenticated && name == user.username &&
+                                <ul class="flex w-fit flex-col gap-y-2 justify-around">
+                                    <KeenOption keenLevel={"whyNot"} title={"wittle bit keen"} body={"don't mind going"} idTag={"why-not-" + index} name={name} selectedOptions={selectedOptions} handleChange={handleChange} handOnClick={handOnClick} />
+                                    <KeenOption keenLevel={"deffo"} title={"deffo keen"} body={'tis be a good one'} idTag={"deffo-keen-" + index} name={name} selectedOptions={selectedOptions} handleChange={handleChange} handOnClick={handOnClick} />
+                                    <KeenOption keenLevel={"hella"} title={"hella keen"} body={"bruh I'm going"} idTag={"hella-keen-" + index} name={name} selectedOptions={selectedOptions} handleChange={handleChange} handOnClick={handOnClick} />
+                                </ul>
                             )
                         })}
                     </div>
                     <div className="flex grid-2 gap-x-3 pt-1 w-full justify-around">
-                        <ModalButton text={'Cancel'} onClickHandle={closeModalHandle}/>
-                        <ModalButton text={'Confirm'} onClickHandle={updateKeenDataHandle} disabled={inProgress}/>
+                        <ModalButton text={'Cancel'} onClickHandle={closeModalHandle} />
+                        <ModalButton text={'Confirm'} onClickHandle={updateKeenDataHandle} disabled={inProgress} />
                     </div>
                     {
-                        inProgress ? <ResponseEmoji emoji={'🤔'}/> :
-                        updateKeenComplete ? <ResponseEmoji emoji={'👌'}/> :
-                        timedOut ? <ResponseEmoji emoji={'⏲️'}/> :
-                        updateFailed && <ResponseEmoji emoji={'🥲'}/>
+                        inProgress ? <ResponseEmoji state={"waiting"} /> :
+                            updateKeenComplete ? <ResponseEmoji state={state} /> :
+                                timedOut ? <ResponseEmoji state={"timeout"} /> :
+                                    updateFailed && <ResponseEmoji state={state} />
                     }
                 </div>
             </div>

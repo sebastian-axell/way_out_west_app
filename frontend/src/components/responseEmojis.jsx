@@ -3,34 +3,45 @@
 
 
 function ResponseEmoji({
-    emoji,
+    state,
     refreshButton
 }){
     let body;
     let bg_color; 
     let bodyMargin = "mt-4"
-    switch (emoji){
-        case "🤔":
+    let emoji;
+    switch (state){
+        case "waiting":
             bg_color = "bg-amber-700";
             body = "Updating...";
+            emoji="🤔"
             break;
-        case "🥲":
+        case "failed":
             bg_color = "bg-purple-600";
             body = "Uh-oh";
+            emoji="🥲"
             break;
-        case "👌":
+        case "success":
             bg_color = "bg-cyan-600";
             body = "Interest updated";
             bodyMargin = "mt-2"
+            emoji="👌"
             break;
-        case "⏲️":
+        case "timeout":
             bg_color = "bg-red-600";
             body = "Request timed out";
             bodyMargin = "mt-2"
-            break;            
+            emoji="⏲"
+            break;     
+        case "Unauthorized":
+            emoji="🔒"      
+            bg_color = "bg-slate-600";
+            body=state 
+            break;
         default:
             bg_color = "bg-cyan-600";
             body = "Uh-oh"
+            emoji="🤷‍♂️"
             break;
     }
 

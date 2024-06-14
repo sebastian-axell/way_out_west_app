@@ -1,8 +1,10 @@
 import Modal from "./modal";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Tooltip from "./toolTip";
 import NameBubble from "./nameBubble";
-import ArtistCardSvg from "./artistCardSvg";
+import svgIcons from "./svgIcon";
+import { useAuth } from "../authContext";
+import { useNavigate } from "react-router-dom";
 
 function ArtistCard({
     data,
@@ -15,15 +17,19 @@ function ArtistCard({
 }) {
     const [openModal, setOpenModal] = useState(false);
     const [keenData, setKeenData] = useState(data['keen']);
+    const { isAuthenticated } = useAuth();
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        isAuthenticated ? setOpenModal(!openModal) : navigate("/me")
+    }
 
     const handleUpdate = async (data, day) => {
         let status = await updateData(index, data, day)
-        if (status === "ok") {
+        if (status === "success") {
             setKeenData(data);
-            return "ok";
-        } else {
-            return "bad"
         }
+        return status
     }
 
     return (
@@ -52,7 +58,7 @@ function ArtistCard({
                                     <div className="w-full flex justify-center">
                                         <p className="tracking-widest font-sans p-1 lg:text-lg text-brown-900 font-semibold">interested</p>
                                     </div>
-                                    <div className="w-full flex lg:h-10 h-9 relative">
+                                    <div className="w-full flex lg:h-10 h-9">
                                         <div className="flex w-full items-center justify-around">
                                             {keenData.split(";").map((dataEntry, index) => {
                                                 const [name, keenness] = dataEntry.split("-");
@@ -64,19 +70,24 @@ function ArtistCard({
                                             })}
                                         </div>
                                     </div>
-                                    <div className="absolute cursor-pointer top-0 right-0 p-1 md:p-3 text-center w-fit" onClick={() => setOpenModal(!openModal)}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6 -rotate-90">
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75a4.5 4.5 0 0 1-4.884 4.484c-1.076-.091-2.264.071-2.95.904l-7.152 8.684a2.548 2.548 0 1 1-3.586-3.586l8.684-7.152c.833-.686.995-1.874.904-2.95a4.5 4.5 0 0 1 6.336-4.486l-3.276 3.276a3.004 3.004 0 0 0 2.25 2.25l3.276-3.276c.256.565.398 1.192.398 1.852Z" />
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M4.867 19.125h.008v.008h-.008v-.008Z" />
-                                        </svg>
+                                    <div className="absolute cursor-pointer top-0 md:bottom-0 right-0 p-1 md:p-3 md:pr-2 md:pt-1 text-center w-fit" onClick={handleClick}>
+                                        {
+                                            isAuthenticated ?
+                                                svgIcons.cog
+                                                :
+                                                svgIcons.lock
+                                        }
                                     </div>
                                 </div>
                             </div>
                             :
-                            <div onClick={() => setOpenModal(!openModal)} className="cursor-pointer w-fit text-center mx-auto p-3">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6 lg:size-8">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                </svg>
+                            <div onClick={handleClick} className="cursor-pointer w-fit text-center mx-auto p-3">
+                                {
+                                    isAuthenticated ?
+                                        svgIcons.add
+                                        :
+                                        svgIcons.lock
+                                }
                             </div>
 
                         }
