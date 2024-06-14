@@ -18,7 +18,7 @@ let port = 4040;
 let app = express();
 let pool;
 
-const whitelist = ['https://we-out-west.vercel.app', 'https://weoutwest.info', 'http://localhost:3000', "weoutwest.info", "https://weoutwest.info/"];
+const whitelist = ['https://we-out-west.vercel.app', 'https://weoutwest.info', 'http://localhost:3000', "weoutwest.info", "https://weoutwest.info/", "we-out-west-1mru5tn7h-sebastians-projects-4168f7d8.vercel.app"];
 app.use((req, res, next) => {
   const origin = req.headers.origin;
   if (whitelist.includes(origin)) {
