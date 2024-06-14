@@ -21,11 +21,10 @@ let pool;
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', 'https://weoutwest.info')
   res.header('Access-Control-Allow-Credentials', 'true');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   next();
 });
-app.use(cors(middleware.corsOptions));
 
+app.use(cors(middleware.corsOptions));
 app.use(express.json());
 app.use(cookieParser());
 app.use('/media', express.static(path.join(__dirname, '..', 'svgs')));
