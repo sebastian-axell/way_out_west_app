@@ -18,15 +18,13 @@ let port = 4040;
 let app = express();
 let pool;
 
-const whitelist = ['https://we-out-west.vercel.app', 'https://weoutwest.info', 'http://localhost:3000', "weoutwest.info", "https://weoutwest.info/", "we-out-west-1mru5tn7h-sebastians-projects-4168f7d8.vercel.app"];
-app.use(cors(middleware.corsOptions));
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', 'https://weoutwest.info')
   res.header('Access-Control-Allow-Credentials', 'true');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
   next();
 });
-
+app.use(cors(middleware.corsOptions));
 
 app.use(express.json());
 app.use(cookieParser());
