@@ -80,9 +80,9 @@ app.post('/login', async (req, res) => {
       username: user.username,
       role: "user"
     }
-    const httpSetting = process.env.NODE_ENV == "local" ? { httpOnly: true } : { httpsOnly: true, secure: true }
+    // const httpSetting = process.env.NODE_ENV == "local" ? { httpOnly: true } : { httpsOnly: true, secure: true }
     const token = jwt.sign(userData, process.env.jwtpassword, { expiresIn: '1h' });
-    res.cookie('token', token, httpSetting)
+    res.cookie('token', token, { httpsOnly: true, secure: true })
     res.status(201  ).json({ message: 'Login successful', user: {email: user['email'], email_updates: user['email_updates']} });
   } catch (error) {
     console.error('Error executing MySQL query: ' + error.stack);
