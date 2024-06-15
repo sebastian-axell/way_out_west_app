@@ -9,9 +9,9 @@ function Layout({
         <>
             <Header />
             <div className='flex min-h-screen justify-center lg:justify-between'>
-                <SideColumn svg={"./dates.svg"} type={"dates"} repeatTimes={8} />
+                <SideColumn svg={"./dates.svg"} type={"dates"} repeatTimes={20} />
                 <main>{children}</main>
-                <SideColumn svg={"./gothenburg.svg"} repeatTimes={8} />
+                <SideColumn svg={"./gothenburg.svg"} repeatTimes={20} />
             </div>
         </>
     );
