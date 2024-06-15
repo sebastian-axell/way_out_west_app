@@ -18,12 +18,7 @@ let port = 4040;
 let app = express();
 let pool;
 
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'https://weoutwest.info')
-  res.header('Access-Control-Allow-Credentials', 'true');
-  next();
-});
-
+app.use(middleware.setCorsHeaders);
 app.use(cors(middleware.corsOptions));
 app.use(express.json());
 app.use(cookieParser());

@@ -13,11 +13,11 @@ function Me({ data }) {
     const [loading, setLoading] = useState(false)
     const days = ["thursday", "friday", "saturday"]
     const names = constants.names
-    
+
     const handleSubmit = async (name, password) => {
         const response = await login(name, password)
-        if (response['status'] != 401) {
-            await updateUser({ username: name, email: response['user']['email'], email_updates: response['user']['email_updates'] })
+        if (response['status']===201) {
+            await updateUser({ username: name, email: response['data']['email'], email_updates: response['data']['email_updates'] })
         }
         return response
     }

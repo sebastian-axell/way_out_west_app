@@ -3,12 +3,18 @@ const middlewareHelpers = require("../helpers/helpers")
 const middlewareConstants = require("../constants");
 const jwt = require('jsonwebtoken');
 
-const whitelist = ['https://we-out-west.vercel.app', 'https://weoutwest.info', 'http://localhost:3000'];
 var corsOptions = {
-  origin: 'https://weoutwest.info',
-  credentials: true };
+  origin: process.env.NODE_ENV == 'local' ? process.env.localUrl : process.env.remoteUrl,
+  credentials: true
+};
 
-function verifyApiKey(req, res, next){
+function setCorsHeaders(req, res, next) {
+  res.header('Access-Control-Allow-Origin', process.env.NODE_ENV == 'local' ? process.env.localUrl : process.env.remoteUrl)
+  res.header('Access-Control-Allow-Credentials', 'true');
+  next();
+}
+
+function verifyApiKey(req, res, next) {
   let auth_header = req.headers['authorization'];
   if (!auth_header || !auth_header.startsWith('Bearer ')) {
     return res.status(401).json({ error: 'API key is missing' });
@@ -34,7 +40,7 @@ function verifyApiKey(req, res, next){
 function verifyToken(req, res, next) {
   // verify the token
   const token = req.cookies.token;
-  if (!token){
+  if (!token) {
     return res.status(401).json({ error: 'Token is missing' });
   }
   jwt.verify(token, process.env.jwtpassword, (err, user) => {
@@ -53,5 +59,6 @@ function verifyToken(req, res, next) {
 module.exports = {
   verifyToken,
   verifyApiKey,
+  setCorsHeaders,
   corsOptions
 }

@@ -16,18 +16,19 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (username, password) => {
     const hash = CryptoJS.SHA256(password).toString(CryptoJS.enc.Hex);
+    let responseBody
     try {
-
       const response = await apis.login("login", { username: username, password: hash })
       if (response.status === 201) {
         const authData = { isAuthenticated: true, user: username }
         setAuthState(authData);
         sessionStorage.setItem('authState', JSON.stringify(authData));
-        return await response.json();
+        responseBody = await response.json();
       } else {
-        const message = await response.json();
-        return { status: response.status, message: message.message };
+        responseBody = await response.json();
       }
+      return { status: response.status, message: responseBody.message, data:  responseBody.user};
+
     }
     catch (error) {
       console.log(error);

@@ -52,7 +52,7 @@ function ArtistCard({
                         </a>
                     </div>
                     <div class="min-h-[5rem] md:min-h-[6rem] border-t-2 border-black w-full flex flex-col justify-around">
-                        {keenData ?
+                        {isAuthenticated && keenData ?
                             <div class="font-normal text-gray-700 flex md:flex-col">
                                 <div class="flex flex-col w-full justify-center relative p-3 pt-1" id="peeps">
                                     <div className="w-full flex justify-center">
@@ -71,23 +71,13 @@ function ArtistCard({
                                         </div>
                                     </div>
                                     <div className="absolute cursor-pointer top-0 md:bottom-0 right-0 p-1 md:p-3 md:pr-2 md:pt-1 text-center w-fit" onClick={handleClick}>
-                                        {
-                                            isAuthenticated ?
-                                                svgIcons.cog
-                                                :
-                                                svgIcons.lock
-                                        }
+                                        {svgIcons.cog}
                                     </div>
                                 </div>
                             </div>
                             :
                             <div onClick={handleClick} className="cursor-pointer w-fit text-center mx-auto p-3">
-                                {
-                                    isAuthenticated ?
-                                        svgIcons.add
-                                        :
-                                        svgIcons.lock
-                                }
+                                {svgIcons.lock}
                             </div>
 
                         }

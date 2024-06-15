@@ -1,3 +1,6 @@
+import { useEffect, useState } from "react";
+import svgIcons from "./svgIcon";
+
 function Profile({
     data,
     days,
@@ -5,11 +8,24 @@ function Profile({
     user
 }) {
     const pattern = new RegExp(`${user.username}-.*`);
+    const [loading, setLoading] = useState(false)
+
+    const LoadingComponent = () => (
+        <div className="mx-auto my-auto w-fit animate-logo">
+            {svgIcons.loading}
+        </div>
+    );
+
+    useEffect(()=>{
+    }, [])
     
     return (
         <div className="min-h-[16rem] lg:min-h-[25rem]">
-            <div>
+            <div className="flex items-center h-max ">
             {
+                loading ?
+                <LoadingComponent />
+                :
                 Object.keys(data).map((elem) => (
                     <div className="">
                         <div key={elem} className={`p-3 grid md:grid-cols-2 max-h-[255px] lg:max-h-[400px] overflow-auto ${elem == days[selectedIndex] ? "" : "hidden"}`}>
