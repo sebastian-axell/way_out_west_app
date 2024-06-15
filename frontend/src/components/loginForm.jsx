@@ -9,15 +9,24 @@ function LoginForm({
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState("")
     const [isShaking, setIsShaking] = useState(false)
+    const [loading, setLoading] = useState(false)
     const formSubmit = async (event) => {
+        setLoading(true)
         event.preventDefault();
         const response = await handleSubmit(names[selectedIndex], password);
         if (response['status'] !== 201) {
             setIsShaking(true)
             setErrorMessage(response['message'])
         }
+        setLoading(false)
         setPassword("");
     };
+
+    const LoadingComponent = () => (
+        <div className="mx-auto my-auto w-fit animate-logo">
+            {svgIcons.loading}
+        </div>
+    );
 
     useEffect(() => {
         if (isShaking) {
@@ -35,6 +44,9 @@ function LoginForm({
             {
                 isShaking ?
                     <p className={`font-bold text-red-900 text-center shake`}>{errorMessage}</p>
+                    :
+                    loading ?
+                    <LoadingComponent />
                     :
                     <form onSubmit={formSubmit} className="flex flex-col lg:flex-row relative mt-3">
                         <label htmlFor="password" className="border-2 border-black lg:rounded-lg lg:rounded-r-none p-1 text-center bg-[#F194B4] font-semibold">enter brocode</label>
