@@ -23,7 +23,7 @@ function InfoTableEmoji({
                 <div className="flex md:flex-row flex-col">
                     {Object.entries(emojiMapping).map(([value, emoji]) => (
                         <div key={value} className="flex justify-start gap-x-2 w-10/12 md:w-8/12 p-4 mx-auto">
-                            <p className="p-1 lg:text-xl w-fit rounded-full border-2 border-black bg-teal-500 my-auto">{emoji}</p>
+                            <p className="p-1 px-1.5 lg:text-xl w-fit rounded-full border-2 border-black bg-teal-500 my-auto">{emoji}</p>
                             <p className="flex p-1 my-auto">means bro is {value} keen</p>
                         </div>
                     ))}

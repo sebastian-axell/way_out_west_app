@@ -37,7 +37,7 @@ function ScheduleCard({
         <div className="h-full">
             <div class="relative mx-auto font-bold h-full">
                 <div className="flex flex-row h-full">
-                    <div className="w-full flex flex-col justify-start h-full border-2 border-black relative bg-[#FFF2E5] ">
+                    <div className="w-full flex flex-col justify-start h-full border-2 border-black relative bg-[#FFF2E5]">
                         <div className="hidden xl:block">
                             <p className="tracking-widest font-sans p-1 lg:text-lg text-brown-900 text-center font-semibold border-b-2 border-black">interested</p>
                         </div>
@@ -54,7 +54,7 @@ function ScheduleCard({
                                 })
                             }
                         </div>
-                        <div className="absolute cursor-pointer -top-7 xl:top-0 right-0 px-1 xl:pt-1.5 bg-[#F194B4] xl:bg-transparent border-2 xl:border-0 border-b-0 border-black rounded-t-lg" onClick={() => setOpenModal(!openModal)}>
+                        <div className="absolute cursor-pointer -top-7 xl:top-0 right-0 px-1 xl:pt-1.5 bg-[#FFF2E5] xl:bg-transparent border-2 xl:border-0 border-b-0 border-black rounded-t-lg" onClick={() => setOpenModal(!openModal)}>
                             {svgIcons.cog}
                         </div>
                     </div>
