@@ -12,6 +12,7 @@ function LoginForm({
     const formSubmit = async (event) => {
         event.preventDefault();
         const response = await handleSubmit(names[selectedIndex], password);
+        console.log(response);
         if (response['status'] !== 201) {
             setIsShaking(true)
             setErrorMessage(response['message'])
