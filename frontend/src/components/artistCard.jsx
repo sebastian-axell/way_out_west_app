@@ -77,7 +77,7 @@ function ArtistCard({
                             </div>
                             :
                             <div onClick={handleClick} className="cursor-pointer w-fit text-center mx-auto p-3">
-                                {svgIcons.lock}
+                                {svgIcons.add}
                             </div>
 
                         }
