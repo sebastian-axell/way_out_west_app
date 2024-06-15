@@ -39,7 +39,7 @@ function ArtistCard({
                     <div class="w-full mx-auto relative">
                         <a href={data['link']} class="" target="_blank" rel="noopener noreferrer">
                             <img
-                                class="rounded-t-md"
+                                class="rounded-t-md aspect-square"
                                 src={data['img']} alt="" />
                         </a>
                         <a
