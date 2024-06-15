@@ -28,7 +28,7 @@ function Profile({
                 :
                 Object.keys(data).map((elem) => (
                     <div className="">
-                        <div key={elem} className={`p-3 pt-0 pr-1 grid md:grid-cols-2 max-h-[255px] lg:max-h-[400px] overflow-y-auto w ${elem == days[selectedIndex] ? "" : "hidden"}`}>
+                        <div key={elem} className={`p-3 pt-0 pr-1 grid md:grid-cols-2 gap-y-1 max-h-[255px] lg:max-h-[400px] overflow-y-auto w ${elem == days[selectedIndex] ? "" : "hidden"}`}>
                             {
                                 data[elem].map((item) => (
                                     pattern.test(item['keen']) &&
