@@ -85,7 +85,7 @@ app.post('/login', async (req, res) => {
     res.status(201  ).json({ message: 'Login successful', user: {email: user['email'], email_updates: user['email_updates']} });
   } catch (error) {
     console.error('Error executing MySQL query: ' + error.stack);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ message: 'Internal server error' });
   } finally {
     connection.release();
   }
@@ -124,7 +124,7 @@ app.get('/data', async (req, res) => {
     res.json(groupedData);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ message: 'Internal server error' });
   }
 });
 
@@ -148,7 +148,7 @@ app.post('/script_sql', async (req, res) => {
     res.status(200).json({ message: 'SQL queries executed successfully' });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'An error occurred' });
+    res.status(500).json({ message: 'An error occurred' });
   } finally {
     connection.release();
   }
@@ -163,7 +163,7 @@ app.get('/users', async (req, res) => {
     res.json({ message: 'Profile accessed successfully', "data": result });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ message: 'Internal server error' });
   }
 });
 
@@ -179,7 +179,7 @@ app.put('/data/:id', async (req, res) => {
     res.status(200).json({ message: 'Successfully updated', results });
   } catch (error) {
     console.error('Error executing MySQL query: ' + error.stack);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ message: 'Internal server error' });
   } finally {
     connection.release();
   }

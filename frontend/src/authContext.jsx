@@ -27,7 +27,6 @@ export const AuthProvider = ({ children }) => {
       } else {
         responseBody = await response.json();
       }
-      console.log(responseBody);
       return { status: response.status, message: responseBody.message, data:  responseBody.user};
 
     }
