@@ -19,7 +19,6 @@ export const AuthProvider = ({ children }) => {
     let responseBody
     try {
       const response = await apis.login("login", { username: username, password: hash })
-      console.log(response);
       if (response.status === 201) {
         const authData = { isAuthenticated: true, user: username }
         setAuthState(authData);
@@ -28,6 +27,7 @@ export const AuthProvider = ({ children }) => {
       } else {
         responseBody = await response.json();
       }
+      console.log(responseBody);
       return { status: response.status, message: responseBody.message, data:  responseBody.user};
 
     }

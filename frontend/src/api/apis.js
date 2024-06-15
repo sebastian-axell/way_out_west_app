@@ -27,7 +27,6 @@ const login = async (endpoint, data) => {
     const url = constructUrl(endpoint);
     try {
         let data = await fetch(url, requestOptions).then(response => {
-            console.log(response);
             return response
         });
         return data;
