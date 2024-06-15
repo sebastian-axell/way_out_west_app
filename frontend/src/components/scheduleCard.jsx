@@ -48,7 +48,7 @@ function ScheduleCard({
                                     return (
                                         <div className={`relative p-0.5 md:p-1 flex flex-col xl:flex-row justify-center justify-between text-center items-center`}>
                                             <p className={`p-1 lg:text-xl`}>{name}</p>
-                                            <p className="p-0.5 lg:text-xl w-fit rounded-full mx-auto xl:mx-0 border-2 border-black bg-teal-500">{getInterestClass(level)}</p>
+                                            <p className="p-0.5 px-1 lg:text-xl w-fit rounded-full mx-auto xl:mx-0 border-2 border-black bg-teal-500">{getInterestClass(level)}</p>
                                         </div>
                                     )
                                 })
