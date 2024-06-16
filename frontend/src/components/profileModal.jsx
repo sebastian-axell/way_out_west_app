@@ -56,7 +56,7 @@ function ProfileModule({
         });
     }
     return (
-        <div className="flex justify-center items-center h-full">
+        <div className="mt-24 lg:mt-40 mb-5">
             <div className="border-2 border-black w-[18rem] lg:w-[24rem]">
                 <div className="p-5 bg-black text-white border-b-2 border-black text-center font-bold text-lg">{isAuthenticated ? "hello " + user.username : "login"}</div>
                 <div className="bg-[#FFEBC6] p-5 pt-2 pb-2 lg:pb-5 flex flex-col gap-y-6">
@@ -75,8 +75,7 @@ function ProfileModule({
                                 <></>
                         } */}
                         <p className="flex items-center justify-center p-3 pt-1 text-xl font-bold">{isAuthenticated ? "noted interest" : "pick your fighter"}</p>
-                        <div className="flex flex flex-col lg:flex-row gap-3 justify-around w-10/12 lg:w-full mx-auto">
-                            <div className="flex flex flex-col lg:flex-row gap-2 justify-around w-10/12 lg:w-full mx-auto">
+                            <div className="flex gap-2 justify-around w-full mx-auto">
                                 {
                                     data.map((elem, index) => {
                                         return (
@@ -88,7 +87,6 @@ function ProfileModule({
                                     })
                                 }
                             </div>
-                        </div>
                         {
                             loading ?
                                 <LoadingComponent />

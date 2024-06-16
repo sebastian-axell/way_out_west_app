@@ -49,7 +49,7 @@ function LoginForm({
                     <LoadingComponent />
                     :
                     <form onSubmit={formSubmit} className="flex flex-col lg:flex-row relative mt-3">
-                        <label htmlFor="password" className="border-2 border-black lg:rounded-lg lg:rounded-r-none p-1 text-center bg-[#F194B4] font-semibold">enter brocode</label>
+                        <label htmlFor="password" className="border-2 border-black lg:rounded-lg lg:rounded-r-none p-1 text-center bg-[#F194B4] font-semibold">le password</label>
                         <input
                             autoFocus
                             className="border-2 lg:border-l-0 border-t-0 lg:border-t-2 lg:rounded-r-lg border-black pl-2 focus:outline-none"
@@ -60,7 +60,7 @@ function LoginForm({
                             placeholder="get it wrong n ur dead"
                         />
                         <div className="flex items-center">
-                            <button type="submit" className="lg:absolute -right-2 mx-auto mt-2 lg:mt-0 focus:outline-none">
+                            <button type="submit" className="lg:absolute right-1 mx-auto mt-2 lg:mt-0 focus:outline-none">
                                 {svgIcons.formButton}
                             </button>
                         </div>
