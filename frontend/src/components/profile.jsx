@@ -53,7 +53,7 @@ function Profile({
                                     <div className="col-span-full flex w-full h-[15rem] items-center justify-center p-5">
                                         <div className="col-span-full p-6 pt-0 pl-3 w-full flex-col gap-y-4 flex justify-center">
                                             <p className="text-center font-semibold">no interest yet</p>
-                                            <Link className="border-2 border-black p-1 px-3 mx-auto bg-teal-300 bg-opacity-50 font-semibold rounded-lg" to={"/"}>add some</Link>
+                                            <Link className="border-2 border-black p-1 px-3 mx-auto bg-[#F194B4] font-semibold rounded-lg" to={"/"}>add some</Link>
                                         </div>
                                     </div>
                             }
