@@ -8,16 +8,11 @@ function ProfileModule({
     data,
     setSelectedIndex,
     selectedIndex,
-    loading
+    loading,
+    LoadingComponent
 }) {
     // const pattern = new RegExp(`${user.username}-.*`);
     const { user, isAuthenticated } = useAuth();
-
-    const LoadingComponent = () => (
-        <div className="mx-auto my-auto w-fit animate-logo">
-            {svgIcons.loading}
-        </div>
-    );
 
     useEffect(() => {
         const handleKeyDown = (event) => {

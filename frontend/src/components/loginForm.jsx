@@ -4,7 +4,8 @@ import svgIcons from "./svgIcon";
 function LoginForm({
     handleSubmit,
     selectedIndex,
-    names
+    names,
+    LoadingComponent
 }) {
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState("")
@@ -21,12 +22,6 @@ function LoginForm({
         setLoading(false)
         setPassword("");
     };
-
-    const LoadingComponent = () => (
-        <div className="mx-auto my-auto w-fit animate-logo">
-            {svgIcons.loading}
-        </div>
-    );
 
     useEffect(() => {
         if (isShaking) {

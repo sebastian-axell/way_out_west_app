@@ -73,19 +73,18 @@ app.post('/login', async (req, res) => {
     );
     const user = result[0]
     if (!user || !(password === user.password)) {
-      return res.status(401).json({ message: 'Invalid username or password' });
+      return res.status(401).json({ message: 'Nope not right' });
     }
     const userData = {
       id: user.userId,
       username: user.username,
       role: "user"
     }
-
     const token = jwt.sign(userData, process.env.jwtpassword, { expiresIn: '1h' });
     res.cookie('token', token, { httpOnly: true, secure: true , sameSite: 'None'})
     res.status(201  ).json({ message: 'Login successful', user: {email: user['email'], email_updates: user['email_updates']} });
   } catch (error) {
-    console.error('Error executing MySQL query: ' + error.stack);
+    console.error('Error processing login: ' + error.stack);
     res.status(500).json({ message: 'Internal server error' });
   } finally {
     connection.release();
@@ -156,17 +155,6 @@ app.post('/script_sql', async (req, res) => {
 });
 
 app.use(middleware.verifyToken);
-
-app.get('/users', async (req, res) => {
-  try {
-    const connection = await req.db.getConnection();
-    const [result, _] = await connection.execute(users.GET);
-    res.json({ message: 'Profile accessed successfully', "data": result });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Internal server error' });
-  }
-});
 
 app.put('/data/:id', async (req, res) => {
   const connection = await pool.getConnection();

@@ -33,12 +33,10 @@ function ResponseEmoji({
             bodyMargin = "mt-2"
             emoji = "⏲"
             break;
-        case "Unauthorized":
-            emoji = "🔒"
-            bg_color = "bg-slate-600";
-            body = state
-            break;
         case "Token expired":
+        case "Forbidden":
+        case "Token is missing":
+        case "Unauthorized":
             emoji = "🔒"
             bg_color = "bg-slate-600";
             body = state
