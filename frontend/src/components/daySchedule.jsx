@@ -65,7 +65,8 @@ function DaySchedule({
                                     </div>
                                 ))
                                 :
-                                (activeDay === day || activeDay == "all") && elem == day && <div className="col-span-full p-6 w-full flex-col gap-y-4 flex justify-center">
+                                (activeDay === day || activeDay == "all") && elem == day &&
+                                <div className="col-span-full p-6 w-full flex-col gap-y-4 flex justify-center">
                                     <p className="text-center font-semibold">no interest yet</p>
                                     <Link className="border-2 border-black p-1 px-3 mx-auto bg-teal-500 font-semibold text-white rounded-lg" to={"/"}>add some</Link>
                                 </div>
