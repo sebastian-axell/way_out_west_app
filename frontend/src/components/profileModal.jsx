@@ -1,7 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from "react";
 import { useAuth } from "../authContext";
-import svgIcons from "./svgIcon";
 
 function ProfileModule({
     children,
@@ -11,7 +10,6 @@ function ProfileModule({
     loading,
     LoadingComponent
 }) {
-    // const pattern = new RegExp(`${user.username}-.*`);
     const { user, isAuthenticated } = useAuth();
 
     useEffect(() => {
