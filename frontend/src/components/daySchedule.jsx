@@ -21,7 +21,6 @@ function DaySchedule({
 
         return classes;
     }
-    console.log(activeDay);
     return (
         <div className="">
             <div className="w-full">

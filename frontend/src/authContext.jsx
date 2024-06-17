@@ -31,7 +31,7 @@ export const AuthProvider = ({ children }) => {
 
     }
     catch (error) {
-      console.log(error);
+      return { status: 500, message: "something went wrong"};
     }
   };
 
