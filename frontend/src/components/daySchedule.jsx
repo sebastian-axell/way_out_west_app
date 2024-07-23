@@ -5,12 +5,7 @@ function DaySchedule({
     setActiveDay,
     daydata,
     day,
-    activeDay,
-    updateData,
-    updateKeenComplete,
-    inProgress,
-    updateFailed,
-    timeoutError,
+    activeDay
 }) {
     function getClassNames(day, activeDay) {
         const classes = [
@@ -54,12 +49,7 @@ function DaySchedule({
                                         <div className="w-full xl:w-5/12 h-full">
                                             <ScheduleCard
                                                 item={item}
-                                                key={item['artist']}
-                                                updateData={updateData}
-                                                updateKeenComplete={updateKeenComplete}
-                                                inProgress={inProgress}
-                                                updateFailed={updateFailed}
-                                                timedOut={timeoutError}
+                                                key={item['link']}
                                             />
                                         </div>
                                     </div>

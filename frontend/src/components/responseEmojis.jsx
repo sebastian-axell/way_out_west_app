@@ -28,6 +28,7 @@ function ResponseEmoji({
             emoji = "👌"
             break;
         case "timeout":
+        case "Request timed out":
             bg_color = "bg-red-600";
             body = "Request timed out";
             bodyMargin = "mt-2"

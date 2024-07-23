@@ -3,24 +3,11 @@ import Modal from "./modal";
 import svgIcons from "./svgIcon";
 
 function ScheduleCard({
-    item,
-    updateData,
-    updateKeenComplete,
-    inProgress,
-    updateFailed,
-    timedOut
+    item
 }) {
     const [openModal, setOpenModal] = useState(false);
-    const [keenData, setKeenData] = useState(item['keen']);
     const keenItems = item['keen'].split(";")
 
-    const handleUpdate = async (keenData, day) => {
-        let status = await updateData(item['index'], keenData, day)
-        if (status === "success") {
-            setKeenData(keenData);
-        }
-        return status
-    }
     const getInterestClass = (interest) => {
         switch (interest) {
             case "hella":
@@ -61,15 +48,11 @@ function ScheduleCard({
                 </div>
                 {openModal &&
                     <Modal
-                        data={keenData}
+                        data={item['keen']}
                         artist={item['artist']}
                         day={item['day']}
-                        updateKeenData={handleUpdate}
                         closeModal={setOpenModal}
-                        updateKeenComplete={updateKeenComplete}
-                        inProgress={inProgress}
-                        updateFailed={updateFailed}
-                        timedOut={timedOut}
+                        index={item['index']}
                     />}
             </div>
         </div>

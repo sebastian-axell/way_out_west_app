@@ -72,7 +72,7 @@ function ProfileModule({
                                 {
                                     data.map((elem, index) => {
                                         return (
-                                            <button key={index} id="index" value={index} onClick={() => setSelectedIndex(index)}
+                                            <button key={elem} id="index" value={index} onClick={() => setSelectedIndex(index)}
                                                 className={`cursor-pointer w-10/12 mx-auto border-2 border-black ${selectedIndex === index ? "bg-yellow-300 font-bold text-black" : ""}`}>
                                                 {elem}
                                             </button>

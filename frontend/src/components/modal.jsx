@@ -1,71 +1,84 @@
 import { useAuth } from "../authContext";
-import { useState } from "react";
+import { useContext, useRef, useState } from "react";
 import KeenOption from "./keenOption";
 import ModalButton from "./modalButton";
 import svgIcons from "./svgIcon";
 import ResponseEmoji from "./responseEmojis";
 import constants from "../auxiliary/constants";
+import { DataContext } from "./dataContext";
 
 const names = constants.names
 
 function Modal({
     closeModal,
     data,
-    updateKeenData,
     artist,
     day,
-    updateKeenComplete,
-    inProgress,
-    updateFailed,
-    timedOut
+    index
 }) {
-    const { isAuthenticated, user } = useAuth();
-    const [state, setState] = useState()
-    const [selectedOptions, setSelectedOptions] = useState(() => {
-        const keenMapping = {};
-        data.split(";").forEach((dataEntry) => {
-            const [name, keenness] = dataEntry.split("-");
-            if (names.includes(name)) {
+    function createKeenMapping() {
+        return data.split(";")
+            .map(interest => interest.split("-"))
+            .filter(([name, keenness]) => names.includes(name))
+            .reduce((keenMapping, [name, keenness]) => {
                 keenMapping[name] = keenness;
+                return keenMapping;
+            }, {});
+    }
+    const { isAuthenticated, user } = useAuth();
+    function determineMyInterest() {
+        const interests = data.split(";");
+        let myInterest;
+        interests.some(interest => {
+            const [name, keenness] = interest.split("-");
+            if (user.username === name) {
+                myInterest = keenness
+                return;
             }
-        });
-        return keenMapping;
-    });
+        })
+        return myInterest;
+    }
+    const [, makeUpdate] = useContext(DataContext);
+    const [inProgress, setInProgress] = useState(false);
+    const [state, setState] = useState("waiting")
+    const [keenLevel, setKeenLevel] = useState(determineMyInterest)
+    const keenData = useRef(createKeenMapping());
 
-    const handOnClick = (name, keeness) => {
-        if (selectedOptions[name] == keeness) {
-            setSelectedOptions(prevState => {
-                const newState = { ...prevState };
-                delete newState[name];
-                return newState;
-            });
+    const handleOnClick = (keenness) => {
+        if (keenData.current[user.username] == keenness) {
+            const newState = { ...keenData.current };
+            delete newState[user.username];
+            keenData.current = newState;
+            setKeenLevel("");
+        } else {
+            setKeenLevel(keenness)
+            keenData.current = { ...keenData.current, [user.username]: keenness }
         }
     }
-    const handleChange = (name, keenness) => {
-        setSelectedOptions({
-            ...selectedOptions,
-            [name]: keenness,
-        })
-    };
 
     const closeModalHandle = () => {
         closeModal(false)
     }
 
     const updateKeenDataHandle = async () => {
-        let dataString = Object.entries(selectedOptions).map(([name, keenness]) => {
-            return name + "-" + keenness;
-        }).join(";")
+        let dataString = Object.entries(keenData.current)
+            .map(([name, keenness]) => {
+                return name + "-" + keenness;
+            }).join(";")
         if (data != dataString) {
-            setState(await updateKeenData(dataString, day))
-            const timer = setTimeout(() => {
-                closeModalHandle();
-            }, constants.modalTimeOut);
-            return () => clearTimeout(timer);
+            setInProgress(true)
+            makeUpdate(index, dataString, day).then(response => {
+                setState(response)
+                setTimeout(() => {
+                    setInProgress(false)
+                    closeModalHandle();
+                }, constants.modalTimeOut);
+            })
         } else {
             closeModalHandle();
         }
     }
+
     return (
         <div className="z-10 h-screen w-screen bg-opacity-50 bg-pink-200 flex fixed justify-center items-center top-0 left-0 right-0 font-semibold">
             <div className="p-4 bg-[#FFEBC6] shadow rounded-lg border-2 border-black w-8/12 h-fit sm:w-fit relative">
@@ -77,26 +90,30 @@ function Modal({
                         <h1 className="text-base md:text-lg lg:text-3xl font-bold tracking-tight pt-4">Add interest for: <br />{artist}</h1>
                     </div>
                     <div className="flex text-2xl text-center items-center justify-center">
-                        {names.map((name, index) => {
-                            return (
-                                isAuthenticated && name == user.username &&
-                                <ul class="flex w-fit flex-col gap-y-2 justify-around">
-                                    <KeenOption keenLevel={"whyNot"} title={"wittle bit keen"} body={"don't mind going"} idTag={"why-not-" + index} name={name} selectedOptions={selectedOptions} handleChange={handleChange} handOnClick={handOnClick} />
-                                    <KeenOption keenLevel={"deffo"} title={"deffo keen"} body={'tis be a good one'} idTag={"deffo-keen-" + index} name={name} selectedOptions={selectedOptions} handleChange={handleChange} handOnClick={handOnClick} />
-                                    <KeenOption keenLevel={"hella"} title={"hella keen"} body={"bruh I'm going"} idTag={"hella-keen-" + index} name={name} selectedOptions={selectedOptions} handleChange={handleChange} handOnClick={handOnClick} />
-                                </ul>
-                            )
-                        })}
+                        {
+                            isAuthenticated &&
+                            <ul class="flex w-fit flex-col gap-y-2 justify-around">
+                                <KeenOption
+                                    optionLevel={"whyNot"}
+                                    keenLevel={keenLevel}
+                                    handleOnClick={handleOnClick} />
+                                <KeenOption
+                                    optionLevel={"deffo"}
+                                    keenLevel={keenLevel}
+                                    handleOnClick={handleOnClick} />
+                                <KeenOption
+                                    optionLevel={"hella"}
+                                    keenLevel={keenLevel}
+                                    handleOnClick={handleOnClick} />
+                            </ul>
+                        }
                     </div>
                     <div className="flex grid-2 gap-x-3 pt-1 w-full justify-around">
                         <ModalButton text={'Cancel'} onClickHandle={closeModalHandle} />
                         <ModalButton text={'Confirm'} onClickHandle={updateKeenDataHandle} disabled={inProgress} />
                     </div>
                     {
-                        inProgress ? <ResponseEmoji state={"waiting"} /> :
-                            updateKeenComplete ? <ResponseEmoji state={state} /> :
-                                timedOut ? <ResponseEmoji state={"timeout"} /> :
-                                    updateFailed && <ResponseEmoji state={state} />
+                        inProgress ? <ResponseEmoji state={state} /> : <></>
                     }
                 </div>
             </div>

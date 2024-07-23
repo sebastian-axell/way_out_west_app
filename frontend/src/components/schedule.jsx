@@ -1,16 +1,12 @@
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useContext, useEffect } from "react";
 import DaySchedule from "./daySchedule";
 import svgIcons from "./svgIcon";
 import InfoTableEmoji from "./infoTableEmoji";
-function Schedule({
-    data,
-    updateData,
-    isUpdateComplete,
-    inProgress,
-    updateFailed,
-    timeoutError,
-}) {
+import { DataContext } from "./dataContext";
+
+
+function Schedule({}) {
+    const [data] = useContext(DataContext);
     const days = ["thursday", "friday", "saturday"]
     const [tableActive, setTableActive] = useState(false)
     const [activeDay, setActiveDay] = useState("thursday")
@@ -36,12 +32,11 @@ function Schedule({
                 <div className="w-9/12 xl:w-10/12 3xl:w-10/12 mx-auto">
                     {
                         days.map((day) => (
-                            <DaySchedule setActiveDay={setActiveDay} activeDay={activeDay} day={day} daydata={dayData}
-                                updateData={updateData}
-                                updateKeenComplete={isUpdateComplete}
-                                inProgress={inProgress}
-                                updateFailed={updateFailed}
-                                timedOut={timeoutError}
+                            <DaySchedule
+                                setActiveDay={setActiveDay}
+                                activeDay={activeDay}
+                                day={day}
+                                daydata={dayData}
                                 key={day}
                             />
                         ))
