@@ -46,14 +46,16 @@ function ArtistCard({
                                     </div>
                                     <div className="w-full flex lg:h-10 h-9">
                                         <div className="flex w-full items-center justify-around">
-                                            {artistData['keen'].split(";").map((dataEntry, index) => {
-                                                const [name, keenness] = dataEntry.split("-");
-                                                return (
-                                                    <Tooltip text={name} key={name + keenness + artistData['link']}>
-                                                        <NameBubble name={name} keenness={keenness} />
-                                                    </Tooltip>
-                                                );
-                                            })}
+                                            {
+                                                artistData['keen'].split(";").map(dataEntry => {
+                                                    const [name, keenness] = dataEntry.split("-");
+                                                    return (
+                                                        dataEntry && 
+                                                        <Tooltip text={name} key={name + keenness + artistData['link']}>
+                                                            <NameBubble name={name} keenness={keenness} />
+                                                        </Tooltip>
+                                                    );
+                                                })}
                                         </div>
                                     </div>
                                     <div className="absolute cursor-pointer top-0 md:bottom-0 right-0 p-1 md:p-3 md:pr-2 md:pt-1 text-center w-fit" onClick={handleClick}>
