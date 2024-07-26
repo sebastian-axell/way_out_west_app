@@ -37,7 +37,8 @@ app.get('/csvData', async (req, res) => {
 
 app.put("/updateCsvData", async (req, res) => {
   const csvBlob = req.body;
-  let response = await githubHelpers.uploadCSV(csvBlob['data']);
+  const flatten = csvBlob['flatten'];
+  let response = await githubHelpers.uploadCSV(csvBlob['data'], flatten != null ? flatten : true);
   res.status(response['status']).json();
 })
 

@@ -65,12 +65,14 @@ async function fetchData() {
 }
 
 
-async function uploadCSV(csvData) {
+async function uploadCSV(csvData, flatten = true) {
     try {
         const octokit = await createOctokit();
         const sha = await apis.get_sha(octokit);
-        const csvString = Papa.unparse(Object.values(csvData).flat());
-        const buffer = Buffer.from(csvString);
+        if (flatten) {
+            csvData = Papa.unparse(Object.values(csvData).flat());
+        } 
+        const buffer = Buffer.from(csvData);
         const base64String = buffer.toString('base64', 'utf-8');
         const updateResponse = await apis.putUpdatedCsvData(octokit, base64String, sha)
         return updateResponse
