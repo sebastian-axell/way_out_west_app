@@ -21,6 +21,8 @@ function App() {
   const [timeoutErrorMain, setTimeoutErrorMain] = useState(false);
   const [failed, setFailed] = useState(false)
   const { isAuthenticated, logout } = useAuth();
+  const [visible, setVisible] = useState(false);
+  const threshold = [95]; // Height threshold to trigger the visibility
 
   async function makeUpdate(index, keenData, day) {
     const updatedData = { ...data };
@@ -78,8 +80,31 @@ function App() {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      const scrollTop = document.documentElement.scrollTop;
+      const scrollHeight = document.documentElement.scrollHeight;
+      const clientHeight = document.documentElement.clientHeight;
+      const bottom = scrollTop + clientHeight >= scrollHeight - 5
+      // Check if the user is scrolling up and past the threshold
+      if (currentScrollY > threshold && !bottom) {
+        setVisible(true);
+      } else {
+        setVisible(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+  
+
   return (
-    <div className="bg-pink-200 h-screen overflow-y-auto w-full">
+    <div className="bg-pink-200 h-full overflow-y-auto w-full">
       {
         loading ?
           (
@@ -90,7 +115,7 @@ function App() {
               <Router>
                 <Layout>
                   <Routes>
-                    <Route exact path="/" element={<Home svgData={svgData} />} />
+                    <Route exact path="/" element={<Home svgData={svgData} visible={visible} />} />
                     <Route path="schedule" element={
                       isAuthenticated ?
                         <Schedule />
