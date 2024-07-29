@@ -1,15 +1,14 @@
 import DayButton from "./dayButton";
 import ArtistCard from "./artistCard";
-import { useContext, useState } from "react";
-import { DataContext } from "./dataContext";
+import { useState } from "react";
 
 
 function Home({
   svgData,
-  visible
+  visible,
+  data
 }) {
   const [selectedDay, setSelectedDay] = useState("thursday")
-  const [data] = useContext(DataContext);
 
   return (
     <div className="flex relative">

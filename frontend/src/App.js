@@ -111,14 +111,14 @@ function App() {
             <LoadingState failed={failed} timeoutErrorMain={timeoutErrorMain} />
           ) :
           (
-            <DataContext.Provider value={[data, makeUpdate]}>
+            <DataContext.Provider value={[makeUpdate]}>
               <Router>
                 <Layout>
                   <Routes>
-                    <Route exact path="/" element={<Home svgData={svgData} visible={visible} />} />
+                    <Route exact path="/" element={<Home svgData={svgData} data={data} visible={visible} />} />
                     <Route path="schedule" element={
                       isAuthenticated ?
-                        <Schedule />
+                        <Schedule data={data}/>
                         :
                         <Navigate to={"/me"} />
                     } />

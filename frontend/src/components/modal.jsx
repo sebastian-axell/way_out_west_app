@@ -38,7 +38,7 @@ function Modal({
         })
         return myInterest;
     }
-    const [, makeUpdate] = useContext(DataContext);
+    const [makeUpdate] = useContext(DataContext);
     const [inProgress, setInProgress] = useState(false);
     const [state, setState] = useState("waiting")
     const [keenLevel, setKeenLevel] = useState(determineMyInterest)

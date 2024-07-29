@@ -1,12 +1,12 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useEffect } from "react";
 import DaySchedule from "./daySchedule";
 import svgIcons from "./svgIcon";
 import InfoTableEmoji from "./infoTableEmoji";
-import { DataContext } from "./dataContext";
 
 
-function Schedule({}) {
-    const [data] = useContext(DataContext);
+function Schedule({
+    data
+}) {
     const days = ["thursday", "friday", "saturday"]
     const [tableActive, setTableActive] = useState(false)
     const [activeDay, setActiveDay] = useState("thursday")
