@@ -24,7 +24,7 @@ function ScheduleCard({
             <div className="hidden xl:block">
                 <p className="tracking-widest font-sans p-1 lg:text-lg text-brown-900 text-center font-semibold border-b-2 border-black">interested</p>
             </div>
-            <div className={`flex font-bold xl:flex-col justify-center xl:justify-start mb-1 lg:mb-4 w-full`}>
+            <div className={`flex font-bold xl:flex-col justify-around xl:justify-start mb-1 lg:mb-4 w-full`}>
                 {
                     elem['keen'].split(";").map((interest) => {
                         const [name, level] = interest.split("-");
