@@ -45,7 +45,7 @@ function Profile({
                                                     class="w-full font-bold text-center tracking-tight text-brown-800">
                                                     <p class="truncate">{item['artist']}</p>
                                                 </a>
-                                                <img src={item['img']} className="border-2 border-black" alt="" />
+                                                <img src={item['img']} className="border-2 border-black aspect-square" alt="" />
                                             </div>
                                         </div>
                                     ))
