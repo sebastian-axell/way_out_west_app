@@ -29,7 +29,7 @@ export default function ({
                                                     target="_blank"
                                                     rel="noopener noreferrer"
                                                     class="w-full font-bold text-center tracking-tight text-brown-800 -outline-white">
-                                                    <p class="max-w-[9rem] absolute bottom-0 md:max-w-[5rem] lg:max-w-full mx-auto p-1 lg:p-2 bg-[#F194B4]
+                                                    <p class="max-w-[8rem] absolute bottom-0 md:max-w-[5rem] lg:max-w-full mx-auto p-1 lg:p-2 bg-[#F194B4]
                                                     border-2 border-b-0 border-black rounded-t-lg truncate text-xs lg:text-base xl:text-lg">{elem['artist']}</p>
                                                 </a>
                                             </div>
