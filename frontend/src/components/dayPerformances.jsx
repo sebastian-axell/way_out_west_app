@@ -5,7 +5,7 @@ export default function ({
     timeSlots
 }) {
     return (
-        <div className="md:gap-x-1 grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-2">
+        <div className="md:gap-x-1 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-2">
             {
                 Object.entries(timeSlots).map(entry => {
                     const [timeslot, performances] = entry;
