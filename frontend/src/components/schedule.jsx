@@ -24,21 +24,34 @@ function Schedule({
         });
         setDayData(newFilteredData)
     }, [data])
+    function getClassNames(day, activeDay) {
+        const classes = [
+            day === "saturday" && activeDay !== "saturday" && activeDay !== "all" ? "rounded-b-lg" : "",
+            day === "thursday" ? "rounded-t-lg" : "",
+            activeDay !== "all" && day !== activeDay && day !== "saturday" ? "border-b-0" : ""
+        ].filter(Boolean).join(" ");
+
+        return classes;
+    }
 
     return (
-        <div className="mt-24 mb-5">
-            <div className="flex flex-col h-full justify-start items-center w-11/12 xl:w-11/12 3xl:w-10/12 mx-auto mx-auto min-w-[75vw] 2xl:min-w-[42vw]">
-                <button onClick={() => { setActiveDay("all"); }} className="text-xl p-3 rounded-lg rounded-b-none border-2 border-b-0 font-bold border-black bg-pink-50">expand all</button>
+        <div className="mt-24 mb-5 flex justify-center">
+            <div className="flex flex-col h-full justify-start items-center w-[240px] md:w-[600px] lg:w-[800px] xl:w-[1000px]">
+                <button onClick={() => { setActiveDay("all"); }}
+                    className="text-xl p-3 rounded-lg rounded-b-none border-2 border-b-0 font-bold border-black bg-pink-50">expand all</button>
                 <div className="w-9/12 xl:w-10/12 3xl:w-10/12 mx-auto">
                     {
                         days.map((day) => (
-                            <DaySchedule
-                                setActiveDay={setActiveDay}
-                                activeDay={activeDay}
-                                day={day}
-                                daydata={dayData}
-                                key={day}
-                            />
+                            <div className="">
+                                <button value={day} className={`w-full border-2 border-black font-bold text-xl bg-teal-300 bg-opacity-50 p-2 ${getClassNames(day, activeDay)}`}
+                                    onClick={(e) => setActiveDay(e.target.value)}>{day}</button>
+                                <DaySchedule
+                                    activeDay={activeDay}
+                                    day={day}
+                                    daydata={dayData[day]}
+                                    key={day}
+                                />
+                            </div>
                         ))
                     }
                 </div>

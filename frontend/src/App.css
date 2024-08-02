@@ -22,6 +22,21 @@
                 0.5px  0.5px 0 #fff;  
 }
 
+.timeslot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+}
+
+.timeslot:after, .timeslot:before {
+  content: '';
+  width: 150px;
+  height: 2px;
+  background: teal;
+  margin: 0 10px;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;

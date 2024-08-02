@@ -55,9 +55,7 @@ export default function ArtistCardDescription({
         if (artistData['keen']) {
             const data = artistData['keen'].split(";");
             const userIsPresent = data.some(elem => elem.split("-")[0] === user.username);
-
             const icon = userIsPresent ? svgIcons.cog : svgIcons.add;
-
             if (userIsPresent || data.length >= 1) {
                 return (
                     <div className="absolute cursor-pointer top-0 md:bottom-0 right-0 p-1 md:p-3 md:pr-2 md:pt-1 text-center w-fit" onClick={handleClick}>
