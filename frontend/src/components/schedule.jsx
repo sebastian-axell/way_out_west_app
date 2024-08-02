@@ -36,7 +36,7 @@ function Schedule({
 
     return (
         <div className="mt-24 mb-5 flex justify-center">
-            <div className="flex flex-col h-full justify-start items-center w-[240px] md:w-[600px] lg:w-[800px] xl:w-[1000px]">
+            <div className="flex flex-col h-full justify-start items-center w-[310px] sm:w-[500px] md:w-[600px] lg:w-[800px] xl:w-[1000px]">
                 <button onClick={() => { setActiveDay("all"); }}
                     className="text-xl p-3 rounded-lg rounded-b-none border-2 border-b-0 font-bold border-black bg-pink-50">expand all</button>
                 <div className="w-9/12 xl:w-10/12 3xl:w-10/12 mx-auto">
