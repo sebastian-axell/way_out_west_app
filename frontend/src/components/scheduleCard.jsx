@@ -2,7 +2,7 @@ import { useState } from "react";
 import Modal from "./modal";
 import svgIcons from "./svgIcon";
 import PerformanceDetails from "./performanceDetails";
-
+import constants from "../auxiliary/constants";
 function ScheduleCard({
     elem
 }) {
@@ -28,12 +28,14 @@ function ScheduleCard({
                 {
                     elem['keen'].split(";").map((interest) => {
                         const [name, level] = interest.split("-");
-                        return (
-                            <div key={name} className={`relative lg:text-lg text-xs p-0.5 xl:p-1 flex flex-col xl:flex-row justify-between text-center items-center`}>
-                                <p className={`p-0.5`}>{name}</p>
-                                <p className="p-0.5 lg:px-1 w-fit rounded-full mx-auto xl:mx-0 border-2 border-black bg-teal-500">{getInterestClass(level)}</p>
-                            </div>
-                        )
+                        if (constants.names.includes(name)) {
+                            return (
+                                <div key={name} className={`relative lg:text-lg text-xs p-0.5 xl:p-1 flex flex-col xl:flex-row justify-between text-center items-center`}>
+                                    <p className={`p-0.5`}>{name}</p>
+                                    <p className="p-0.5 lg:px-1 w-fit rounded-full mx-auto xl:mx-0 border-2 border-black bg-teal-500">{getInterestClass(level)}</p>
+                                </div>
+                            )
+                        }
                     })
                 }
             </div>

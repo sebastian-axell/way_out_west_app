@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import DaySchedule from "./daySchedule";
 import svgIcons from "./svgIcon";
 import InfoTableEmoji from "./infoTableEmoji";
-
+import constants from "../auxiliary/constants";
 
 function Schedule({
     data
@@ -19,8 +19,7 @@ function Schedule({
         const newFilteredData = {};
         days.forEach(day => {
             newFilteredData[day] = Object.values(data[day]).filter(
-                entry => entry['keen'] !== ""
-            );
+                entry => entry['keen'] !== "" && entry['keen'].split(";").filter(interest=>constants.names.includes(interest.split("-")[0])).join(";"))
         });
         setDayData(newFilteredData)
     }, [data])

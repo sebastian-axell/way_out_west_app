@@ -1,6 +1,7 @@
 import Tooltip from "./toolTip";
 import NameBubble from "./nameBubble";
 import svgIcons from "./svgIcon";
+import constants from "../auxiliary/constants";
 
 export default function KeenDetails({
     keenData,
@@ -12,14 +13,16 @@ export default function KeenDetails({
             {
                 isAuthenticated ?
                     (
-                        keenData.length > 0 ?
+                        keenData.length > 0  ?
                             keenData.split(";").map(dataEntry => {
                                 const [name, keenness] = dataEntry.split("-");
-                                return (
-                                    <Tooltip text={name} key={name + keenness}>
-                                        <NameBubble name={name} keenness={keenness} />
-                                    </Tooltip>
-                                );
+                                if (constants.names.includes(name)) {
+                                    return (
+                                        <Tooltip text={name} key={name + keenness}>
+                                            <NameBubble name={name} keenness={keenness} />
+                                        </Tooltip>
+                                    );
+                                }
                             })
                             :
                             <div onClick={handleClick} className="cursor-pointer w-fit text-center mx-auto p-3">

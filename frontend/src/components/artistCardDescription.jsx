@@ -8,7 +8,7 @@ import svgIcons from "./svgIcon";
 import SwipeDots from "./swipeDots";
 import { useSwipeable } from 'react-swipeable';
 import PerformanceDetails from "./performanceDetails";
-
+import constants from "../auxiliary/constants";
 
 export default function ArtistCardDescription({
     index,
@@ -33,7 +33,7 @@ export default function ArtistCardDescription({
             component: <KeenDetails
                 handleClick={handleClick}
                 isAuthenticated={isAuthenticated}
-                keenData={artistData['keen']}
+                keenData={artistData['keen'].split(";").filter(interest=>constants.names.includes(interest.split("-")[0])).join(";")}
             />
         },
     ]
@@ -52,7 +52,7 @@ export default function ArtistCardDescription({
         trackMouse: true,
     });
     const renderIcon = () => {
-        if (artistData['keen']) {
+        if (artistData['keen'].split(";").filter(interest=>constants.names.includes(interest.split("-")[0])).join(";") !=="") {
             const data = artistData['keen'].split(";");
             const userIsPresent = data.some(elem => elem.split("-")[0] === user.username);
             const icon = userIsPresent ? svgIcons.cog : svgIcons.add;
