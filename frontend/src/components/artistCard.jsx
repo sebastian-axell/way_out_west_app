@@ -5,6 +5,12 @@ function ArtistCard({
     artistData
 }) {
 
+    const getLocalImgName = (url) => {
+        const partial = url.split("uploads")[1].split("0x")[0].split("/")
+        let part = partial[partial.length -1];
+        return part.slice(0, -2) + ".jpg";
+    }
+
     return (
         <div class="fade-in">
             <div class="max-w-sm md:max-w-lg mx-auto shadow flex flex-col justify-evenly bg-[#FFEBC6] border-2 border-black rounded-lg">
@@ -13,7 +19,7 @@ function ArtistCard({
                         <a href={artistData['link']} class="" target="_blank" rel="noopener noreferrer">
                             <img
                                 class="rounded-t-md aspect-square"
-                                src={artistData['img']} alt="" />
+                                src={"/images/" + getLocalImgName(artistData['img'])} alt="" />
                         </a>
                         <a
                             href={artistData['link']}
