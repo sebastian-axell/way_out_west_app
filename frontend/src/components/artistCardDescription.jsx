@@ -1,6 +1,5 @@
 import Modal from "./modal";
-import { useState } from "react";
-import { useAuth } from "../authContext";
+import { useState, useContext } from "react";
 import InterestedDetails from "./interestedDetails";
 import { useNavigate } from "react-router-dom";
 import KeenDetails from "./keenDetails";
@@ -9,12 +8,15 @@ import SwipeDots from "./swipeDots";
 import { useSwipeable } from 'react-swipeable';
 import PerformanceDetails from "./performanceDetails";
 import constants from "../auxiliary/constants";
+import { useAuth } from "../authContext";
+import { DataContext } from "./dataContext";
 
 export default function ArtistCardDescription({
     index,
     artistData
 }) {
-    const { isAuthenticated, user } = useAuth();
+    // const { isAuthenticated, user } = useAuth();
+    const [_, isAuthenticated] = useContext(DataContext);
     const [currentPage, setCurrentPage] = useState(0);
     const [openModal, setOpenModal] = useState(false);
     const navigate = useNavigate();
@@ -33,7 +35,7 @@ export default function ArtistCardDescription({
             component: <KeenDetails
                 handleClick={handleClick}
                 isAuthenticated={isAuthenticated}
-                keenData={artistData['keen'].split(";").filter(interest=>constants.names.includes(interest.split("-")[0])).join(";")}
+                keenData={artistData['keen'].split(";").filter(interest => constants.names.includes(interest.split("-")[0])).join(";")}
             />
         },
     ]
@@ -52,20 +54,25 @@ export default function ArtistCardDescription({
         trackMouse: true,
     });
     const renderIcon = () => {
-        if (artistData['keen'].split(";").filter(interest=>constants.names.includes(interest.split("-")[0])).join(";") !=="") {
-            const data = artistData['keen'].split(";");
-            const userIsPresent = data.some(elem => elem.split("-")[0] === user.username);
-            const icon = userIsPresent ? svgIcons.cog : svgIcons.add;
-            if (userIsPresent || data.length >= 1) {
-                return (
-                    <div className="absolute cursor-pointer top-0 md:bottom-0 right-0 p-1 md:p-3 md:pr-2 md:pt-1 text-center w-fit" onClick={handleClick}>
-                        <span className="size-8">{icon}</span>
-                    </div>
-                )
-            }
-        }
+        // if (artistData['keen'].split(";").filter(interest=>constants.names.includes(interest.split("-")[0])).join(";") !=="") {
+        //     const data = artistData['keen'].split(";");
+        //     const userIsPresent = data.some(elem => elem.split("-")[0] === user.username);
+        //     const icon = userIsPresent ? svgIcons.cog : svgIcons.add;
+        //     if (userIsPresent || data.length >= 1) {
+        //         return (
+        //             <div className="absolute cursor-pointer top-0 md:bottom-0 right-0 p-1 md:p-3 md:pr-2 md:pt-1 text-center w-fit" onClick={handleClick}>
+        //                 <span className="size-8">{icon}</span>
+        //             </div>
+        //         )
+        //     }
+        // }
+        // return <></>;
+        return (
+            <div className="absolute cursor-pointer top-0 md:bottom-0 right-0 p-1 md:p-3 md:pr-2 md:pt-1 text-center w-fit" onClick={handleClick}>
+                <span className="size-8">{artistData['keen'].length > 0 ? svgIcons.cog : <></>}</span>
+            </div>
+        )
 
-        return <></>;
     };
     return (
         <div class="min-h-[5rem] md:min-h-[6rem] border-t-2 border-black w-full flex flex-col justify-around">

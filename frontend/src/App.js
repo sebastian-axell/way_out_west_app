@@ -20,9 +20,10 @@ function App() {
   const [svgData, setSvgData] = useState(null);
   const [timeoutErrorMain, setTimeoutErrorMain] = useState(false);
   const [failed, setFailed] = useState(false)
-  const { isAuthenticated, logout } = useAuth();
   const [visible, setVisible] = useState(false);
   const threshold = [95]; // Height threshold to trigger the visibility
+  // const { isAuthenticated, logout } = useAuth();
+  const [isAuthenticated, setAuthenticated] = useState(false);
 
   async function makeUpdate(index, keenData, day) {
     const updatedData = { ...data };
@@ -41,7 +42,7 @@ function App() {
         response = "success"
         setData(updatedData)
       } else if (status === 401) {
-        logout();
+        setAuthenticated(false)
         response = apiResponse['statusText']
       } else {
         response = "failed"
@@ -111,7 +112,7 @@ function App() {
             <LoadingState failed={failed} timeoutErrorMain={timeoutErrorMain} />
           ) :
           (
-            <DataContext.Provider value={[makeUpdate]}>
+            <DataContext.Provider value={[makeUpdate, isAuthenticated, setAuthenticated]}>
               <Router>
                 <Layout>
                   <Routes>

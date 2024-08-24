@@ -11,6 +11,12 @@ function ResponseEmoji({
     let bodyMargin = "mt-4"
     let emoji;
     switch (state) {
+        case "demo":
+            bg_color = "bg-cyan-600";
+            body = "example response";
+            bodyMargin = "mt-2"
+            emoji = "😻"
+            break;
         case "waiting":
             bg_color = "bg-amber-700";
             body = "Updating...";

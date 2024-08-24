@@ -1,14 +1,17 @@
 import { Link } from 'react-router-dom';
-import { useState } from "react";
+import { useState, useContext } from "react";
 import HeaderMenu from './headerMenu';
 import HeaderButton from './HeaderButton';
 import { useAuth } from "../authContext";
 import svgIcons from './svgIcon';
+import { DataContext } from "./dataContext";
 
 function Header({
 }) {
+
     const [openHeaderMenu, setOpenHeaderMenu] = useState(false)
-    const { isAuthenticated } = useAuth();
+    // const { isAuthenticated } = useAuth();
+    const [_, isAuthenticated] = useContext(DataContext);
     const svgPicker = (endpoint) => {
         switch (endpoint) {
             case ("schedule"):
@@ -16,9 +19,9 @@ function Header({
             case ("me"): {
                 let svg;
                 isAuthenticated ?
-                    svg = svgIcons.login
-                    :
-                    svg = svgIcons.profile
+                svg = svgIcons.login
+                :
+                svg = svgIcons.profile
                 return svg
             }
         }

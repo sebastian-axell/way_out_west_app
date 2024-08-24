@@ -25,7 +25,9 @@ function Modal({
                 return keenMapping;
             }, {});
     }
-    const { isAuthenticated, user } = useAuth();
+    // const { isAuthenticated, user } = useAuth();
+    const user = {username: "demo"}
+    const [_, isAuthenticated] = useContext(DataContext);
     function determineMyInterest() {
         const interests = data.split(";");
         let myInterest;
@@ -79,6 +81,15 @@ function Modal({
         }
     }
 
+    const customHandlerForDemo = () =>{
+        setInProgress(true);
+        setState("demo")
+        setTimeout(() => {
+            setInProgress(false)
+            closeModalHandle();
+        }, constants.modalTimeOut);
+    }
+
     return (
         <div className="z-10 h-screen w-screen bg-opacity-50 bg-pink-200 flex fixed justify-center items-center top-0 left-0 right-0 font-semibold">
             <div className="p-4 bg-[#FFEBC6] shadow rounded-lg border-2 border-black w-8/12 h-fit sm:w-fit relative">
@@ -110,7 +121,7 @@ function Modal({
                     </div>
                     <div className="flex grid-2 gap-x-3 pt-1 w-full justify-around">
                         <ModalButton text={'Cancel'} onClickHandle={closeModalHandle} />
-                        <ModalButton text={'Confirm'} onClickHandle={updateKeenDataHandle} disabled={inProgress} />
+                        <ModalButton text={'Confirm'} onClickHandle={customHandlerForDemo} disabled={inProgress} />
                     </div>
                     {
                         inProgress ? <ResponseEmoji state={state} /> : <></>

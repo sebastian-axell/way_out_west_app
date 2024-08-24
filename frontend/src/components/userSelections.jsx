@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import LoadingComponent from "./loadingComponent";
 
-function Profile({
+function UserSelections({
     data,
     days,
     selectedIndex,
     user,
-    LoadingComponent
 }) {
     const pattern = new RegExp(`${user.username}-.*`);
     const [loading, setLoading] = useState(true)
@@ -64,4 +64,4 @@ function Profile({
     )
 }
 
-export default Profile
+export default UserSelections

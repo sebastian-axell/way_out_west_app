@@ -1,15 +1,13 @@
 import { useState, useEffect } from "react"
 import svgIcons from "./svgIcon";
+import LoadingComponent from "./loadingComponent";
 
 function LoginForm({
     handleSubmit,
     selectedIndex,
     names,
-    LoadingComponent
 }) {
     const [password, setPassword] = useState('');
-    const [errorMessage, setErrorMessage] = useState("")
-    const [isShaking, setIsShaking] = useState(false)
     const [loading, setLoading] = useState(false)
     const [errorP, setErrorP] = useState(null)
     const formSubmit = async (event) => {
@@ -18,9 +16,7 @@ function LoginForm({
         event.preventDefault();
         const response = await handleSubmit(names[selectedIndex], password);
         if (response['status'] !== 201) {
-            // setIsShaking(true)
             setErrorP(<p className={`font-bold text-red-900 text-center shake`}>{response['message']}</p>)
-            // setErrorMessage(response['message'])
         }
         setLoading(false)
         setPassword("");
@@ -29,8 +25,6 @@ function LoginForm({
     useEffect(() => {
         if (errorP) {
             const timer = setTimeout(() => {
-                // setIsShaking(false)
-                // setErrorMessage("")
                 setErrorP(null);
             }, 1000);
             return () => clearTimeout(timer);
@@ -46,19 +40,21 @@ function LoginForm({
                     loading ?
                         <LoadingComponent />
                         :
-                        <form onSubmit={formSubmit} className="flex flex-col lg:flex-row relative mt-3">
-                            <label htmlFor="password" className="border-2 border-black lg:rounded-lg lg:rounded-r-none p-1 text-center bg-[#F194B4] font-semibold">le password</label>
-                            <input
-                                autoFocus
-                                className="border-2 lg:border-l-0 border-t-0 lg:border-t-2 lg:rounded-r-lg border-black pl-2 focus:outline-none"
-                                type="password"
-                                value={password}
-                                id="password"
-                                onChange={(event) => setPassword(event.target.value)}
-                                placeholder="get it wrong n ur dead"
-                            />
+                        <form onSubmit={formSubmit} className="flex flex-col lg:flex-row mt-3 lg:justify-center">
+                            <div className="flex flex-col lg:flex-row justify-center lg:w-9/12">
+                                <label htmlFor="password" className="border-2 border-black lg:rounded-lg lg:rounded-r-none p-1 text-center bg-[#F194B4] font-semibold">le password</label>
+                                <input
+                                    autoFocus
+                                    className="border-2 lg:border-l-0 border-t-0 p-0.5 lg:border-t-2 lg:w-7/12 lg:rounded-r-lg border-black pl-2 focus:outline-none"
+                                    type="password"
+                                    value={password}
+                                    id="password"
+                                    onChange={(event) => setPassword(event.target.value)}
+                                    placeholder="type demo + enter"
+                                />
+                            </div>
                             <div className="flex items-center">
-                                <button type="submit" className="lg:absolute right-1 mx-auto mt-2 lg:mt-0 focus:outline-none">
+                                <button type="submit" className="hidden lg:block mx-auto mt-2 lg:mt-0 focus:outline-none">
                                     {svgIcons.formButton}
                                 </button>
                             </div>
