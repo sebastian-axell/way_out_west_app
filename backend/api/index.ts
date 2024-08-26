@@ -13,6 +13,7 @@ const users = require("./resourceIntegration/users");
 const constants = require("./constants");
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
+const { createClient } = require('@supabase/supabase-js')
 
 let port = 4040;
 let app = express();
@@ -42,26 +43,32 @@ app.put("/updateCsvData", async (req, res) => {
   res.status(response['status']).json();
 })
 
-app.use(async (req, res, next) => {
-  if (!pool) {
-    console.log("initialising connection to database");
-    if (process.env.NODE_ENV == "local") {
-      pool = await mysql.createPool({
-        user: process.env.databaseUser,
-        password: process.env.databaseUserPassword,
-        database: process.env.database,
-        connectionLimit: process.env.connectionLimit,
-      });
-    } else {
-      console.log("initialising connection to database");
-      pool = await databaseMiddleware.initializeDatabaseConnection();
-    }
-    console.log("connected and pool created");
+const supabase = createClient(
+  process.env.supabaseUrl,
+  process.env.supa_key
+)
 
-  }
-  req.db = pool;
-  next();
-});
+
+// app.use(async (req, res, next) => {
+//   if (!pool) {
+//     console.log("initialising connection to database");
+//     if (process.env.NODE_ENV == "local") {
+//       pool = await mysql.createPool({
+//         user: process.env.databaseUser,
+//         password: process.env.databaseUserPassword,
+//         database: process.env.database,
+//         connectionLimit: process.env.connectionLimit,
+//       });
+//     } else {
+//       console.log("initialising connection to database");
+//       pool = await databaseMiddleware.initializeDatabaseConnection();
+//     }
+//     console.log("connected and pool created");
+
+//   }
+//   req.db = pool;
+//   next();
+// });
 
 app.post('/login', async (req, res) => {
   const connection = await pool.getConnection();
@@ -82,8 +89,8 @@ app.post('/login', async (req, res) => {
       role: "user"
     }
     const token = jwt.sign(userData, process.env.jwtpassword, { expiresIn: '1h' });
-    res.cookie('token', token, { httpOnly: true, secure: true , sameSite: 'None'})
-    res.status(201  ).json({ message: 'Login successful', user: {email: user['email'], email_updates: user['email_updates']} });
+    res.cookie('token', token, { httpOnly: true, secure: true, sameSite: 'None' })
+    res.status(201).json({ message: 'Login successful', user: { email: user['email'], email_updates: user['email_updates'] } });
   } catch (error) {
     console.error('Error processing login: ' + error.stack);
     res.status(500).json({ message: 'Internal server error' });
@@ -94,8 +101,12 @@ app.post('/login', async (req, res) => {
 
 app.get('/data', async (req, res) => {
   try {
-    const connection = await req.db.getConnection();
-    const [result, _] = await connection.execute(performances.GET);
+    const { data, error } = await supabase
+      .from('performances')
+      .select('*');
+    // const connection = await req.db.getConnection();
+    // const [result, _] = await connection.execute(performances.GET);
+    
     const dayIndices = {};
     const groupedData = {
       thursday: [],
@@ -103,7 +114,7 @@ app.get('/data', async (req, res) => {
       saturday: []
     };
 
-    result.forEach(row => {
+    data.forEach(row => {
       const dayOfWeek = row.day;
 
       if (!dayIndices.hasOwnProperty(dayOfWeek)) {
@@ -114,6 +125,9 @@ app.get('/data', async (req, res) => {
 
       dayIndices[dayOfWeek]++;
 
+      if (row['keen'] == null){
+        row['keen'] = "";
+      }
       if (groupedData.hasOwnProperty(dayOfWeek)) {
         groupedData[dayOfWeek].push(row);
       } else {
@@ -121,7 +135,7 @@ app.get('/data', async (req, res) => {
       }
     });
 
-    connection.release();
+    // connection.release();
     res.json(groupedData);
   } catch (error) {
     console.error(error);
