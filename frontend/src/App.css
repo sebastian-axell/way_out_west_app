@@ -29,6 +29,10 @@
   text-transform: uppercase;
 }
 
+body {
+  background-color: #FBCFE8;
+}
+
 .timeslot:after, .timeslot:before {
   content: '';
   width: 150px;

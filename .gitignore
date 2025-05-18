@@ -3,3 +3,10 @@ node_modules/
 frontend/node_modules
 .vercel
 todo we out west.txt
+data.csv
+data.sql
+data.txt
+data2.txt
+output_latin-1.txt
+sql_generator.py
+test.csv

@@ -105,7 +105,7 @@ function App() {
   
 
   return (
-    <div className="bg-pink-200 h-full overflow-y-auto w-full">
+    <div className="h-full overflow-y-auto w-full">
       {
         loading ?
           (
